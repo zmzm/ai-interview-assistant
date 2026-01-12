@@ -94,10 +94,8 @@ export function NotesScoring({
               >
                 <Stack direction="row" gap="3" mb="3">
                   {[0, 1, 2, 3].map((score) => (
-                    <Radio key={score} value={score.toString()} colorScheme="teal">
-                      <Text fontSize="xs" color="gray.400">
-                        {score}
-                      </Text>
+                    <Radio key={score} value={score.toString()} colorScheme="teal" color="gray.400" fontSize="xs">
+                      {score}
                     </Radio>
                   ))}
                 </Stack>
