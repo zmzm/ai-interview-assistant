@@ -1,7 +1,6 @@
 "use client"
 
-import { Box, Text, Flex, Textarea, Separator, Checkbox } from "@chakra-ui/react"
-import { RadioGroup } from "@chakra-ui/react"
+import { Box, Text, Flex, Textarea, Separator, Checkbox, RadioGroup } from "@chakra-ui/react"
 import { FileText, Star } from "lucide-react"
 import type { RubricCriterion } from "@/lib/interview-data"
 
@@ -129,23 +128,29 @@ export function NotesScoring({
 
       <Separator borderColor="gray.800" mb="6" />
 
-      {/* Red Flags */}
+      {/* Red Flags - Using Chakra v3 Checkbox compound component pattern */}
       <Box>
         <Text fontSize="sm" fontWeight="medium" textTransform="uppercase" letterSpacing="wider" color="gray.400" mb="3">
           Red Flags
         </Text>
         <Box display="flex" flexDirection="column" gap="2">
           {rubric.redFlags.map((flag) => (
-            <Checkbox
+            <Checkbox.Root
               key={flag}
               checked={redFlags[flag] || false}
               onCheckedChange={(details) => handleRedFlagToggle(flag, details.checked === true)}
               colorPalette="red"
             >
-              <Text fontSize="sm" color="gray.300">
-                {flag}
-              </Text>
-            </Checkbox>
+              <Checkbox.HiddenInput />
+              <Checkbox.Control>
+                <Checkbox.Indicator />
+              </Checkbox.Control>
+              <Checkbox.Label>
+                <Text fontSize="sm" color="gray.300">
+                  {flag}
+                </Text>
+              </Checkbox.Label>
+            </Checkbox.Root>
           ))}
         </Box>
       </Box>
