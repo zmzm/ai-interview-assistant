@@ -3,6 +3,7 @@
 import { useState, useEffect, Suspense } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
 import { Box, Grid, GridItem } from "@chakra-ui/react"
+import { Logo } from "@/components/logo"
 import { InterviewTimeline } from "@/components/interview-timeline"
 import { QuestionPanel } from "@/components/question-panel"
 import { NotesScoring } from "@/components/notes-scoring"
@@ -56,8 +57,12 @@ function InterviewContent() {
   }
 
   return (
-    <Box h="100vh" bg="gray.950" overflow="hidden">
-      <Grid templateColumns="280px 1fr 360px" h="100%" gap="0">
+    <Box h="100vh" bg="gray.950" overflow="hidden" display="flex" flexDirection="column">
+      <Box bg="gray.900" borderBottom="1px solid" borderColor="gray.800" px="6" py="4" flexShrink={0}>
+        <Logo clickable={true} />
+      </Box>
+
+      <Grid templateColumns="280px 1fr 360px" h="100%" gap="0" flex="1" overflow="hidden">
         {/* Left: Timeline */}
         <GridItem bg="gray.900" borderRight="1px solid" borderColor="gray.800" overflowY="auto">
           <InterviewTimeline
