@@ -43,16 +43,16 @@ function InterviewContent() {
     setSelectedQuestionId(questionId)
   }
 
-  const handleScoreChange = (criterion: string, score: number) => {
-    setScores((prev) => ({ ...prev, [criterion]: score }))
+  const handleScoreChange = (newScores: Record<string, number>) => {
+    setScores(newScores)
   }
 
-  const handleRedFlagChange = (criterion: string, checked: boolean) => {
-    setRedFlags((prev) => ({ ...prev, [criterion]: checked }))
+  const handleRedFlagChange = (newRedFlags: Record<string, boolean>) => {
+    setRedFlags(newRedFlags)
   }
 
-  const handleEvidenceChange = (criterion: string, text: string) => {
-    setEvidence((prev) => ({ ...prev, [criterion]: text }))
+  const handleEvidenceChange = (newEvidence: Record<string, string>) => {
+    setEvidence(newEvidence)
   }
 
   return (
