@@ -110,22 +110,21 @@ export function QuestionPanel({
               </Text>
             </Box>
 
-            {/* Prompts/Hints */}
             {selectedQuestion.prompts && selectedQuestion.prompts.length > 0 && (
               <Box mb="6">
-                <Text fontSize="sm" fontWeight="medium" color="gray.400" mb="3">
+                <Text
+                  fontSize="sm"
+                  fontWeight="medium"
+                  textTransform="uppercase"
+                  letterSpacing="wider"
+                  color="gray.500"
+                  mb="4"
+                >
                   Follow-up Prompts
                 </Text>
-                <Box display="flex" flexDirection="column" gap="2">
+                <Box display="flex" flexDirection="column" gap="3">
                   {selectedQuestion.prompts.map((prompt, index) => (
-                    <Box
-                      key={index}
-                      p="3"
-                      borderRadius="md"
-                      bg="gray.800"
-                      borderLeft="2px solid"
-                      borderColor="teal.500"
-                    >
+                    <Box key={index} p="5" borderRadius="md" border="1px solid" borderColor="gray.800" bg="gray.900">
                       <Text fontSize="sm" color="gray.300">
                         {prompt}
                       </Text>
@@ -135,22 +134,23 @@ export function QuestionPanel({
               </Box>
             )}
 
-            {/* Expected Direction */}
             {selectedQuestion.expectedDirection && (
-              <Box p="4" borderRadius="md" bg="gray.800" border="1px solid" borderColor="gray.700">
+              <Box mb="6">
                 <Text
-                  fontSize="xs"
+                  fontSize="sm"
                   fontWeight="medium"
                   textTransform="uppercase"
                   letterSpacing="wider"
                   color="gray.500"
-                  mb="2"
+                  mb="4"
                 >
                   Expected Direction (Reference Only)
                 </Text>
-                <Text fontSize="sm" color="gray.400" lineHeight="tall">
-                  {selectedQuestion.expectedDirection}
-                </Text>
+                <Box p="5" borderRadius="md" border="1px solid" borderColor="gray.800" bg="gray.900">
+                  <Text fontSize="sm" color="gray.400" lineHeight="tall">
+                    {selectedQuestion.expectedDirection}
+                  </Text>
+                </Box>
               </Box>
             )}
           </Box>

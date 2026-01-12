@@ -1,10 +1,7 @@
 "use client"
 
-import { Box, Text, Flex, Textarea, Separator } from "@chakra-ui/react"
+import { Box, Text, Flex, Textarea, Separator, Checkbox, Radio, RadioGroup, Stack } from "@chakra-ui/react"
 import { FileText, Star } from "lucide-react"
-import { Checkbox } from "@/components/ui/checkbox"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { Label } from "@/components/ui/label"
 import type { RubricCriterion } from "@/lib/interview-data"
 
 interface NotesScoringProps {
@@ -93,18 +90,17 @@ export function NotesScoring({
 
               <RadioGroup
                 value={scores[criterion.id]?.toString() || ""}
-                onValueChange={(value) => handleScoreChange(criterion.id, value)}
+                onChange={(value) => handleScoreChange(criterion.id, value)}
               >
-                <Flex gap="3" mb="3">
+                <Stack direction="row" gap="3" mb="3">
                   {[0, 1, 2, 3].map((score) => (
-                    <Flex key={score} align="center" gap="2">
-                      <RadioGroupItem value={score.toString()} id={`${criterion.id}-${score}`} />
-                      <Label htmlFor={`${criterion.id}-${score}`} className="text-xs text-gray-400 cursor-pointer">
+                    <Radio key={score} value={score.toString()} colorScheme="teal">
+                      <Text fontSize="xs" color="gray.400">
                         {score}
-                      </Label>
-                    </Flex>
+                      </Text>
+                    </Radio>
                   ))}
-                </Flex>
+                </Stack>
               </RadioGroup>
 
               {/* Evidence input */}
@@ -137,8 +133,9 @@ export function NotesScoring({
           {rubric.redFlags.map((flag) => (
             <Checkbox
               key={flag}
-              checked={redFlags[flag] || false}
-              onCheckedChange={(e) => handleRedFlagToggle(flag, !!e.checked)}
+              isChecked={redFlags[flag] || false}
+              onChange={(e) => handleRedFlagToggle(flag, e.target.checked)}
+              colorScheme="red"
             >
               <Text fontSize="sm" color="gray.300">
                 {flag}
