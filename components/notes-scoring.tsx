@@ -1,7 +1,6 @@
 "use client"
 
-import { Box, Text, Flex, Textarea, Separator, Checkbox } from "@chakra-ui/react"
-import { RadioGroup } from "@chakra-ui/react"
+import { Box, Text, Flex, Textarea, Separator, Checkbox, Radio, RadioGroup, Stack } from "@chakra-ui/react"
 import { FileText, Star } from "lucide-react"
 import type { RubricCriterion } from "@/lib/interview-data"
 
@@ -31,8 +30,8 @@ export function NotesScoring({
   onEvidenceChange,
   rubric,
 }: NotesScoringProps) {
-  const handleScoreChange = (criterionId: string, value: string) => {
-    onScoreChange({ ...scores, [criterionId]: Number(value) })
+  const handleScoreChange = (criterionId: string, score: string) => {
+    onScoreChange({ ...scores, [criterionId]: Number(score) })
   }
 
   const handleRedFlagToggle = (flag: string, checked: boolean) => {
@@ -89,24 +88,20 @@ export function NotesScoring({
                 {criterion.description}
               </Text>
 
-              <RadioGroup.Root
+              <RadioGroup
                 value={scores[criterion.id]?.toString() || ""}
-                onValueChange={(details) => handleScoreChange(criterion.id, details.value)}
-                colorPalette="teal"
-                size="sm"
+                onChange={(value) => handleScoreChange(criterion.id, value)}
               >
-                <Flex gap="3" mb="3">
+                <Stack direction="row" gap="3" mb="3">
                   {[0, 1, 2, 3].map((score) => (
-                    <RadioGroup.Item key={score} value={score.toString()}>
-                      <RadioGroup.ItemHiddenInput />
-                      <RadioGroup.ItemIndicator />
-                      <RadioGroup.ItemText color="gray.400" fontSize="xs">
+                    <Radio key={score} value={score.toString()} colorScheme="teal">
+                      <Text fontSize="xs" color="gray.400">
                         {score}
-                      </RadioGroup.ItemText>
-                    </RadioGroup.Item>
+                      </Text>
+                    </Radio>
                   ))}
-                </Flex>
-              </RadioGroup.Root>
+                </Stack>
+              </RadioGroup>
 
               {/* Evidence input */}
               <Textarea
@@ -138,9 +133,9 @@ export function NotesScoring({
           {rubric.redFlags.map((flag) => (
             <Checkbox
               key={flag}
-              checked={redFlags[flag] || false}
-              onCheckedChange={(details) => handleRedFlagToggle(flag, details.checked === true)}
-              colorPalette="red"
+              isChecked={redFlags[flag] || false}
+              onChange={(e) => handleRedFlagToggle(flag, e.target.checked)}
+              colorScheme="red"
             >
               <Text fontSize="sm" color="gray.300">
                 {flag}

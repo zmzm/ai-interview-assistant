@@ -39,20 +39,8 @@ function InterviewContent() {
     }
   }
 
-  const handleSelectQuestion = (questionId: string | null) => {
+  const handleSelectQuestion = (questionId: string) => {
     setSelectedQuestionId(questionId)
-  }
-
-  const handleScoreChange = (newScores: Record<string, number>) => {
-    setScores(newScores)
-  }
-
-  const handleRedFlagChange = (newRedFlags: Record<string, boolean>) => {
-    setRedFlags(newRedFlags)
-  }
-
-  const handleEvidenceChange = (newEvidence: Record<string, string>) => {
-    setEvidence(newEvidence)
   }
 
   return (
@@ -84,11 +72,11 @@ function InterviewContent() {
             notes={notes}
             onNotesChange={setNotes}
             scores={scores}
-            onScoreChange={handleScoreChange}
+            onScoreChange={setScores}
             redFlags={redFlags}
-            onRedFlagChange={handleRedFlagChange}
+            onRedFlagChange={setRedFlags}
             evidence={evidence}
-            onEvidenceChange={handleEvidenceChange}
+            onEvidenceChange={setEvidence}
             rubric={interviewPlan.rubric}
           />
         </GridItem>

@@ -94,7 +94,7 @@ export function QuestionPanel({
                 variant="ghost"
                 color="gray.400"
                 _hover={{ bg: "gray.800" }}
-                onClick={() => onSelectQuestion(block.questions[0].id)}
+                onClick={() => onSelectQuestion(null)}
               >
                 <RefreshCw size={14} />
                 Switch Question
@@ -110,21 +110,22 @@ export function QuestionPanel({
               </Text>
             </Box>
 
+            {/* Prompts/Hints */}
             {selectedQuestion.prompts && selectedQuestion.prompts.length > 0 && (
               <Box mb="6">
-                <Text
-                  fontSize="sm"
-                  fontWeight="medium"
-                  textTransform="uppercase"
-                  letterSpacing="wider"
-                  color="gray.500"
-                  mb="4"
-                >
+                <Text fontSize="sm" fontWeight="medium" color="gray.400" mb="3">
                   Follow-up Prompts
                 </Text>
-                <Box display="flex" flexDirection="column" gap="3">
+                <Box display="flex" flexDirection="column" gap="2">
                   {selectedQuestion.prompts.map((prompt, index) => (
-                    <Box key={index} p="5" borderRadius="md" border="1px solid" borderColor="gray.800" bg="gray.900">
+                    <Box
+                      key={index}
+                      p="3"
+                      borderRadius="md"
+                      bg="gray.800"
+                      borderLeft="2px solid"
+                      borderColor="teal.500"
+                    >
                       <Text fontSize="sm" color="gray.300">
                         {prompt}
                       </Text>
@@ -134,23 +135,22 @@ export function QuestionPanel({
               </Box>
             )}
 
+            {/* Expected Direction */}
             {selectedQuestion.expectedDirection && (
-              <Box mb="6">
+              <Box p="4" borderRadius="md" bg="gray.800" border="1px solid" borderColor="gray.700">
                 <Text
-                  fontSize="sm"
+                  fontSize="xs"
                   fontWeight="medium"
                   textTransform="uppercase"
                   letterSpacing="wider"
                   color="gray.500"
-                  mb="4"
+                  mb="2"
                 >
                   Expected Direction (Reference Only)
                 </Text>
-                <Box p="5" borderRadius="md" border="1px solid" borderColor="gray.800" bg="gray.900">
-                  <Text fontSize="sm" color="gray.400" lineHeight="tall">
-                    {selectedQuestion.expectedDirection}
-                  </Text>
-                </Box>
+                <Text fontSize="sm" color="gray.400" lineHeight="tall">
+                  {selectedQuestion.expectedDirection}
+                </Text>
               </Box>
             )}
           </Box>
