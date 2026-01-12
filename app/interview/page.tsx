@@ -43,6 +43,18 @@ function InterviewContent() {
     setSelectedQuestionId(questionId)
   }
 
+  const handleScoreChange = (criterion: string, score: number) => {
+    setScores((prev) => ({ ...prev, [criterion]: score }))
+  }
+
+  const handleRedFlagChange = (criterion: string, checked: boolean) => {
+    setRedFlags((prev) => ({ ...prev, [criterion]: checked }))
+  }
+
+  const handleEvidenceChange = (criterion: string, text: string) => {
+    setEvidence((prev) => ({ ...prev, [criterion]: text }))
+  }
+
   return (
     <Box h="100vh" bg="gray.950" overflow="hidden">
       <Grid templateColumns="280px 1fr 360px" h="100%" gap="0">
@@ -72,11 +84,11 @@ function InterviewContent() {
             notes={notes}
             onNotesChange={setNotes}
             scores={scores}
-            onScoreChange={setScores}
+            onScoreChange={handleScoreChange}
             redFlags={redFlags}
-            onRedFlagChange={setRedFlags}
+            onRedFlagChange={handleRedFlagChange}
             evidence={evidence}
-            onEvidenceChange={setEvidence}
+            onEvidenceChange={handleEvidenceChange}
             rubric={interviewPlan.rubric}
           />
         </GridItem>
