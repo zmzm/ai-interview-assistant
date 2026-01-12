@@ -23,10 +23,6 @@ export default function HomePage() {
   return (
     <Box minH="100vh" maxH="100vh" bg="gray.950" display="flex" flexDirection="column">
       <Container maxW="4xl" px="6" py={{ base: "8", lg: "12" }} flex="1" display="flex" flexDirection="column">
-        <Box mb="6">
-          <Logo clickable={false} />
-        </Box>
-
         {/* Header */}
         <Box mb="8">
           <Badge
