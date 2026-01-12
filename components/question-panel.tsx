@@ -94,7 +94,7 @@ export function QuestionPanel({
                 variant="ghost"
                 color="gray.400"
                 _hover={{ bg: "gray.800" }}
-                onClick={() => onSelectQuestion(null)}
+                onClick={() => onSelectQuestion(block.questions[0].id)}
               >
                 <RefreshCw size={14} />
                 Switch Question

@@ -39,7 +39,7 @@ function InterviewContent() {
     }
   }
 
-  const handleSelectQuestion = (questionId: string) => {
+  const handleSelectQuestion = (questionId: string | null) => {
     setSelectedQuestionId(questionId)
   }
 
