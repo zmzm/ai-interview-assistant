@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import { TrackSelector } from "@/components/track-selector"
 import { FeatureList } from "@/components/feature-list"
 import { Box, Container, Heading, Text, Button, HStack, Badge, Separator } from "@chakra-ui/react"
@@ -10,6 +11,13 @@ export type InterviewTrack = "frontend" | "backend" | "fullstack" | null
 
 export default function HomePage() {
   const [selectedTrack, setSelectedTrack] = useState<InterviewTrack>(null)
+  const router = useRouter()
+
+  const handleStartInterview = () => {
+    if (selectedTrack) {
+      router.push(`/interview?track=${selectedTrack}`)
+    }
+  }
 
   return (
     <Box minH="100vh" maxH="100vh" bg="gray.950" display="flex" flexDirection="column">
@@ -68,6 +76,7 @@ export default function HomePage() {
               _hover={{ bg: "teal.400" }}
               _disabled={{ opacity: 0.5, cursor: "not-allowed" }}
               disabled={!selectedTrack}
+              onClick={handleStartInterview}
             >
               Start Interview
               <ArrowRight size={16} />
