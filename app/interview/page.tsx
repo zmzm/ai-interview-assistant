@@ -2,7 +2,7 @@
 
 import { useState, useEffect, Suspense } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
-import { Box, Grid, GridItem } from "@chakra-ui/react"
+import { Box, Grid, GridItem, Flex, Button } from "@chakra-ui/react"
 import { Logo } from "@/components/logo"
 import { InterviewTimeline } from "@/components/interview-timeline"
 import { QuestionPanel } from "@/components/question-panel"
@@ -56,10 +56,28 @@ function InterviewContent() {
     setEvidence(newEvidence)
   }
 
+  const handleFinishInterview = () => {
+    const params = new URLSearchParams({
+      track,
+      notes,
+      scores: JSON.stringify(scores),
+      redFlags: JSON.stringify(redFlags),
+      evidence: JSON.stringify(evidence),
+      rubric: JSON.stringify(interviewPlan.rubric),
+      blocks: JSON.stringify(interviewPlan.blocks),
+    })
+    router.push(`/summary?${params.toString()}`)
+  }
+
   return (
     <Box h="100vh" bg="gray.950" overflow="hidden" display="flex" flexDirection="column">
       <Box bg="gray.900" borderBottom="1px solid" borderColor="gray.800" px="6" py="4" flexShrink={0}>
-        <Logo clickable={true} />
+        <Flex justify="space-between" align="center">
+          <Logo clickable={true} />
+          <Button onClick={handleFinishInterview} colorScheme="teal" size="sm">
+            Finish Interview
+          </Button>
+        </Flex>
       </Box>
 
       <Grid templateColumns="280px 1fr 360px" h="100%" gap="0" flex="1" overflow="hidden">
