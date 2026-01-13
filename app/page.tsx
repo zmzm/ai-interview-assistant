@@ -21,14 +21,16 @@ export default function HomePage() {
   }
 
   return (
-    <Box minH="100vh" maxH="100vh" bg="gray.950" display="flex" flexDirection="column">
+    <Box minH="100vh" maxH="100vh" bg="gray.950" _light={{ bg: "gray.50" }} display="flex" flexDirection="column">
       <Container maxW="4xl" px="6" py={{ base: "8", lg: "12" }} flex="1" display="flex" flexDirection="column">
         {/* Header */}
         <Box mb="8">
           <Flex justify="space-between" align="center" mb="2">
             <Badge
               bg="gray.800"
+              _light={{ bg: "gray.200" }}
               color="gray.400"
+              _light={{ color: "gray.600" }}
               fontSize="xs"
               fontWeight="medium"
               letterSpacing="wider"
@@ -41,10 +43,18 @@ export default function HomePage() {
             </Badge>
             <ColorModeButton />
           </Flex>
-          <Heading as="h1" size="3xl" fontWeight="semibold" letterSpacing="tight" color="gray.50" mb="3">
+          <Heading
+            as="h1"
+            size="3xl"
+            fontWeight="semibold"
+            letterSpacing="tight"
+            color="gray.50"
+            _light={{ color: "gray.900" }}
+            mb="3"
+          >
             Interview Assistant
           </Heading>
-          <Text fontSize="md" color="gray.400" maxW="2xl" lineHeight="relaxed">
+          <Text fontSize="md" color="gray.400" _light={{ color: "gray.600" }} maxW="2xl" lineHeight="relaxed">
             A structured technical interview tool for evaluating Senior Engineer candidates. For interviewers only.
           </Text>
         </Box>
@@ -85,7 +95,7 @@ export default function HomePage() {
               <ArrowRight size={16} />
             </Button>
             {!selectedTrack && (
-              <Text fontSize="sm" color="gray.500">
+              <Text fontSize="sm" color="gray.500" _light={{ color: "gray.600" }}>
                 Select a track to begin
               </Text>
             )}
@@ -94,8 +104,8 @@ export default function HomePage() {
 
         {/* Footer */}
         <Box mt="auto">
-          <Separator borderColor="gray.800" mb="4" />
-          <Text fontSize="sm" color="gray.600">
+          <Separator borderColor="gray.800" _light={{ borderColor: "gray.300" }} mb="4" />
+          <Text fontSize="sm" color="gray.600" _light={{ color: "gray.500" }}>
             This tool runs locally. No data is stored or shared externally.
           </Text>
         </Box>

@@ -71,8 +71,17 @@ function InterviewContent() {
   }
 
   return (
-    <Box h="100vh" bg="gray.950" overflow="hidden" display="flex" flexDirection="column">
-      <Box bg="gray.900" borderBottom="1px solid" borderColor="gray.800" px="6" py="4" flexShrink={0}>
+    <Box h="100vh" bg="gray.950" _light={{ bg: "white" }} overflow="hidden" display="flex" flexDirection="column">
+      <Box
+        bg="gray.900"
+        _light={{ bg: "gray.100" }}
+        borderBottom="1px solid"
+        borderColor="gray.800"
+        _light={{ borderColor: "gray.300" }}
+        px="6"
+        py="4"
+        flexShrink={0}
+      >
         <Flex justify="space-between" align="center">
           <Logo clickable={true} />
           <Flex align="center" gap="3">
@@ -93,7 +102,14 @@ function InterviewContent() {
 
       <Grid templateColumns="280px 1fr 360px" h="100%" gap="0" flex="1" overflow="hidden">
         {/* Left: Timeline */}
-        <GridItem bg="gray.900" borderRight="1px solid" borderColor="gray.800" overflowY="auto">
+        <GridItem
+          bg="gray.900"
+          _light={{ bg: "gray.50" }}
+          borderRight="1px solid"
+          borderColor="gray.800"
+          _light={{ borderColor: "gray.300" }}
+          overflowY="auto"
+        >
           <InterviewTimeline
             blocks={interviewPlan.blocks}
             currentBlockIndex={currentBlockIndex}
@@ -102,7 +118,7 @@ function InterviewContent() {
         </GridItem>
 
         {/* Center: Questions */}
-        <GridItem bg="gray.950" overflowY="auto">
+        <GridItem bg="gray.950" _light={{ bg: "white" }} overflowY="auto">
           <QuestionPanel
             block={currentBlock}
             selectedQuestionId={selectedQuestionId}
@@ -113,7 +129,14 @@ function InterviewContent() {
         </GridItem>
 
         {/* Right: Notes & Scoring */}
-        <GridItem bg="gray.900" borderLeft="1px solid" borderColor="gray.800" overflowY="auto">
+        <GridItem
+          bg="gray.900"
+          _light={{ bg: "gray.50" }}
+          borderLeft="1px solid"
+          borderColor="gray.800"
+          _light={{ borderColor: "gray.300" }}
+          overflowY="auto"
+        >
           <NotesScoring
             notes={notes}
             onNotesChange={setNotes}
@@ -133,7 +156,7 @@ function InterviewContent() {
 
 export default function InterviewPage() {
   return (
-    <Suspense fallback={<Box h="100vh" bg="gray.950" />}>
+    <Suspense fallback={<Box h="100vh" bg="gray.950" _light={{ bg: "white" }} />}>
       <InterviewContent />
     </Suspense>
   )

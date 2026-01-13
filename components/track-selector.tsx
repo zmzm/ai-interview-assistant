@@ -54,14 +54,21 @@ export function TrackSelector({ selectedTrack, onSelectTrack }: TrackSelectorPro
             borderRadius="lg"
             border="1px solid"
             borderColor={isSelected ? "teal.500" : "gray.800"}
+            _light={{
+              borderColor: isSelected ? "teal.500" : "gray.300",
+              bg: "white",
+            }}
             bg="gray.900"
             transition="all 0.2s"
             _hover={{
               borderColor: isSelected ? "teal.400" : "gray.700",
+              _light: {
+                borderColor: isSelected ? "teal.400" : "gray.400",
+              },
             }}
             cursor="pointer"
           >
-            {/* Icon container - using direct icon component instead of Icon wrapper */}
+            {/* Icon container */}
             <Flex
               align="center"
               justify="center"
@@ -70,23 +77,25 @@ export function TrackSelector({ selectedTrack, onSelectTrack }: TrackSelectorPro
               mb="4"
               borderRadius="md"
               bg={isSelected ? "teal.500" : "gray.800"}
+              _light={{ bg: isSelected ? "teal.500" : "gray.200" }}
               color={isSelected ? "gray.950" : "gray.400"}
+              _light={{ color: isSelected ? "white" : "gray.600" }}
             >
               <TrackIcon size={20} />
             </Flex>
 
             {/* Title */}
-            <Text fontWeight="medium" color="gray.100" mb="1">
+            <Text fontWeight="medium" color="gray.100" _light={{ color: "gray.900" }} mb="1">
               {track.label}
             </Text>
 
             {/* Short label */}
-            <Text fontSize="xs" fontFamily="mono" color="gray.500" mb="2">
+            <Text fontSize="xs" fontFamily="mono" color="gray.500" _light={{ color: "gray.600" }} mb="2">
               {track.shortLabel}
             </Text>
 
             {/* Description */}
-            <Text fontSize="sm" color="gray.400" lineHeight="tall">
+            <Text fontSize="sm" color="gray.400" _light={{ color: "gray.600" }} lineHeight="tall">
               {track.description}
             </Text>
 
