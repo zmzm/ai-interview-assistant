@@ -2,6 +2,7 @@
 
 import { useState, useEffect, Suspense } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
+import { useTheme } from "next-themes"
 import { Box, Grid, GridItem, Flex, Button } from "@chakra-ui/react"
 import { Logo } from "@/components/logo"
 import { ColorModeButton } from "@/components/ui/color-mode"
@@ -15,6 +16,8 @@ function InterviewContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
   const track = searchParams.get("track") as InterviewTrack
+  const { theme } = useTheme()
+  const isLight = theme === "light"
 
   const [currentBlockIndex, setCurrentBlockIndex] = useState(0)
   const [selectedQuestionId, setSelectedQuestionId] = useState<string | null>(null)
@@ -75,13 +78,12 @@ function InterviewContent() {
   }
 
   return (
-    <Box h="100vh" bg="gray.950" _light={{ bg: "gray.50" }} overflow="hidden" display="flex" flexDirection="column">
+    <Box h="100vh" bg={isLight ? "gray.50" : "gray.950"} overflow="hidden" display="flex" flexDirection="column">
       <Box
-        bg="gray.900"
-        _light={{ bg: "white", boxShadow: "sm" }}
+        bg={isLight ? "white" : "gray.900"}
+        boxShadow={isLight ? "sm" : "none"}
         borderBottom="1px solid"
-        borderColor="gray.800"
-        _light={{ borderColor: "gray.200" }}
+        borderColor={isLight ? "gray.200" : "gray.800"}
         px="6"
         py="4"
         flexShrink={0}
@@ -107,11 +109,10 @@ function InterviewContent() {
       <Grid templateColumns="280px 1fr 360px" h="100%" gap="0" flex="1" overflow="hidden">
         {/* Left: Timeline */}
         <GridItem
-          bg="gray.900"
-          _light={{ bg: "white", boxShadow: "sm" }}
+          bg={isLight ? "white" : "gray.900"}
+          boxShadow={isLight ? "sm" : "none"}
           borderRight="1px solid"
-          borderColor="gray.800"
-          _light={{ borderColor: "gray.200" }}
+          borderColor={isLight ? "gray.200" : "gray.800"}
           overflowY="auto"
         >
           <InterviewTimeline
@@ -122,7 +123,7 @@ function InterviewContent() {
         </GridItem>
 
         {/* Center: Questions */}
-        <GridItem bg="gray.950" _light={{ bg: "gray.50" }} overflowY="auto">
+        <GridItem bg={isLight ? "gray.50" : "gray.950"} overflowY="auto">
           <QuestionPanel
             block={currentBlock}
             selectedQuestionId={selectedQuestionId}
@@ -134,11 +135,10 @@ function InterviewContent() {
 
         {/* Right: Notes & Scoring */}
         <GridItem
-          bg="gray.900"
-          _light={{ bg: "white", boxShadow: "sm" }}
+          bg={isLight ? "white" : "gray.900"}
+          boxShadow={isLight ? "sm" : "none"}
           borderLeft="1px solid"
-          borderColor="gray.800"
-          _light={{ borderColor: "gray.200" }}
+          borderColor={isLight ? "gray.200" : "gray.800"}
           overflowY="auto"
         >
           <NotesScoring
@@ -160,7 +160,7 @@ function InterviewContent() {
 
 export default function InterviewPage() {
   return (
-    <Suspense fallback={<Box h="100vh" bg="gray.950" _light={{ bg: "gray.50" }} />}>
+    <Suspense fallback={<Box h="100vh" bg="gray.950" />}>
       <InterviewContent />
     </Suspense>
   )
