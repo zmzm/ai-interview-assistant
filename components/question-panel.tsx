@@ -70,7 +70,9 @@ export function QuestionPanel({
                   cursor="pointer"
                 >
                   <Flex gap="3">
-                    <MessageSquare size={16} color="#6b7280" />
+                    <Box color="gray.500" _light={{ color: "gray.600" }} flexShrink={0}>
+                      <MessageSquare size={16} />
+                    </Box>
                     <Box flex="1">
                       <Text fontSize="sm" fontWeight="medium" color="gray.200" _light={{ color: "gray.900" }} mb="1">
                         {question.text.en}
@@ -211,7 +213,7 @@ export function QuestionPanel({
         <Button
           size="md"
           bg="teal.500"
-          color="gray.950"
+          color="white"
           _hover={{ bg: "teal.400" }}
           onClick={onNextBlock}
           disabled={isLastBlock}

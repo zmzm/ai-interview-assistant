@@ -47,7 +47,9 @@ export function NotesScoring({
       {/* Notes Section */}
       <Box mb="6">
         <Flex align="center" gap="2" mb="3">
-          <FileText size={16} color="#14b8a6" />
+          <Box color="teal.500">
+            <FileText size={16} />
+          </Box>
           <Text
             fontSize="sm"
             fontWeight="medium"
@@ -80,7 +82,9 @@ export function NotesScoring({
       {/* Scoring Rubric */}
       <Box mb="6">
         <Flex align="center" gap="2" mb="4">
-          <Star size={16} color="#14b8a6" />
+          <Box color="teal.500">
+            <Star size={16} />
+          </Box>
           <Text
             fontSize="sm"
             fontWeight="medium"

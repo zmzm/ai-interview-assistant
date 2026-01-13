@@ -6,7 +6,14 @@ export function Logo({ clickable = false }: { clickable?: boolean }) {
     <Flex align="center" gap="2">
       <Box position="relative" w="32px" h="32px">
         {/* Geometric mark representing interview/assessment */}
-        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg
+          width="32"
+          height="32"
+          viewBox="0 0 32 32"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          className="text-teal-500"
+        >
           {/* Checkmark in circle - represents assessment/evaluation */}
           <circle cx="16" cy="16" r="14" stroke="currentColor" strokeWidth="2" opacity="0.3" />
           <path

@@ -81,9 +81,9 @@ export function TrackSelector({ selectedTrack, onSelectTrack }: TrackSelectorPro
               mb="4"
               borderRadius="md"
               bg={isSelected ? "teal.500" : "gray.800"}
-              _light={{ bg: isSelected ? "teal.500" : "gray.100" }}
+              _light={{ bg: isSelected ? "teal.500" : "teal.50" }}
               color={isSelected ? "gray.950" : "gray.400"}
-              _light={{ color: isSelected ? "white" : "gray.700" }}
+              _light={{ color: isSelected ? "white" : "teal.600" }}
             >
               <TrackIcon size={20} />
             </Flex>

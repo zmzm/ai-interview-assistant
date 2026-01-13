@@ -14,8 +14,17 @@ export function InterviewTimeline({ blocks, currentBlockIndex, onSelectBlock }: 
   return (
     <Box p="6">
       <Flex align="center" gap="2" mb="6">
-        <Clock size={16} color="#14b8a6" />
-        <Text fontSize="sm" fontWeight="medium" textTransform="uppercase" letterSpacing="wider" color="gray.400">
+        <Box color="teal.500">
+          <Clock size={16} />
+        </Box>
+        <Text
+          fontSize="sm"
+          fontWeight="medium"
+          textTransform="uppercase"
+          letterSpacing="wider"
+          color="gray.400"
+          _light={{ color: "gray.600" }}
+        >
           Interview Timeline
         </Text>
       </Flex>
@@ -37,7 +46,7 @@ export function InterviewTimeline({ blocks, currentBlockIndex, onSelectBlock }: 
               borderColor={isCurrent ? "teal.500" : isPast ? "gray.700" : "gray.800"}
               _light={{
                 borderColor: isCurrent ? "teal.500" : isPast ? "gray.300" : "gray.200",
-                bg: isCurrent ? "teal.50" : "transparent",
+                bg: isCurrent ? "teal.50" : "white",
               }}
               bg={isCurrent ? "gray.800" : "transparent"}
               textAlign="left"
@@ -50,9 +59,13 @@ export function InterviewTimeline({ blocks, currentBlockIndex, onSelectBlock }: 
                 <Text fontSize="xs" fontFamily="mono" color="gray.500" _light={{ color: "gray.600" }}>
                   {block.timeRange}
                 </Text>
-                {isPast && <CheckCircle2 size={14} color="#14b8a6" />}
+                {isPast && (
+                  <Box color="teal.500">
+                    <CheckCircle2 size={14} />
+                  </Box>
+                )}
                 {isCurrent && (
-                  <Badge bg="teal.500" color="gray.950" fontSize="xs" px="2" py="0.5">
+                  <Badge bg="teal.500" color="white" fontSize="xs" px="2" py="0.5">
                     Now
                   </Badge>
                 )}

@@ -63,9 +63,9 @@ export function FeatureList() {
                 flexShrink={0}
                 borderRadius="md"
                 bg="gray.800"
-                _light={{ bg: "teal.50" }}
+                _light={{ bg: "teal.100" }}
                 color="gray.400"
-                _light={{ color: "teal.600" }}
+                _light={{ color: "teal.700" }}
               >
                 <FeatureIcon size={16} />
               </Flex>
