@@ -58,16 +58,20 @@ function InterviewContent() {
   }
 
   const handleFinishInterview = () => {
-    const params = new URLSearchParams({
+    const summaryData = {
       track,
       notes,
-      scores: JSON.stringify(scores),
-      redFlags: JSON.stringify(redFlags),
-      evidence: JSON.stringify(evidence),
-      rubric: JSON.stringify(interviewPlan.rubric),
-      blocks: JSON.stringify(interviewPlan.blocks),
-    })
-    router.push(`/summary?${params.toString()}`)
+      scores,
+      redFlags,
+      evidence,
+      rubric: interviewPlan.rubric,
+      blocks: interviewPlan.blocks,
+      date: new Date().toISOString(),
+      duration: "60 minutes",
+    }
+
+    sessionStorage.setItem("interviewSummary", JSON.stringify(summaryData))
+    router.push("/summary")
   }
 
   return (

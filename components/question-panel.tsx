@@ -2,6 +2,7 @@
 
 import { Box, Text, Flex, Button, SimpleGrid, Separator } from "@chakra-ui/react"
 import { MessageSquare, ArrowRight, RefreshCw } from "lucide-react"
+import { useTheme } from "next-themes"
 import type { InterviewBlock } from "@/lib/interview-data"
 
 interface QuestionPanelProps {
@@ -19,19 +20,21 @@ export function QuestionPanel({
   onNextBlock,
   isLastBlock,
 }: QuestionPanelProps) {
+  const { theme } = useTheme()
+  const isLight = theme === "light"
   const selectedQuestion = block.questions.find((q) => q.id === selectedQuestionId)
 
   return (
     <Box p="8">
       {/* Block Header */}
       <Box mb="8">
-        <Text fontSize="xs" fontFamily="mono" color="gray.500" _light={{ color: "gray.600" }} mb="2">
+        <Text fontSize="xs" fontFamily="mono" color={isLight ? "gray.600" : "gray.500"} mb="2">
           {block.timeRange} • {block.duration}
         </Text>
-        <Text fontSize="2xl" fontWeight="semibold" color="gray.100" _light={{ color: "gray.900" }} mb="2">
+        <Text fontSize="2xl" fontWeight="semibold" color={isLight ? "gray.900" : "gray.100"} mb="2">
           {block.title}
         </Text>
-        <Text fontSize="sm" color="gray.400" _light={{ color: "gray.600" }}>
+        <Text fontSize="sm" color={isLight ? "gray.600" : "gray.400"}>
           {block.goal}
         </Text>
       </Box>
@@ -45,8 +48,7 @@ export function QuestionPanel({
               fontWeight="medium"
               textTransform="uppercase"
               letterSpacing="wider"
-              color="gray.500"
-              _light={{ color: "gray.600" }}
+              color={isLight ? "gray.600" : "gray.500"}
               mb="4"
             >
               Suggested Questions
@@ -60,24 +62,27 @@ export function QuestionPanel({
                   p="4"
                   borderRadius="md"
                   border="1px solid"
-                  borderColor="gray.800"
-                  _light={{ borderColor: "gray.200", bg: "white", boxShadow: "sm" }}
-                  bg="gray.900"
+                  borderColor={isLight ? "gray.200" : "gray.800"}
+                  bg={isLight ? "white" : "gray.900"}
+                  boxShadow={isLight ? "sm" : "none"}
                   textAlign="left"
                   transition="all 0.2s"
-                  _hover={{ borderColor: "teal.500", bg: "gray.800" }}
-                  _light={{ _hover: { borderColor: "teal.500", boxShadow: "md" } }}
+                  _hover={{
+                    borderColor: "teal.500",
+                    bg: isLight ? "white" : "gray.800",
+                    boxShadow: isLight ? "md" : "none",
+                  }}
                   cursor="pointer"
                 >
                   <Flex gap="3">
-                    <Box color="gray.500" _light={{ color: "gray.600" }} flexShrink={0}>
+                    <Box color={isLight ? "gray.600" : "gray.500"} flexShrink={0}>
                       <MessageSquare size={16} />
                     </Box>
                     <Box flex="1">
-                      <Text fontSize="sm" fontWeight="medium" color="gray.200" _light={{ color: "gray.900" }} mb="1">
+                      <Text fontSize="sm" fontWeight="medium" color={isLight ? "gray.900" : "gray.200"} mb="1">
                         {question.text.en}
                       </Text>
-                      <Text fontSize="xs" color="gray.500" _light={{ color: "gray.600" }}>
+                      <Text fontSize="xs" color={isLight ? "gray.600" : "gray.500"}>
                         {question.text.ru}
                       </Text>
                     </Box>
@@ -97,18 +102,15 @@ export function QuestionPanel({
                 fontWeight="medium"
                 textTransform="uppercase"
                 letterSpacing="wider"
-                color="gray.500"
-                _light={{ color: "gray.600" }}
+                color={isLight ? "gray.600" : "gray.500"}
               >
                 Active Question
               </Text>
               <Button
                 size="sm"
                 variant="ghost"
-                color="gray.400"
-                _light={{ color: "gray.600" }}
-                _hover={{ bg: "gray.800" }}
-                _light={{ _hover: { bg: "gray.100" } }}
+                color={isLight ? "gray.600" : "gray.400"}
+                _hover={{ bg: isLight ? "gray.100" : "gray.800" }}
                 onClick={() => onSelectQuestion(null)}
               >
                 <RefreshCw size={14} />
@@ -120,15 +122,15 @@ export function QuestionPanel({
               p="5"
               borderRadius="md"
               border="1px solid"
-              borderColor="gray.800"
-              bg="gray.900"
-              _light={{ borderColor: "gray.200", bg: "white", boxShadow: "sm" }}
+              borderColor={isLight ? "gray.200" : "gray.800"}
+              bg={isLight ? "white" : "gray.900"}
+              boxShadow={isLight ? "sm" : "none"}
               mb="6"
             >
-              <Text fontSize="md" fontWeight="medium" color="gray.100" _light={{ color: "gray.900" }} mb="2">
+              <Text fontSize="md" fontWeight="medium" color={isLight ? "gray.900" : "gray.100"} mb="2">
                 {selectedQuestion.text.en}
               </Text>
-              <Text fontSize="sm" color="gray.400" _light={{ color: "gray.600" }} mb="4">
+              <Text fontSize="sm" color={isLight ? "gray.600" : "gray.400"} mb="4">
                 {selectedQuestion.text.ru}
               </Text>
             </Box>
@@ -140,8 +142,7 @@ export function QuestionPanel({
                   fontWeight="medium"
                   textTransform="uppercase"
                   letterSpacing="wider"
-                  color="gray.500"
-                  _light={{ color: "gray.600" }}
+                  color={isLight ? "gray.600" : "gray.500"}
                   mb="4"
                 >
                   Follow-up Prompts
@@ -153,11 +154,11 @@ export function QuestionPanel({
                       p="5"
                       borderRadius="md"
                       border="1px solid"
-                      borderColor="gray.800"
-                      bg="gray.900"
-                      _light={{ borderColor: "gray.200", bg: "white", boxShadow: "sm" }}
+                      borderColor={isLight ? "gray.200" : "gray.800"}
+                      bg={isLight ? "white" : "gray.900"}
+                      boxShadow={isLight ? "sm" : "none"}
                     >
-                      <Text fontSize="sm" color="gray.300" _light={{ color: "gray.700" }}>
+                      <Text fontSize="sm" color={isLight ? "gray.700" : "gray.300"}>
                         {prompt}
                       </Text>
                     </Box>
@@ -173,8 +174,7 @@ export function QuestionPanel({
                   fontWeight="medium"
                   textTransform="uppercase"
                   letterSpacing="wider"
-                  color="gray.500"
-                  _light={{ color: "gray.600" }}
+                  color={isLight ? "gray.600" : "gray.500"}
                   mb="4"
                 >
                   Expected Direction (Reference Only)
@@ -183,16 +183,15 @@ export function QuestionPanel({
                   p="5"
                   borderRadius="md"
                   border="1px solid"
-                  borderColor="gray.800"
-                  bg="gray.900"
-                  _light={{ borderColor: "gray.200", bg: "white", boxShadow: "sm" }}
+                  borderColor={isLight ? "gray.200" : "gray.800"}
+                  bg={isLight ? "white" : "gray.900"}
+                  boxShadow={isLight ? "sm" : "none"}
                 >
                   {selectedQuestion.expectedDirection.split("\n").map((line, index) => (
                     <Text
                       key={index}
                       fontSize="sm"
-                      color="gray.400"
-                      _light={{ color: "gray.700" }}
+                      color={isLight ? "gray.700" : "gray.400"}
                       lineHeight="tall"
                       mb={line.trim() === "" ? "3" : "0"}
                     >
@@ -206,7 +205,7 @@ export function QuestionPanel({
         </>
       )}
 
-      <Separator borderColor="gray.800" _light={{ borderColor: "gray.200" }} mb="6" />
+      <Separator borderColor={isLight ? "gray.200" : "gray.800"} mb="6" />
 
       {/* Actions */}
       <Flex gap="3">

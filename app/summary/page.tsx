@@ -1,6 +1,7 @@
 "use client"
 
-import { useSearchParams, useRouter } from "next/navigation"
+import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
 import { Box, Text, Flex, Button, Heading } from "@chakra-ui/react"
 import { AlertTriangle, Calendar, Clock, Download, Home } from "lucide-react"
 import { Logo } from "@/components/logo"
@@ -19,20 +20,36 @@ interface SummaryData {
 }
 
 function SummaryContent() {
-  const searchParams = useSearchParams()
   const router = useRouter()
+  const [data, setData] = useState<SummaryData | null>(null)
 
-  // Parse data from URL params
-  const data: SummaryData = {
-    track: searchParams.get("track") as InterviewTrack,
-    notes: searchParams.get("notes") || "",
-    scores: JSON.parse(searchParams.get("scores") || "{}"),
-    redFlags: JSON.parse(searchParams.get("redFlags") || "{}"),
-    evidence: JSON.parse(searchParams.get("evidence") || "{}"),
-    rubric: JSON.parse(searchParams.get("rubric") || "{}"),
-    blocks: JSON.parse(searchParams.get("blocks") || "[]"),
-    date: new Date().toLocaleDateString(),
-    duration: "60 minutes",
+  useEffect(() => {
+    const storedData = sessionStorage.getItem("interviewSummary")
+    if (storedData) {
+      const parsedData = JSON.parse(storedData)
+      setData({
+        ...parsedData,
+        date: new Date(parsedData.date).toLocaleDateString(),
+      })
+    } else {
+      // Redirect to home if no data found
+      router.push("/")
+    }
+  }, [router])
+
+  if (!data) {
+    return (
+      <Box
+        h="100vh"
+        bg="gray.950"
+        _light={{ bg: "gray.50" }}
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+      >
+        <Text color="gray.400">Loading summary...</Text>
+      </Box>
+    )
   }
 
   // Calculate total score
@@ -155,7 +172,7 @@ function SummaryContent() {
                 </Text>
               </Flex>
               <Flex align="center" gap="2">
-                <Clock size={14} color="#6b7280" />
+                <Box as={Clock} boxSize="14px" color="gray.500" _light={{ color: "gray.600" }} />
                 <Text fontSize="sm" color="gray.500" _light={{ color: "gray.600" }}>
                   Duration:
                 </Text>
@@ -164,7 +181,7 @@ function SummaryContent() {
                 </Text>
               </Flex>
               <Flex align="center" gap="2">
-                <Calendar size={14} color="#6b7280" />
+                <Box as={Calendar} boxSize="14px" color="gray.500" _light={{ color: "gray.600" }} />
                 <Text fontSize="sm" color="gray.500" _light={{ color: "gray.600" }}>
                   Date:
                 </Text>
@@ -208,12 +225,14 @@ function SummaryContent() {
                   px="3"
                   py="1"
                   bg="orange.900"
+                  _light={{ bg: "orange.100" }}
                   borderRadius="md"
                   border="1px solid"
                   borderColor="orange.700"
+                  _light={{ borderColor: "orange.300" }}
                 >
-                  <AlertTriangle size={16} color="#f59e0b" />
-                  <Text fontSize="xs" color="orange.300" fontWeight="medium">
+                  <Box as={AlertTriangle} boxSize="16px" color="orange.300" _light={{ color: "orange.600" }} />
+                  <Text fontSize="xs" color="orange.300" _light={{ color: "orange.700" }} fontWeight="medium">
                     Red Flags Present
                   </Text>
                 </Flex>
@@ -360,20 +379,21 @@ function SummaryContent() {
 
           {/* Actions */}
           <Flex gap="3" justify="center">
-            <Button onClick={exportAsMarkdown} colorPalette="teal" size="lg" leftIcon={<Download size={18} />}>
+            <Button onClick={exportAsMarkdown} colorPalette="teal" size="lg">
+              <Box as={Download} boxSize="18px" mr="2" />
               Export as Markdown
             </Button>
             <Button
               onClick={() => router.push("/")}
               variant="outline"
               size="lg"
-              leftIcon={<Home size={18} />}
               borderColor="gray.700"
               _light={{ borderColor: "gray.300", color: "gray.700" }}
               color="gray.300"
               _hover={{ bg: "gray.800" }}
               _light={{ _hover: { bg: "gray.50" } }}
             >
+              <Box as={Home} boxSize="18px" mr="2" />
               Start New Interview
             </Button>
           </Flex>

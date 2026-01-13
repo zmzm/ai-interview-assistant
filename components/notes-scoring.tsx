@@ -2,6 +2,7 @@
 
 import { Box, Text, Flex, Textarea, Separator, Checkbox, RadioGroup } from "@chakra-ui/react"
 import { FileText, Star } from "lucide-react"
+import { useTheme } from "next-themes"
 import type { RubricCriterion } from "@/lib/interview-data"
 
 interface NotesScoringProps {
@@ -30,6 +31,9 @@ export function NotesScoring({
   onEvidenceChange,
   rubric,
 }: NotesScoringProps) {
+  const { theme } = useTheme()
+  const isLight = theme === "light"
+
   const handleScoreChange = (criterionId: string, value: string) => {
     onScoreChange({ ...scores, [criterionId]: Number(value) })
   }
@@ -55,8 +59,7 @@ export function NotesScoring({
             fontWeight="medium"
             textTransform="uppercase"
             letterSpacing="wider"
-            color="gray.400"
-            _light={{ color: "gray.600" }}
+            color={isLight ? "gray.600" : "gray.400"}
           >
             Interview Notes
           </Text>
@@ -66,18 +69,17 @@ export function NotesScoring({
           onChange={(e) => onNotesChange(e.target.value)}
           placeholder="Take notes during the interview..."
           rows={8}
-          bg="gray.900"
-          _light={{ bg: "white", borderColor: "gray.300", color: "gray.900" }}
+          bg={isLight ? "white" : "gray.900"}
           border="1px solid"
-          borderColor="gray.800"
-          color="gray.200"
+          borderColor={isLight ? "gray.300" : "gray.800"}
+          color={isLight ? "gray.900" : "gray.200"}
           fontSize="sm"
           _placeholder={{ color: "gray.600" }}
           _focus={{ borderColor: "teal.500", outline: "none" }}
         />
       </Box>
 
-      <Separator borderColor="gray.800" _light={{ borderColor: "gray.200" }} mb="6" />
+      <Separator borderColor={isLight ? "gray.200" : "gray.800"} mb="6" />
 
       {/* Scoring Rubric */}
       <Box mb="6">
@@ -90,8 +92,7 @@ export function NotesScoring({
             fontWeight="medium"
             textTransform="uppercase"
             letterSpacing="wider"
-            color="gray.400"
-            _light={{ color: "gray.600" }}
+            color={isLight ? "gray.600" : "gray.400"}
           >
             Scoring Rubric
           </Text>
@@ -103,16 +104,14 @@ export function NotesScoring({
               key={criterion.id}
               p="4"
               borderRadius="md"
-              bg="gray.900"
-              _light={{ bg: "white", border: "1px solid", borderColor: "gray.200" }}
+              bg={isLight ? "white" : "gray.900"}
               border="1px solid"
-              borderColor="gray.800"
-              _light={{ borderColor: "gray.200" }}
+              borderColor={isLight ? "gray.200" : "gray.800"}
             >
-              <Text fontSize="sm" fontWeight="medium" color="gray.200" _light={{ color: "gray.900" }} mb="2">
+              <Text fontSize="sm" fontWeight="medium" color={isLight ? "gray.900" : "gray.200"} mb="2">
                 {criterion.name}
               </Text>
-              <Text fontSize="xs" color="gray.500" _light={{ color: "gray.600" }} mb="3">
+              <Text fontSize="xs" color={isLight ? "gray.600" : "gray.500"} mb="3">
                 {criterion.description}
               </Text>
 
@@ -127,7 +126,7 @@ export function NotesScoring({
                     <RadioGroup.Item key={score} value={score.toString()}>
                       <RadioGroup.ItemHiddenInput />
                       <RadioGroup.ItemIndicator />
-                      <RadioGroup.ItemText color="gray.400" _light={{ color: "gray.700" }} fontSize="xs">
+                      <RadioGroup.ItemText color={isLight ? "gray.700" : "gray.400"} fontSize="xs">
                         {score}
                       </RadioGroup.ItemText>
                     </RadioGroup.Item>
@@ -141,11 +140,10 @@ export function NotesScoring({
                 onChange={(e) => handleEvidenceChange(criterion.id, e.target.value)}
                 placeholder="Evidence notes..."
                 rows={2}
-                bg="gray.800"
-                _light={{ bg: "gray.50", borderColor: "gray.300", color: "gray.900" }}
+                bg={isLight ? "gray.50" : "gray.800"}
                 border="1px solid"
-                borderColor="gray.700"
-                color="gray.300"
+                borderColor={isLight ? "gray.300" : "gray.700"}
+                color={isLight ? "gray.900" : "gray.300"}
                 fontSize="xs"
                 _placeholder={{ color: "gray.600" }}
                 _focus={{ borderColor: "teal.500", outline: "none" }}
@@ -155,7 +153,7 @@ export function NotesScoring({
         </Box>
       </Box>
 
-      <Separator borderColor="gray.800" _light={{ borderColor: "gray.200" }} mb="6" />
+      <Separator borderColor={isLight ? "gray.200" : "gray.800"} mb="6" />
 
       {/* Red Flags */}
       <Box>
@@ -164,8 +162,7 @@ export function NotesScoring({
           fontWeight="medium"
           textTransform="uppercase"
           letterSpacing="wider"
-          color="gray.400"
-          _light={{ color: "gray.600" }}
+          color={isLight ? "gray.600" : "gray.400"}
           mb="3"
         >
           Red Flags
@@ -183,7 +180,7 @@ export function NotesScoring({
                 <Checkbox.Indicator />
               </Checkbox.Control>
               <Checkbox.Label>
-                <Text fontSize="sm" color="gray.300" _light={{ color: "gray.700" }}>
+                <Text fontSize="sm" color={isLight ? "gray.700" : "gray.300"}>
                   {flag}
                 </Text>
               </Checkbox.Label>
