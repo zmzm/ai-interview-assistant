@@ -7,7 +7,7 @@ import type { InterviewBlock } from "@/lib/interview-data"
 interface QuestionPanelProps {
   block: InterviewBlock
   selectedQuestionId: string | null
-  onSelectQuestion: (questionId: string) => void
+  onSelectQuestion: (questionId: string | null) => void
   onNextBlock: () => void
   isLastBlock: boolean
 }
@@ -94,7 +94,7 @@ export function QuestionPanel({
                 variant="ghost"
                 color="gray.400"
                 _hover={{ bg: "gray.800" }}
-                onClick={() => onSelectQuestion(block.questions[0].id)}
+                onClick={() => onSelectQuestion(null)}
               >
                 <RefreshCw size={14} />
                 Switch Question
