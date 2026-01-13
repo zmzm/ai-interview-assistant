@@ -101,55 +101,74 @@ function SummaryContent() {
   }
 
   return (
-    <Box h="100vh" bg="gray.950" overflow="hidden" display="flex" flexDirection="column">
+    <Box h="100vh" bg="gray.950" _light={{ bg: "gray.50" }} overflow="hidden" display="flex" flexDirection="column">
       {/* Header */}
-      <Box bg="gray.900" borderBottom="1px solid" borderColor="gray.800" px="6" py="4" flexShrink={0}>
+      <Box
+        bg="gray.900"
+        _light={{ bg: "white", boxShadow: "sm" }}
+        borderBottom="1px solid"
+        borderColor="gray.800"
+        _light={{ borderColor: "gray.200" }}
+        px="6"
+        py="4"
+        flexShrink={0}
+      >
         <Logo clickable={true} />
       </Box>
 
       {/* Content */}
       <Box flex="1" overflowY="auto" px="8" py="8">
         <Box maxW="900px" mx="auto">
-          <Heading size="lg" color="gray.100" mb="8">
+          <Heading size="lg" color="gray.100" _light={{ color: "gray.900" }} mb="8">
             Interview Summary
           </Heading>
 
           {/* Section 1: Interview Overview */}
-          <Box mb="8" p="6" bg="gray.900" borderRadius="lg" border="1px solid" borderColor="gray.800">
+          <Box
+            mb="8"
+            p="6"
+            bg="gray.900"
+            _light={{ bg: "white", boxShadow: "sm" }}
+            borderRadius="lg"
+            border="1px solid"
+            borderColor="gray.800"
+            _light={{ borderColor: "gray.200" }}
+          >
             <Text
               fontSize="sm"
               fontWeight="medium"
               textTransform="uppercase"
               letterSpacing="wider"
               color="gray.400"
+              _light={{ color: "gray.600" }}
               mb="4"
             >
               Interview Overview
             </Text>
             <Flex gap="6" flexWrap="wrap">
               <Flex align="center" gap="2">
-                <Text fontSize="sm" color="gray.500">
+                <Text fontSize="sm" color="gray.500" _light={{ color: "gray.600" }}>
                   Track:
                 </Text>
-                <Text fontSize="sm" color="gray.200" fontWeight="medium">
+                <Text fontSize="sm" color="gray.200" _light={{ color: "gray.900" }} fontWeight="medium">
                   {data.track.toUpperCase()}
                 </Text>
               </Flex>
               <Flex align="center" gap="2">
                 <Clock size={14} color="#6b7280" />
-                <Text fontSize="sm" color="gray.500">
+                <Text fontSize="sm" color="gray.500" _light={{ color: "gray.600" }}>
                   Duration:
                 </Text>
-                <Text fontSize="sm" color="gray.200">
+                <Text fontSize="sm" color="gray.200" _light={{ color: "gray.900" }}>
                   {data.duration}
                 </Text>
               </Flex>
               <Flex align="center" gap="2">
                 <Calendar size={14} color="#6b7280" />
-                <Text fontSize="sm" color="gray.500">
+                <Text fontSize="sm" color="gray.500" _light={{ color: "gray.600" }}>
                   Date:
                 </Text>
-                <Text fontSize="sm" color="gray.200">
+                <Text fontSize="sm" color="gray.200" _light={{ color: "gray.900" }}>
                   {data.date}
                 </Text>
               </Flex>
@@ -157,13 +176,23 @@ function SummaryContent() {
           </Box>
 
           {/* Section 2: Final Decision */}
-          <Box mb="8" p="6" bg="gray.900" borderRadius="lg" border="1px solid" borderColor="gray.800">
+          <Box
+            mb="8"
+            p="6"
+            bg="gray.900"
+            _light={{ bg: "white", boxShadow: "sm" }}
+            borderRadius="lg"
+            border="1px solid"
+            borderColor="gray.800"
+            _light={{ borderColor: "gray.200" }}
+          >
             <Text
               fontSize="sm"
               fontWeight="medium"
               textTransform="uppercase"
               letterSpacing="wider"
               color="gray.400"
+              _light={{ color: "gray.600" }}
               mb="4"
             >
               Final Decision
@@ -190,22 +219,32 @@ function SummaryContent() {
                 </Flex>
               )}
             </Flex>
-            <Text fontSize="sm" color="gray.400">
+            <Text fontSize="sm" color="gray.400" _light={{ color: "gray.600" }}>
               Total Score:{" "}
-              <Text as="span" color="gray.200" fontWeight="medium">
+              <Text as="span" color="gray.200" _light={{ color: "gray.900" }} fontWeight="medium">
                 {totalScore}/{maxScore}
               </Text>
             </Text>
           </Box>
 
           {/* Section 3: Scoring Rubric Breakdown */}
-          <Box mb="8" p="6" bg="gray.900" borderRadius="lg" border="1px solid" borderColor="gray.800">
+          <Box
+            mb="8"
+            p="6"
+            bg="gray.900"
+            _light={{ bg: "white", boxShadow: "sm" }}
+            borderRadius="lg"
+            border="1px solid"
+            borderColor="gray.800"
+            _light={{ borderColor: "gray.200" }}
+          >
             <Text
               fontSize="sm"
               fontWeight="medium"
               textTransform="uppercase"
               letterSpacing="wider"
               color="gray.400"
+              _light={{ color: "gray.600" }}
               mb="4"
             >
               Scoring Rubric Breakdown
@@ -219,20 +258,22 @@ function SummaryContent() {
                     key={criterion.id}
                     p="4"
                     bg="gray.950"
+                    _light={{ bg: "gray.50" }}
                     borderRadius="md"
                     border="1px solid"
                     borderColor="gray.800"
+                    _light={{ borderColor: "gray.200" }}
                   >
                     <Flex justify="space-between" align="center" mb="2">
-                      <Text fontSize="sm" fontWeight="medium" color="gray.200">
+                      <Text fontSize="sm" fontWeight="medium" color="gray.200" _light={{ color: "gray.900" }}>
                         {criterion.name}
                       </Text>
-                      <Text fontSize="lg" fontWeight="bold" color="teal.400">
+                      <Text fontSize="lg" fontWeight="bold" color="teal.400" _light={{ color: "teal.600" }}>
                         {score}/3
                       </Text>
                     </Flex>
                     {evidenceText && (
-                      <Text fontSize="xs" color="gray.500" mt="2">
+                      <Text fontSize="xs" color="gray.500" _light={{ color: "gray.600" }} mt="2">
                         Evidence: {evidenceText}
                       </Text>
                     )}
@@ -244,31 +285,57 @@ function SummaryContent() {
 
           {/* Section 4: Interview Notes */}
           {data.notes && (
-            <Box mb="8" p="6" bg="gray.900" borderRadius="lg" border="1px solid" borderColor="gray.800">
+            <Box
+              mb="8"
+              p="6"
+              bg="gray.900"
+              _light={{ bg: "white", boxShadow: "sm" }}
+              borderRadius="lg"
+              border="1px solid"
+              borderColor="gray.800"
+              _light={{ borderColor: "gray.200" }}
+            >
               <Text
                 fontSize="sm"
                 fontWeight="medium"
                 textTransform="uppercase"
                 letterSpacing="wider"
                 color="gray.400"
+                _light={{ color: "gray.600" }}
                 mb="4"
               >
                 Interview Notes
               </Text>
-              <Text fontSize="sm" color="gray.300" whiteSpace="pre-wrap" lineHeight="tall">
+              <Text
+                fontSize="sm"
+                color="gray.300"
+                _light={{ color: "gray.700" }}
+                whiteSpace="pre-wrap"
+                lineHeight="tall"
+              >
                 {data.notes}
               </Text>
             </Box>
           )}
 
           {/* Section 5: Questions Covered */}
-          <Box mb="8" p="6" bg="gray.900" borderRadius="lg" border="1px solid" borderColor="gray.800">
+          <Box
+            mb="8"
+            p="6"
+            bg="gray.900"
+            _light={{ bg: "white", boxShadow: "sm" }}
+            borderRadius="lg"
+            border="1px solid"
+            borderColor="gray.800"
+            _light={{ borderColor: "gray.200" }}
+          >
             <Text
               fontSize="sm"
               fontWeight="medium"
               textTransform="uppercase"
               letterSpacing="wider"
               color="gray.400"
+              _light={{ color: "gray.600" }}
               mb="4"
             >
               Questions Covered
@@ -276,12 +343,12 @@ function SummaryContent() {
             <Box display="flex" flexDirection="column" gap="4">
               {data.blocks.map((block: any) => (
                 <Box key={block.id}>
-                  <Text fontSize="sm" fontWeight="medium" color="gray.200" mb="2">
+                  <Text fontSize="sm" fontWeight="medium" color="gray.200" _light={{ color: "gray.900" }} mb="2">
                     {block.title} ({block.timeRange})
                   </Text>
                   <Box as="ul" pl="5" display="flex" flexDirection="column" gap="1">
                     {block.questions.map((q: any) => (
-                      <Box as="li" key={q.id} fontSize="xs" color="gray.500">
+                      <Box as="li" key={q.id} fontSize="xs" color="gray.500" _light={{ color: "gray.600" }}>
                         {q.text.en}
                       </Box>
                     ))}
@@ -302,8 +369,10 @@ function SummaryContent() {
               size="lg"
               leftIcon={<Home size={18} />}
               borderColor="gray.700"
+              _light={{ borderColor: "gray.300", color: "gray.700" }}
               color="gray.300"
               _hover={{ bg: "gray.800" }}
+              _light={{ _hover: { bg: "gray.50" } }}
             >
               Start New Interview
             </Button>

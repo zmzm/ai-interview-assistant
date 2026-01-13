@@ -71,13 +71,13 @@ function InterviewContent() {
   }
 
   return (
-    <Box h="100vh" bg="gray.950" _light={{ bg: "white" }} overflow="hidden" display="flex" flexDirection="column">
+    <Box h="100vh" bg="gray.950" _light={{ bg: "gray.50" }} overflow="hidden" display="flex" flexDirection="column">
       <Box
         bg="gray.900"
-        _light={{ bg: "gray.100" }}
+        _light={{ bg: "white", boxShadow: "sm" }}
         borderBottom="1px solid"
         borderColor="gray.800"
-        _light={{ borderColor: "gray.300" }}
+        _light={{ borderColor: "gray.200" }}
         px="6"
         py="4"
         flexShrink={0}
@@ -104,10 +104,10 @@ function InterviewContent() {
         {/* Left: Timeline */}
         <GridItem
           bg="gray.900"
-          _light={{ bg: "gray.50" }}
+          _light={{ bg: "white", boxShadow: "sm" }}
           borderRight="1px solid"
           borderColor="gray.800"
-          _light={{ borderColor: "gray.300" }}
+          _light={{ borderColor: "gray.200" }}
           overflowY="auto"
         >
           <InterviewTimeline
@@ -118,7 +118,7 @@ function InterviewContent() {
         </GridItem>
 
         {/* Center: Questions */}
-        <GridItem bg="gray.950" _light={{ bg: "white" }} overflowY="auto">
+        <GridItem bg="gray.950" _light={{ bg: "gray.50" }} overflowY="auto">
           <QuestionPanel
             block={currentBlock}
             selectedQuestionId={selectedQuestionId}
@@ -131,10 +131,10 @@ function InterviewContent() {
         {/* Right: Notes & Scoring */}
         <GridItem
           bg="gray.900"
-          _light={{ bg: "gray.50" }}
+          _light={{ bg: "white", boxShadow: "sm" }}
           borderLeft="1px solid"
           borderColor="gray.800"
-          _light={{ borderColor: "gray.300" }}
+          _light={{ borderColor: "gray.200" }}
           overflowY="auto"
         >
           <NotesScoring
@@ -156,7 +156,7 @@ function InterviewContent() {
 
 export default function InterviewPage() {
   return (
-    <Suspense fallback={<Box h="100vh" bg="gray.950" _light={{ bg: "white" }} />}>
+    <Suspense fallback={<Box h="100vh" bg="gray.950" _light={{ bg: "gray.50" }} />}>
       <InterviewContent />
     </Suspense>
   )

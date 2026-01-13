@@ -21,16 +21,16 @@ export default function HomePage() {
   }
 
   return (
-    <Box minH="100vh" maxH="100vh" bg="gray.950" _light={{ bg: "gray.50" }} display="flex" flexDirection="column">
+    <Box minH="100vh" maxH="100vh" bg="gray.950" _light={{ bg: "gray.100" }} display="flex" flexDirection="column">
       <Container maxW="4xl" px="6" py={{ base: "8", lg: "12" }} flex="1" display="flex" flexDirection="column">
         {/* Header */}
         <Box mb="8">
           <Flex justify="space-between" align="center" mb="2">
             <Badge
               bg="gray.800"
-              _light={{ bg: "gray.200" }}
+              _light={{ bg: "teal.50", borderColor: "teal.200", border: "1px solid" }}
               color="gray.400"
-              _light={{ color: "gray.600" }}
+              _light={{ color: "teal.700" }}
               fontSize="xs"
               fontWeight="medium"
               letterSpacing="wider"
@@ -54,7 +54,7 @@ export default function HomePage() {
           >
             Interview Assistant
           </Heading>
-          <Text fontSize="md" color="gray.400" _light={{ color: "gray.600" }} maxW="2xl" lineHeight="relaxed">
+          <Text fontSize="md" color="gray.400" _light={{ color: "gray.700" }} maxW="2xl" lineHeight="relaxed">
             A structured technical interview tool for evaluating Senior Engineer candidates. For interviewers only.
           </Text>
         </Box>
@@ -67,6 +67,7 @@ export default function HomePage() {
             textTransform="uppercase"
             letterSpacing="wider"
             color="gray.500"
+            _light={{ color: "gray.600" }}
             mb="4"
           >
             Select Interview Track
@@ -88,6 +89,11 @@ export default function HomePage() {
               color="gray.950"
               _hover={{ bg: "teal.400" }}
               _disabled={{ opacity: 0.5, cursor: "not-allowed" }}
+              _light={{
+                bg: "teal.500",
+                color: "white",
+                _hover: { bg: "teal.600" },
+              }}
               disabled={!selectedTrack}
               onClick={handleStartInterview}
             >
@@ -105,7 +111,7 @@ export default function HomePage() {
         {/* Footer */}
         <Box mt="auto">
           <Separator borderColor="gray.800" _light={{ borderColor: "gray.300" }} mb="4" />
-          <Text fontSize="sm" color="gray.600" _light={{ color: "gray.500" }}>
+          <Text fontSize="sm" color="gray.600" _light={{ color: "gray.600" }}>
             This tool runs locally. No data is stored or shared externally.
           </Text>
         </Box>

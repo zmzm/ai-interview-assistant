@@ -25,13 +25,13 @@ export function QuestionPanel({
     <Box p="8">
       {/* Block Header */}
       <Box mb="8">
-        <Text fontSize="xs" fontFamily="mono" color="gray.500" mb="2">
+        <Text fontSize="xs" fontFamily="mono" color="gray.500" _light={{ color: "gray.600" }} mb="2">
           {block.timeRange} • {block.duration}
         </Text>
-        <Text fontSize="2xl" fontWeight="semibold" color="gray.100" mb="2">
+        <Text fontSize="2xl" fontWeight="semibold" color="gray.100" _light={{ color: "gray.900" }} mb="2">
           {block.title}
         </Text>
-        <Text fontSize="sm" color="gray.400">
+        <Text fontSize="sm" color="gray.400" _light={{ color: "gray.600" }}>
           {block.goal}
         </Text>
       </Box>
@@ -46,6 +46,7 @@ export function QuestionPanel({
               textTransform="uppercase"
               letterSpacing="wider"
               color="gray.500"
+              _light={{ color: "gray.600" }}
               mb="4"
             >
               Suggested Questions
@@ -60,19 +61,21 @@ export function QuestionPanel({
                   borderRadius="md"
                   border="1px solid"
                   borderColor="gray.800"
+                  _light={{ borderColor: "gray.200", bg: "white", boxShadow: "sm" }}
                   bg="gray.900"
                   textAlign="left"
                   transition="all 0.2s"
                   _hover={{ borderColor: "teal.500", bg: "gray.800" }}
-                  cursor="pointer" // Added pointer cursor for clickable items
+                  _light={{ _hover: { borderColor: "teal.500", boxShadow: "md" } }}
+                  cursor="pointer"
                 >
                   <Flex gap="3">
                     <MessageSquare size={16} color="#6b7280" />
                     <Box flex="1">
-                      <Text fontSize="sm" fontWeight="medium" color="gray.200" mb="1">
+                      <Text fontSize="sm" fontWeight="medium" color="gray.200" _light={{ color: "gray.900" }} mb="1">
                         {question.text.en}
                       </Text>
-                      <Text fontSize="xs" color="gray.500">
+                      <Text fontSize="xs" color="gray.500" _light={{ color: "gray.600" }}>
                         {question.text.ru}
                       </Text>
                     </Box>
@@ -87,14 +90,23 @@ export function QuestionPanel({
           {/* Selected Question Detail */}
           <Box mb="6">
             <Flex justify="space-between" align="center" mb="4">
-              <Text fontSize="sm" fontWeight="medium" textTransform="uppercase" letterSpacing="wider" color="gray.500">
+              <Text
+                fontSize="sm"
+                fontWeight="medium"
+                textTransform="uppercase"
+                letterSpacing="wider"
+                color="gray.500"
+                _light={{ color: "gray.600" }}
+              >
                 Active Question
               </Text>
               <Button
                 size="sm"
                 variant="ghost"
                 color="gray.400"
+                _light={{ color: "gray.600" }}
                 _hover={{ bg: "gray.800" }}
+                _light={{ _hover: { bg: "gray.100" } }}
                 onClick={() => onSelectQuestion(null)}
               >
                 <RefreshCw size={14} />
@@ -102,11 +114,19 @@ export function QuestionPanel({
               </Button>
             </Flex>
 
-            <Box p="5" borderRadius="md" border="1px solid" borderColor="gray.800" bg="gray.900" mb="6">
-              <Text fontSize="md" fontWeight="medium" color="gray.100" mb="2">
+            <Box
+              p="5"
+              borderRadius="md"
+              border="1px solid"
+              borderColor="gray.800"
+              bg="gray.900"
+              _light={{ borderColor: "gray.200", bg: "white", boxShadow: "sm" }}
+              mb="6"
+            >
+              <Text fontSize="md" fontWeight="medium" color="gray.100" _light={{ color: "gray.900" }} mb="2">
                 {selectedQuestion.text.en}
               </Text>
-              <Text fontSize="sm" color="gray.400" mb="4">
+              <Text fontSize="sm" color="gray.400" _light={{ color: "gray.600" }} mb="4">
                 {selectedQuestion.text.ru}
               </Text>
             </Box>
@@ -119,14 +139,23 @@ export function QuestionPanel({
                   textTransform="uppercase"
                   letterSpacing="wider"
                   color="gray.500"
+                  _light={{ color: "gray.600" }}
                   mb="4"
                 >
                   Follow-up Prompts
                 </Text>
                 <Box display="flex" flexDirection="column" gap="3">
                   {selectedQuestion.prompts.map((prompt, index) => (
-                    <Box key={index} p="5" borderRadius="md" border="1px solid" borderColor="gray.800" bg="gray.900">
-                      <Text fontSize="sm" color="gray.300">
+                    <Box
+                      key={index}
+                      p="5"
+                      borderRadius="md"
+                      border="1px solid"
+                      borderColor="gray.800"
+                      bg="gray.900"
+                      _light={{ borderColor: "gray.200", bg: "white", boxShadow: "sm" }}
+                    >
+                      <Text fontSize="sm" color="gray.300" _light={{ color: "gray.700" }}>
                         {prompt}
                       </Text>
                     </Box>
@@ -143,16 +172,25 @@ export function QuestionPanel({
                   textTransform="uppercase"
                   letterSpacing="wider"
                   color="gray.500"
+                  _light={{ color: "gray.600" }}
                   mb="4"
                 >
                   Expected Direction (Reference Only)
                 </Text>
-                <Box p="5" borderRadius="md" border="1px solid" borderColor="gray.800" bg="gray.900">
+                <Box
+                  p="5"
+                  borderRadius="md"
+                  border="1px solid"
+                  borderColor="gray.800"
+                  bg="gray.900"
+                  _light={{ borderColor: "gray.200", bg: "white", boxShadow: "sm" }}
+                >
                   {selectedQuestion.expectedDirection.split("\n").map((line, index) => (
                     <Text
                       key={index}
                       fontSize="sm"
                       color="gray.400"
+                      _light={{ color: "gray.700" }}
                       lineHeight="tall"
                       mb={line.trim() === "" ? "3" : "0"}
                     >
@@ -166,7 +204,7 @@ export function QuestionPanel({
         </>
       )}
 
-      <Separator borderColor="gray.800" mb="6" />
+      <Separator borderColor="gray.800" _light={{ borderColor: "gray.200" }} mb="6" />
 
       {/* Actions */}
       <Flex gap="3">

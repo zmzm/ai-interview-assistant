@@ -57,6 +57,10 @@ export function TrackSelector({ selectedTrack, onSelectTrack }: TrackSelectorPro
             _light={{
               borderColor: isSelected ? "teal.500" : "gray.300",
               bg: "white",
+              shadow: isSelected ? "md" : "sm",
+              _hover: {
+                shadow: "md",
+              },
             }}
             bg="gray.900"
             transition="all 0.2s"
@@ -77,9 +81,9 @@ export function TrackSelector({ selectedTrack, onSelectTrack }: TrackSelectorPro
               mb="4"
               borderRadius="md"
               bg={isSelected ? "teal.500" : "gray.800"}
-              _light={{ bg: isSelected ? "teal.500" : "gray.200" }}
+              _light={{ bg: isSelected ? "teal.500" : "gray.100" }}
               color={isSelected ? "gray.950" : "gray.400"}
-              _light={{ color: isSelected ? "white" : "gray.600" }}
+              _light={{ color: isSelected ? "white" : "gray.700" }}
             >
               <TrackIcon size={20} />
             </Flex>
@@ -95,7 +99,7 @@ export function TrackSelector({ selectedTrack, onSelectTrack }: TrackSelectorPro
             </Text>
 
             {/* Description */}
-            <Text fontSize="sm" color="gray.400" _light={{ color: "gray.600" }} lineHeight="tall">
+            <Text fontSize="sm" color="gray.400" _light={{ color: "gray.700" }} lineHeight="tall">
               {track.description}
             </Text>
 

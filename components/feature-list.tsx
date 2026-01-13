@@ -26,8 +26,27 @@ const features = [
 
 export function FeatureList() {
   return (
-    <Box borderRadius="lg" border="1px solid" borderColor="gray.800" bg="gray.900" p="6">
-      <Text fontSize="sm" fontWeight="medium" textTransform="uppercase" letterSpacing="wider" color="gray.500" mb="5">
+    <Box
+      borderRadius="lg"
+      border="1px solid"
+      borderColor="gray.800"
+      _light={{
+        borderColor: "gray.300",
+        bg: "white",
+        shadow: "sm",
+      }}
+      bg="gray.900"
+      p="6"
+    >
+      <Text
+        fontSize="sm"
+        fontWeight="medium"
+        textTransform="uppercase"
+        letterSpacing="wider"
+        color="gray.500"
+        _light={{ color: "gray.600" }}
+        mb="5"
+      >
         What This Tool Does
       </Text>
 
@@ -44,15 +63,17 @@ export function FeatureList() {
                 flexShrink={0}
                 borderRadius="md"
                 bg="gray.800"
+                _light={{ bg: "teal.50" }}
                 color="gray.400"
+                _light={{ color: "teal.600" }}
               >
                 <FeatureIcon size={16} />
               </Flex>
               <Box>
-                <Text fontWeight="medium" color="gray.100" mb="1">
+                <Text fontWeight="medium" color="gray.100" _light={{ color: "gray.900" }} mb="1">
                   {feature.title}
                 </Text>
-                <Text fontSize="sm" color="gray.400" lineHeight="tall">
+                <Text fontSize="sm" color="gray.400" _light={{ color: "gray.700" }} lineHeight="tall">
                   {feature.description}
                 </Text>
               </Box>
