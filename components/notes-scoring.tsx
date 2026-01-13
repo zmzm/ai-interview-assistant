@@ -66,7 +66,7 @@ export function NotesScoring({
           onChange={(e) => onNotesChange(e.target.value)}
           placeholder="Take notes during the interview..."
           rows={8}
-          bg="gray.950"
+          bg="gray.900"
           _light={{ bg: "white", borderColor: "gray.300", color: "gray.900" }}
           border="1px solid"
           borderColor="gray.800"
@@ -103,8 +103,8 @@ export function NotesScoring({
               key={criterion.id}
               p="4"
               borderRadius="md"
-              bg="gray.950"
-              _light={{ bg: "gray.50" }}
+              bg="gray.900"
+              _light={{ bg: "white", border: "1px solid", borderColor: "gray.200" }}
               border="1px solid"
               borderColor="gray.800"
               _light={{ borderColor: "gray.200" }}
@@ -141,10 +141,10 @@ export function NotesScoring({
                 onChange={(e) => handleEvidenceChange(criterion.id, e.target.value)}
                 placeholder="Evidence notes..."
                 rows={2}
-                bg="gray.900"
-                _light={{ bg: "white", borderColor: "gray.300", color: "gray.900" }}
+                bg="gray.800"
+                _light={{ bg: "gray.50", borderColor: "gray.300", color: "gray.900" }}
                 border="1px solid"
-                borderColor="gray.800"
+                borderColor="gray.700"
                 color="gray.300"
                 fontSize="xs"
                 _placeholder={{ color: "gray.600" }}

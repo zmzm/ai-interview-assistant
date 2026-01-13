@@ -46,9 +46,9 @@ export function InterviewTimeline({ blocks, currentBlockIndex, onSelectBlock }: 
               borderColor={isCurrent ? "teal.500" : isPast ? "gray.700" : "gray.800"}
               _light={{
                 borderColor: isCurrent ? "teal.500" : isPast ? "gray.300" : "gray.200",
-                bg: isCurrent ? "teal.50" : "white",
+                bg: isCurrent ? "teal.50" : isPast ? "gray.50" : "white",
               }}
-              bg={isCurrent ? "gray.800" : "transparent"}
+              bg={isCurrent ? "gray.800" : isPast ? "gray.900" : "gray.950"}
               textAlign="left"
               transition="all 0.2s"
               _hover={{ borderColor: isCurrent ? "teal.400" : "gray.700" }}
