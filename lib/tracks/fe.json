@@ -1,0 +1,361 @@
+{
+  "track": "frontend",
+  "blocks": [
+    {
+      "id": "warmup",
+      "title": "Warm-up & Context Calibration",
+      "timeRange": "0–5",
+      "duration": "5m",
+      "goal": "Снять напряжение, понять контекст проекта, масштаб, роль и уровень ответственности.",
+      "questions": [
+        {
+          "id": "fe-warmup-1",
+          "text": {
+            "en": "Tell me briefly about your last project: scale, team size, and your role.",
+            "ru": "Кратко расскажи про последний проект: масштаб, размер команды и твою роль."
+          },
+          "prompts": [
+            "Какой был трафик/нагрузка или размер продукта?",
+            "За что ты отвечал лично (ownership), а что было вне твоей зоны?",
+            "Какие 1–2 решения, на которые ты реально повлиял?"
+          ],
+          "expectedDirection": "- Говорит про систему, а не только про задачи.\n- Чётко описывает ответственность.\n- Даёт контекст для последующих deep-dive."
+        }
+      ]
+    },
+    {
+      "id": "arch_state",
+      "title": "Architecture & State (CORE)",
+      "timeRange": "5–15",
+      "duration": "10m",
+      "goal": "Быстро определить инженерный уровень: архитектурное мышление, boundaries, подход к состоянию.",
+      "questions": [
+        {
+          "id": "fe-1",
+          "text": {
+            "en": "How do you structure a large-scale React application that is expected to grow over several years?",
+            "ru": "Как ты структурируешь крупное React-приложение, которое будет развиваться несколько лет?"
+          },
+          "prompts": [
+            "Как размер команды влияет на архитектуру?",
+            "В какой момент выбранная архитектура начинает ломаться?",
+            "Какие архитектурные ошибки сложно исправить постфактум?"
+          ],
+          "expectedDirection": "- Говорит про масштаб команды, ownership, boundaries.\n- Упоминает, что архитектура — компромисс во времени.\n- Понимает, что «идеальной структуры» не существует.\n- Осознаёт стоимость изменений через 1–2 года."
+        },
+        {
+          "id": "fe-2",
+          "text": {
+            "en": "How do you decide what should be local state, global state, and server state in a React application?",
+            "ru": "Как ты решаешь, что хранить в локальном состоянии, глобальном состоянии и server-state в React-приложении?"
+          },
+          "prompts": [
+            "Какие признаки говорят, что global state используется неправильно?",
+            "Как ты отделяешь server-state от UI state?",
+            "Приходилось ли тебе переделывать state management и почему?"
+          ],
+          "expectedDirection": "- Делит state по природе: UI / domain / server.\n- Понимает, что global state — дорогой инструмент.\n- Упоминает server-state как отдельную категорию.\n- Имеет опыт рефакторинга state из-за роста проекта."
+        },
+        {
+          "id": "fe-3",
+          "text": {
+            "en": "How do you approach component state management when the application grows in complexity?",
+            "ru": "Как ты подходишь к управлению состоянием компонентов, когда приложение становится сложным?"
+          },
+          "prompts": [
+            "В какой момент подъём состояния наверх становится проблемой?",
+            "Как кастомные хуки помогают или мешают поддержке кода?",
+            "Какие решения по состоянию со временем оказались ошибочными?"
+          ],
+          "expectedDirection": "- Говорит о границах ответственности компонентов.\n- Осознаёт проблемы lifting state up.\n- Использует кастомные хуки осознанно, не как silver bullet.\n- Может привести пример плохого решения из прошлого."
+        }
+      ]
+    },
+    {
+      "id": "perf_runtime",
+      "title": "Performance & Runtime",
+      "timeRange": "15–25",
+      "duration": "10m",
+      "goal": "Отделить React-разработчика от Front-End инженера: измерения, профилинг, браузерный пайплайн.",
+      "questions": [
+        {
+          "id": "fe-4",
+          "text": {
+            "en": "Can you describe a real case where React performance became a serious issue?",
+            "ru": "Расскажи про реальный случай, когда производительность React стала серьёзной проблемой."
+          },
+          "prompts": [
+            "Как вы обнаружили проблему (метрики, профилинг, репорты)?",
+            "Какие оптимизации НЕ сработали?",
+            "Пришлось ли жертвовать читаемостью кода?"
+          ],
+          "expectedDirection": "- Начинает с измерений, а не с оптимизаций.\n- Упоминает profiling и реальные метрики.\n- Может назвать неудачные оптимизации.\n- Понимает trade-off между performance и maintainability."
+        },
+        {
+          "id": "fe-5",
+          "text": {
+            "en": "How do you identify and prevent unnecessary re-renders in a React application?",
+            "ru": "Как ты находишь и предотвращаешь лишние перерендеры в React-приложении?"
+          },
+          "prompts": [
+            "В каких случаях мемоизация вредна?",
+            "Как ты отлаживаешь цепочки перерендеров?",
+            "Были ли случаи, когда оптимизация ухудшала ситуацию?"
+          ],
+          "expectedDirection": "- Понимает, что memoization не бесплатна.\n- Говорит про причины, а не симптомы.\n- Использует инструменты отладки, а не guesswork.\n- Видел случаи, когда оптимизация ухудшала код."
+        },
+        {
+          "id": "fe-6",
+          "text": {
+            "en": "How do you handle large datasets efficiently in React applications?",
+            "ru": "Как ты эффективно работаешь с большими наборами данных в React-приложениях?"
+          },
+          "prompts": [
+            "Какие ограничения есть у виртуализации?",
+            "Как ты балансируешь UX и производительность?",
+            "Были ли проблемы с памятью в браузере?"
+          ],
+          "expectedDirection": "- Понимает ограничения виртуализации.\n- Думает про UX, а не только FPS.\n- Учитывает память и GC.\n- Может объяснить, почему «показать всё сразу» — плохая идея."
+        },
+        {
+          "id": "fe-19",
+          "text": {
+            "en": "Have you encountered performance issues where React was not the root cause?",
+            "ru": "Были ли случаи, когда UI тормозил, но проблема была не в React?"
+          },
+          "prompts": [
+            "Какими инструментами ты пользовался?",
+            "Это было layout/paint/composite или JS execution?",
+            "Как ты подтвердил root cause?"
+          ],
+          "expectedDirection": "- Понимает browser rendering pipeline (layout / paint / composite).\n- Упоминает DevTools, Performance tab, Long Tasks.\n- Отличает JS-блокировки от layout thrashing.\n- Не сводит performance только к React."
+        }
+      ]
+    },
+    {
+      "id": "async_network",
+      "title": "Async, Network, UX under Pressure",
+      "timeRange": "25–35",
+      "duration": "10m",
+      "goal": "Проверить асинхронность, устойчивость UI при деградации сети, зрелость UX-решений.",
+      "questions": [
+        {
+          "id": "fe-11",
+          "text": {
+            "en": "How do you manage complex asynchronous flows in React components?",
+            "ru": "Как ты управляешь сложными асинхронными сценариями в React-компонентах?"
+          },
+          "prompts": [
+            "Как ты избегаешь race conditions?",
+            "Как ты отменяешь запросы?",
+            "Какие проблемы возникают при быстром переключении страниц?"
+          ],
+          "expectedDirection": "- Думает про отмену, race conditions, consistency.\n- Понимает проблемы быстрой навигации.\n- Учитывает UX при async-ошибках.\n- Осознаёт сложность управления async вручную."
+        },
+        {
+          "id": "fe-21",
+          "text": {
+            "en": "How should a React application behave under slow or unstable network conditions?",
+            "ru": "Как, по-твоему, должно вести себя React-приложение при медленной или нестабильной сети?"
+          },
+          "prompts": [
+            "Как ты обрабатываешь ошибки и повторные запросы?",
+            "Какие UX-паттерны загрузки ты используешь?",
+            "Как ты избегаешь блокировки пользователя?"
+          ],
+          "expectedDirection": "- Думает про UX, а не только про fetch.\n- Упоминает retry, timeout, fallback UI.\n- Различает error, empty, loading states.\n- Осознаёт влияние latency на восприятие продукта."
+        }
+      ]
+    },
+    {
+      "id": "ownership_decisions",
+      "title": "Ownership & Decision Making",
+      "timeRange": "35–45",
+      "duration": "10m",
+      "goal": "Отличить Senior от strong Middle: ответственность, аргументация, компромиссы с бизнесом.",
+      "questions": [
+        {
+          "id": "fe-13",
+          "text": {
+            "en": "Tell me about a situation where the technically correct solution did not fit the given constraints (time, team, legacy, business).",
+            "ru": "Расскажи про ситуацию, когда технически правильное решение не укладывалось в ограничения (сроки, команда, легаси, бизнес)."
+          },
+          "prompts": [
+            "Какие ограничения были ключевыми?",
+            "Кто принимал финальное решение?",
+            "Как ты доносил риски?"
+          ],
+          "expectedDirection": "- Осознаёт влияние бизнеса и сроков.\n- Понимает, кто владеет финальным решением.\n- Умеет объяснять риски нетехническим людям.\n- Принимает ответственность за компромиссы."
+        },
+        {
+          "id": "fe-14",
+          "text": {
+            "en": "How do you usually decide which technical compromises are acceptable and which are not?",
+            "ru": "Как ты решаешь, какие технические компромиссы допустимы, а какие — нет?"
+          },
+          "prompts": [
+            "Какие компромиссы опасны в долгосрочной перспективе?",
+            "Как ты фиксируешь технический долг?",
+            "Был ли случай, когда компромисс оказался хуже, чем ожидалось?"
+          ],
+          "expectedDirection": "- Отличает безопасный компромисс от опасного.\n- Умеет документировать технический долг.\n- Понимает отложенную стоимость решений.\n- Может привести пример недооценённого риска."
+        },
+        {
+          "id": "fe-15",
+          "text": {
+            "en": "What part of the system did you feel fully responsible for in your previous projects?",
+            "ru": "За какую часть системы ты чувствовал полную ответственность на прошлых проектах?"
+          },
+          "prompts": [
+            "Какие решения ты принимал самостоятельно?",
+            "Что ломалось в зоне твоей ответственности?",
+            "Как ты разбирался с инцидентами или фейлами?"
+          ],
+          "expectedDirection": "- Говорит про зоны ответственности, а не задачи.\n- Может рассказать про фейлы.\n- Не перекладывает вину.\n- Понимает последствия своих решений."
+        },
+        {
+          "id": "fe-16",
+          "text": {
+            "en": "Tell me about a time when you had to say “no” to a request from product, design, or business.",
+            "ru": "Расскажи про ситуацию, когда тебе пришлось сказать «нет» запросу от продукта, дизайна или бизнеса."
+          },
+          "prompts": [
+            "Какие аргументы ты приводил?",
+            "Удалось ли найти компромисс?",
+            "Чем в итоге всё закончилось?"
+          ],
+          "expectedDirection": "- Способен аргументировать отказ.\n- Ищет альтернативы, а не просто блокирует.\n- Понимает бизнес-контекст.\n- Не боится конфликтов ради качества."
+        },
+        {
+          "id": "fe-24",
+          "text": {
+            "en": "How do you know that a front-end application is broken in production?",
+            "ru": "Как ты понимаешь, что фронтенд-приложение сломалось в продакшене?"
+          },
+          "prompts": [
+            "Какие метрики или сигналы ты смотришь?",
+            "Как ты находишь «тихие» ошибки?",
+            "Как ты реагируешь на инциденты?"
+          ],
+          "expectedDirection": "- Думает про monitoring и observability.\n- Упоминает error tracking, performance metrics.\n- Осознаёт ownership за прод.\n- Не полагается только на user reports."
+        }
+      ]
+    },
+    {
+      "id": "reflection_maturity",
+      "title": "Reflection & Maturity",
+      "timeRange": "45–55",
+      "duration": "10m",
+      "goal": "Подтвердить уровень через опыт ошибок, принципы и работу с техническим долгом.",
+      "questions": [
+        {
+          "id": "fe-12",
+          "text": {
+            "en": "If you joined your previous project again today, what would you forbid doing immediately?",
+            "ru": "Если бы ты снова пришёл в свой прошлый проект, что бы ты запретил делать сразу?"
+          },
+          "prompts": [
+            "Какие решения принесли больше всего боли?",
+            "Что казалось хорошей идеей, но провалилось позже?",
+            "Какие правила/принципы ты бы ввёл для новых разработчиков?"
+          ],
+          "expectedDirection": "- Способен критиковать прошлые решения.\n- Не защищает «как было».\n- Думает системно, а не точечно.\n- Формулирует принципы, а не правила."
+        },
+        {
+          "id": "fe-17",
+          "text": {
+            "en": "How do you work with existing technical debt in a project you join?",
+            "ru": "Как ты работаешь с техническим долгом в проекте, в который приходишь?"
+          },
+          "prompts": [
+            "Как ты балансируешь долг и новые фичи?",
+            "Когда технический долг не стоит трогать?",
+            "Как ты предотвращаешь появление нового долга?"
+          ],
+          "expectedDirection": "- Не пытается «переписать всё».\n- Умеет приоритизировать.\n- Понимает, когда долг — осознанный.\n- Предотвращает появление нового долга."
+        },
+        {
+          "id": "fe-18",
+          "text": {
+            "en": "Tell me about a technical decision you defended strongly but later regretted.",
+            "ru": "Расскажи про техническое решение, которое ты активно защищал, но позже пожалел."
+          },
+          "prompts": [
+            "Почему тогда это казалось правильным решением?",
+            "Какие сигналы ты упустил?",
+            "Что бы ты сделал иначе сейчас?"
+          ],
+          "expectedDirection": "- Честно говорит о своих ошибках.\n- Анализирует причины, а не симптомы.\n- Видит упущенные сигналы.\n- Демонстрирует рост, а не оправдания."
+        }
+      ]
+    },
+    {
+      "id": "wrapup",
+      "title": "Wrap-up",
+      "timeRange": "55–60",
+      "duration": "5m",
+      "goal": "Дать кандидату задать вопросы и зафиксировать финальные сигналы.",
+      "questions": [
+        {
+          "id": "fe-wrapup-1",
+          "text": {
+            "en": "Do you have any questions for us or about the project?",
+            "ru": "Есть ли у тебя вопросы к нам или к проекту?"
+          },
+          "prompts": [
+            "Что тебе важно уточнить про продукт/команду?",
+            "Какие технические ограничения или процессы тебя интересуют?",
+            "Что для тебя критично в роли/ожиданиях?"
+          ],
+          "expectedDirection": "- Вопросы про продукт/команду/процессы.\n- Прояснение ожиданий и ограничений.\n- Адекватный уровень любопытства и зрелости."
+        }
+      ]
+    }
+  ],
+  "rubric": {
+    "criteria": [
+      {
+        "id": "architecture",
+        "name": "Architecture & System Design",
+        "description": "Boundaries, масштабирование решений, долгосрочные последствия."
+      },
+      {
+        "id": "technical_depth",
+        "name": "Technical Depth (FE / BE specific)",
+        "description": "Глубина по направлению: React runtime, browser, performance, a11y."
+      },
+      {
+        "id": "decision_making",
+        "name": "Decision Making & Trade-offs",
+        "description": "Выбор в условиях ограничений и неопределённости, управление рисками."
+      },
+      {
+        "id": "ownership",
+        "name": "Ownership & Responsibility",
+        "description": "Ответственность за результат, end-to-end владение, реакция на фейлы."
+      },
+      {
+        "id": "production",
+        "name": "Production Experience",
+        "description": "Инциденты, деградации, мониторинг/observability, постмортемы."
+      },
+      {
+        "id": "communication",
+        "name": "Communication & Clarity",
+        "description": "Структура мысли, ясность, умение уточнять и объяснять."
+      },
+      {
+        "id": "reflection",
+        "name": "Reflection & Learning",
+        "description": "Рефлексия, выводы, рост, способность признавать ошибки."
+      }
+    ],
+    "redFlags": [
+      "Avoids responsibility",
+      "Blames others",
+      "Cannot name mistakes",
+      "Ignores consequences of decisions",
+      "Toxic or rigid communication"
+    ]
+  }
+}

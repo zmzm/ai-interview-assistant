@@ -1,0 +1,374 @@
+{
+  "track": "fullstack",
+  "blocks": [
+    {
+      "id": "warmup",
+      "title": "Warm-up & Context Calibration",
+      "timeRange": "0–5",
+      "duration": "5m",
+      "goal": "Понять end-to-end контекст: продукт, масштаб, команда, роль, ответственность по FE/BE и продакшен-критичность.",
+      "questions": [
+        {
+          "id": "fs-warmup-1",
+          "text": {
+            "en": "Tell me briefly about your last product/system: scale, team, and what you owned end-to-end.",
+            "ru": "Кратко расскажи про последний продукт/систему: масштаб, команда и что ты делал end-to-end."
+          },
+          "prompts": [
+            "Какие части ты вёл: UI, API, data, инфраструктура?",
+            "Какие решения ты принимал сам, а какие — совместно?",
+            "Были ли инциденты/нагрузка/сложные релизы?"
+          ],
+          "expectedDirection": "- Даёт картину по FE+BE.\n- Понимает ownership по слоям.\n- Дает контекст, где делать deep-dive дальше."
+        }
+      ]
+    },
+    {
+      "id": "system_architecture",
+      "title": "System Architecture (FE+BE)",
+      "timeRange": "5–15",
+      "duration": "10m",
+      "goal": "Оценить системное мышление: границы модулей, контракты между слоями, эволюция архитектуры со временем.",
+      "questions": [
+        {
+          "id": "fs-arch-fe-1",
+          "text": {
+            "en": "How do you structure a large-scale React application that is expected to grow over several years?",
+            "ru": "Как ты структурируешь крупное React-приложение, которое будет развиваться несколько лет?"
+          },
+          "prompts": [
+            "Как размер команды влияет на архитектуру?",
+            "В какой момент выбранная архитектура начинает ломаться?",
+            "Какие ошибки сложно исправить постфактум?"
+          ],
+          "expectedDirection": "- Говорит про boundaries/ownership и эволюцию.\n- Понимает компромиссы и стоимость изменений.\n- Приводит реальные кейсы."
+        },
+        {
+          "id": "fs-arch-be-1",
+          "text": {
+            "en": "How do you structure a backend service so it stays maintainable as the codebase and team grow?",
+            "ru": "Как ты структурируешь backend-сервис, чтобы он оставался поддерживаемым при росте кода и команды?"
+          },
+          "prompts": [
+            "Какие слои/границы выделяешь?",
+            "Как управляешь зависимостями между модулями?",
+            "Что со временем деградировало и почему?"
+          ],
+          "expectedDirection": "- Мыслит границами, cohesion/coupling.\n- Разделяет transport/app/domain/infra.\n- Понимает деградацию архитектуры и рефакторинг."
+        },
+        {
+          "id": "fs-arch-be-3",
+          "text": {
+            "en": "How do you structure NestJS modules and providers so the app doesn’t become a “god module”?",
+            "ru": "Как ты структурируешь модули и провайдеры в NestJS, чтобы приложение не превратилось в “god module”?"
+          },
+          "prompts": [
+            "Как решаешь границы модулей?",
+            "Как избегаешь circular dependencies?",
+            "Когда request-scope оправдан?"
+          ],
+          "expectedDirection": "- NestJS как архитектурный инструмент.\n- Понимает exports/imports, публичные контракты модулей.\n- Осознаёт риски request-scoped."
+        }
+      ]
+    },
+    {
+      "id": "runtime_performance",
+      "title": "Runtime & Performance (FE+BE)",
+      "timeRange": "15–25",
+      "duration": "10m",
+      "goal": "Оценить понимание runtime: React+browser performance и Node.js event loop/load. Отличить “писал код” от “дебажил систему”.",
+      "questions": [
+        {
+          "id": "fs-perf-fe-19",
+          "text": {
+            "en": "Have you encountered performance issues where React was not the root cause?",
+            "ru": "Были ли случаи, когда UI тормозил, но проблема была не в React?"
+          },
+          "prompts": [
+            "Какие инструменты использовал?",
+            "Это layout/paint/composite или JS?",
+            "Как подтвердил root cause?"
+          ],
+          "expectedDirection": "- Понимает browser pipeline.\n- Использует DevTools Performance.\n- Отличает причины лагов, не сводит всё к React."
+        },
+        {
+          "id": "fs-perf-fe-4",
+          "text": {
+            "en": "Can you describe a real case where React performance became a serious issue?",
+            "ru": "Расскажи про реальный случай, когда производительность React стала серьёзной проблемой."
+          },
+          "prompts": [
+            "Как измеряли проблему?",
+            "Что не сработало?",
+            "Какие trade-offs приняли?"
+          ],
+          "expectedDirection": "- Начинает с измерений.\n- Умеет рассказывать про профилинг.\n- Понимает trade-offs maintainability/perf."
+        },
+        {
+          "id": "fs-runtime-be-7",
+          "text": {
+            "en": "Tell me about a production issue where the Node.js event loop became a bottleneck.",
+            "ru": "Расскажи про продакшен-кейс, где event loop в Node.js стал узким местом."
+          },
+          "prompts": [
+            "CPU-bound или блокирующий I/O?",
+            "Как диагностировали?",
+            "Как предотвратили повторение?"
+          ],
+          "expectedDirection": "- Понимает single-thread ограничения.\n- Отличает CPU vs I/O.\n- Говорит про event loop delay/long tasks и поведение под нагрузкой."
+        },
+        {
+          "id": "fs-runtime-be-8",
+          "text": {
+            "en": "How does your service behave under load when downstream systems become slow?",
+            "ru": "Как ведёт себя сервис под нагрузкой, если зависимые системы начинают тормозить?"
+          },
+          "prompts": [
+            "Как защищаешься от cascading failures?",
+            "Какие лимиты/таймауты используешь?",
+            "Есть ли backpressure/очереди?"
+          ],
+          "expectedDirection": "- Понимает каскадные отказы.\n- Говорит про таймауты/лимиты/очереди.\n- Думает про graceful degradation."
+        }
+      ]
+    },
+    {
+      "id": "api_data_consistency",
+      "title": "API, Data & Consistency",
+      "timeRange": "25–35",
+      "duration": "10m",
+      "goal": "Проверить зрелость по контрактам и данным: стабильные API, идемпотентность, транзакции и race conditions.",
+      "questions": [
+        {
+          "id": "fs-api-be-5",
+          "text": {
+            "en": "How do you design an HTTP API contract so it stays stable as the product evolves?",
+            "ru": "Как ты проектируешь контракт HTTP API, чтобы он оставался стабильным при развитии продукта?"
+          },
+          "prompts": [
+            "Versioning/backward compatibility — когда нужно?",
+            "Единые правила для list endpoints (пагинация/фильтры)?",
+            "Единый error model — как выглядит?"
+          ],
+          "expectedDirection": "- Мыслит контрактами и совместимостью.\n- Держит консистентность list endpoints.\n- Стандартизирует ошибки и trace-id."
+        },
+        {
+          "id": "fs-api-be-6",
+          "text": {
+            "en": "How do you make write operations safe to retry (idempotency) in real systems?",
+            "ru": "Как ты делаешь операции записи безопасными для повторов (идемпотентными) в реальных системах?"
+          },
+          "prompts": [
+            "Какие операции обязаны быть идемпотентными?",
+            "Idempotency key: где хранить и как долго?",
+            "Как борешься с дублями при таймаутах?"
+          ],
+          "expectedDirection": "- Понимает timeouts ≠ failure.\n- Проектирует дедупликацию на уровне API+storage.\n- Учитывает at-least-once семантику."
+        },
+        {
+          "id": "fs-data-be-9",
+          "text": {
+            "en": "How do you ensure data consistency when multiple operations must succeed together?",
+            "ru": "Как ты обеспечиваешь консистентность данных, когда несколько операций должны выполниться вместе?"
+          },
+          "prompts": [
+            "Когда транзакция — must-have?",
+            "Какие race conditions встречал?",
+            "Eventual consistency — где приемлема?"
+          ],
+          "expectedDirection": "- Понимает ACID vs eventual consistency.\n- Осознанно применяет транзакции.\n- Знает про race conditions и способы защиты."
+        },
+        {
+          "id": "fs-async-fe-11",
+          "text": {
+            "en": "How do you manage complex asynchronous flows in React components?",
+            "ru": "Как ты управляешь сложными асинхронными сценариями в React-компонентах?"
+          },
+          "prompts": [
+            "Отмена запросов/race conditions — как решаешь?",
+            "Что происходит при быстрой навигации?",
+            "Как организуешь состояния loading/error/empty?"
+          ],
+          "expectedDirection": "- Умеет управлять гонками и отменой.\n- Думает про консистентность UI.\n- Не сводит всё к useEffect без структуры."
+        }
+      ]
+    },
+    {
+      "id": "ownership_production",
+      "title": "Ownership, Production & Incidents",
+      "timeRange": "35–45",
+      "duration": "10m",
+      "goal": "Отличить Senior от strong Middle: ответственность за прод, решения под ограничениями, умение говорить «нет».",
+      "questions": [
+        {
+          "id": "fs-own-fe-13",
+          "text": {
+            "en": "Tell me about a situation where the technically correct solution did not fit the given constraints (time, team, legacy, business).",
+            "ru": "Расскажи про ситуацию, когда технически правильное решение не укладывалось в ограничения (сроки, команда, легаси, бизнес)."
+          },
+          "prompts": [
+            "Какие ограничения были ключевыми?",
+            "Кто принимал финальное решение?",
+            "Как ты управлял рисками?"
+          ],
+          "expectedDirection": "- Осознаёт влияние бизнеса/сроков.\n- Умеет объяснить риски.\n- Берёт ответственность за компромисс."
+        },
+        {
+          "id": "fs-own-fe-16",
+          "text": {
+            "en": "Tell me about a time when you had to say “no” to a request from product, design, or business.",
+            "ru": "Расскажи про ситуацию, когда тебе пришлось сказать «нет» запросу от продукта, дизайна или бизнеса."
+          },
+          "prompts": [
+            "Какие аргументы ты приводил?",
+            "Какие альтернативы предложил?",
+            "Чем закончилось?"
+          ],
+          "expectedDirection": "- Умеет аргументировать отказ.\n- Ищет альтернативы.\n- Понимает бизнес-контекст."
+        },
+        {
+          "id": "fs-prod-be-18",
+          "text": {
+            "en": "Tell me about a production incident you were responsible for.",
+            "ru": "Расскажи про продакшен-инцидент, за который ты нёс ответственность."
+          },
+          "prompts": [
+            "Root cause vs symptoms?",
+            "Как митигировали ущерб?",
+            "Что поменяли после постмортема?"
+          ],
+          "expectedDirection": "- Берёт ответственность.\n- Думает root cause.\n- Делает системные улучшения."
+        },
+        {
+          "id": "fs-prod-fe-24",
+          "text": {
+            "en": "How do you know that a front-end application is broken in production?",
+            "ru": "Как ты понимаешь, что фронтенд-приложение сломалось в продакшене?"
+          },
+          "prompts": [
+            "Какие метрики/сигналы важны?",
+            "Как находишь silent failures?",
+            "Как реагируешь на инциденты?"
+          ],
+          "expectedDirection": "- Понимает observability для FE.\n- Упоминает error tracking и perf метрики.\n- Осознаёт ownership за прод."
+        }
+      ]
+    },
+    {
+      "id": "reflection",
+      "title": "Reflection & Maturity",
+      "timeRange": "45–55",
+      "duration": "10m",
+      "goal": "Подтвердить зрелость через рефлексию, ошибки и работу с техдолгом.",
+      "questions": [
+        {
+          "id": "fs-ref-fe-18",
+          "text": {
+            "en": "Tell me about a technical decision you defended strongly but later regretted.",
+            "ru": "Расскажи про техническое решение, которое ты активно защищал, но позже пожалел."
+          },
+          "prompts": [
+            "Почему тогда казалось правильным?",
+            "Какие сигналы упустил?",
+            "Что бы сделал иначе сейчас?"
+          ],
+          "expectedDirection": "- Честно говорит об ошибках.\n- Анализирует причины.\n- Демонстрирует рост."
+        },
+        {
+          "id": "fs-ref-fe-17",
+          "text": {
+            "en": "How do you work with existing technical debt in a project you join?",
+            "ru": "Как ты работаешь с техническим долгом в проекте, в который приходишь?"
+          },
+          "prompts": [
+            "Как приоритизируешь долг vs фичи?",
+            "Когда долг не стоит трогать?",
+            "Как предотвращаешь новый долг?"
+          ],
+          "expectedDirection": "- Не пытается переписать всё.\n- Умеет приоритизировать.\n- Понимает осознанный долг."
+        },
+        {
+          "id": "fs-ref-be-20",
+          "text": {
+            "en": "When was the last time you had to make a hard backend decision with incomplete information?",
+            "ru": "Когда тебе в последний раз пришлось принимать сложное backend-решение при неполной информации?"
+          },
+          "prompts": [
+            "Какой информации не хватало?",
+            "Как ты управлял риском?",
+            "Кого затронуло решение?"
+          ],
+          "expectedDirection": "- Умеет принимать решения в неопределённости.\n- Управляет рисками.\n- Осознаёт последствия для команды/продукта."
+        }
+      ]
+    },
+    {
+      "id": "wrapup",
+      "title": "Wrap-up",
+      "timeRange": "55–60",
+      "duration": "5m",
+      "goal": "Собрать вопросы кандидата и финальные сигналы (интерес к продукту/системе/процессам).",
+      "questions": [
+        {
+          "id": "fs-wrapup-1",
+          "text": {
+            "en": "Do you have any questions for us about the product, system, or team?",
+            "ru": "Есть ли у тебя вопросы к нам про продукт, систему или команду?"
+          },
+          "prompts": [
+            "Какие вопросы про продакшен/ограничения ты хочешь уточнить?",
+            "Что важно понять про команду и процессы?",
+            "Какие ожидания от роли стоит прояснить?"
+          ],
+          "expectedDirection": "- Вопросы по делу: продукт, ограничения, процессы.\n- Зрелое любопытство.\n- Прояснение ожиданий."
+        }
+      ]
+    }
+  ],
+  "rubric": {
+    "criteria": [
+      {
+        "id": "architecture",
+        "name": "Architecture & System Design",
+        "description": "Boundaries, масштабирование решений, долгосрочные последствия."
+      },
+      {
+        "id": "technical_depth",
+        "name": "Technical Depth (FE / BE specific)",
+        "description": "Глубина по FE+BE: React runtime/browser/perf и Node.js runtime/load/consistency."
+      },
+      {
+        "id": "decision_making",
+        "name": "Decision Making & Trade-offs",
+        "description": "Выбор в условиях ограничений и неопределённости, управление рисками."
+      },
+      {
+        "id": "ownership",
+        "name": "Ownership & Responsibility",
+        "description": "Ответственность за результат, end-to-end владение, реакция на фейлы."
+      },
+      {
+        "id": "production",
+        "name": "Production Experience",
+        "description": "Инциденты, деградации, мониторинг/observability, постмортемы."
+      },
+      {
+        "id": "communication",
+        "name": "Communication & Clarity",
+        "description": "Структура мысли, ясность, умение уточнять и объяснять."
+      },
+      {
+        "id": "reflection",
+        "name": "Reflection & Learning",
+        "description": "Рефлексия, выводы, рост, способность признавать ошибки."
+      }
+    ],
+    "redFlags": [
+      "Avoids responsibility",
+      "Blames others",
+      "Cannot name mistakes",
+      "Ignores consequences of decisions",
+      "Toxic or rigid communication"
+    ]
+  }
+}
