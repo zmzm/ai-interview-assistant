@@ -53,6 +53,29 @@ body {
   --sidebar-ring: oklch(0.72 0.12 190);
 }
 
+/* Added light mode color tokens */
+.light {
+  --background: oklch(0.98 0.01 250);
+  --foreground: oklch(0.15 0.01 250);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.15 0.01 250);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.15 0.01 250);
+  --primary: oklch(0.72 0.12 190);
+  --primary-foreground: oklch(0.98 0.01 250);
+  --secondary: oklch(0.95 0.01 250);
+  --secondary-foreground: oklch(0.15 0.01 250);
+  --muted: oklch(0.95 0.01 250);
+  --muted-foreground: oklch(0.45 0.01 250);
+  --accent: oklch(0.93 0.01 250);
+  --accent-foreground: oklch(0.15 0.01 250);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.98 0.01 250);
+  --border: oklch(0.88 0.01 250);
+  --input: oklch(0.93 0.01 250);
+  --ring: oklch(0.72 0.12 190);
+}
+
 @theme inline {
   --font-sans: "Geist", "Geist Fallback";
   --font-mono: "Geist Mono", "Geist Mono Fallback";
@@ -100,5 +123,33 @@ body {
   }
   body {
     @apply bg-background text-foreground;
+  }
+
+  /* Custom scrollbar styling to match teal accent theme */
+  /* Custom scrollbar for webkit browsers (Chrome, Safari, Edge) */
+  ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: oklch(0.17 0.01 250); /* Dark background matching card color */
+    border-radius: 6px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: oklch(0.72 0.12 190); /* Teal accent color */
+    border-radius: 6px;
+    border: 2px solid oklch(0.17 0.01 250); /* Gap around thumb */
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: oklch(0.78 0.14 190); /* Lighter teal on hover */
+  }
+
+  /* Firefox scrollbar styling */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: oklch(0.72 0.12 190) oklch(0.17 0.01 250);
   }
 }

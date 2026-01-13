@@ -4,6 +4,7 @@ import { useState, useEffect, Suspense } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
 import { Box, Grid, GridItem, Flex, Button } from "@chakra-ui/react"
 import { Logo } from "@/components/logo"
+import { ColorModeButton } from "@/components/ui/color-mode"
 import { InterviewTimeline } from "@/components/interview-timeline"
 import { QuestionPanel } from "@/components/question-panel"
 import { NotesScoring } from "@/components/notes-scoring"
@@ -74,16 +75,19 @@ function InterviewContent() {
       <Box bg="gray.900" borderBottom="1px solid" borderColor="gray.800" px="6" py="4" flexShrink={0}>
         <Flex justify="space-between" align="center">
           <Logo clickable={true} />
-          <Button
-            onClick={handleFinishInterview}
-            size="sm"
-            bg="teal.600"
-            color="white"
-            _hover={{ bg: "teal.500" }}
-            fontWeight="semibold"
-          >
-            Finish Interview
-          </Button>
+          <Flex align="center" gap="3">
+            <ColorModeButton />
+            <Button
+              onClick={handleFinishInterview}
+              size="sm"
+              bg="teal.600"
+              color="white"
+              _hover={{ bg: "teal.500" }}
+              fontWeight="semibold"
+            >
+              Finish Interview
+            </Button>
+          </Flex>
         </Flex>
       </Box>
 

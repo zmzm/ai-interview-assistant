@@ -64,6 +64,7 @@ export function QuestionPanel({
                   textAlign="left"
                   transition="all 0.2s"
                   _hover={{ borderColor: "teal.500", bg: "gray.800" }}
+                  cursor="pointer" // Added pointer cursor for clickable items
                 >
                   <Flex gap="3">
                     <MessageSquare size={16} color="#6b7280" />

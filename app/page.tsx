@@ -4,8 +4,8 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { TrackSelector } from "@/components/track-selector"
 import { FeatureList } from "@/components/feature-list"
-import { Logo } from "@/components/logo"
-import { Box, Container, Heading, Text, Button, HStack, Badge, Separator } from "@chakra-ui/react"
+import { ColorModeButton } from "@/components/ui/color-mode"
+import { Box, Container, Heading, Text, Button, HStack, Badge, Separator, Flex } from "@chakra-ui/react"
 import { ArrowRight } from "lucide-react"
 
 export type InterviewTrack = "frontend" | "backend" | "fullstack" | null
@@ -25,20 +25,22 @@ export default function HomePage() {
       <Container maxW="4xl" px="6" py={{ base: "8", lg: "12" }} flex="1" display="flex" flexDirection="column">
         {/* Header */}
         <Box mb="8">
-          <Badge
-            bg="gray.800"
-            color="gray.400"
-            fontSize="xs"
-            fontWeight="medium"
-            letterSpacing="wider"
-            textTransform="uppercase"
-            px="2"
-            py="1"
-            borderRadius="md"
-            mb="2"
-          >
-            Internal Tool
-          </Badge>
+          <Flex justify="space-between" align="center" mb="2">
+            <Badge
+              bg="gray.800"
+              color="gray.400"
+              fontSize="xs"
+              fontWeight="medium"
+              letterSpacing="wider"
+              textTransform="uppercase"
+              px="2"
+              py="1"
+              borderRadius="md"
+            >
+              Internal Tool
+            </Badge>
+            <ColorModeButton />
+          </Flex>
           <Heading as="h1" size="3xl" fontWeight="semibold" letterSpacing="tight" color="gray.50" mb="3">
             Interview Assistant
           </Heading>
