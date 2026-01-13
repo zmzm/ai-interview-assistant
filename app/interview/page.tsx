@@ -74,7 +74,14 @@ function InterviewContent() {
       <Box bg="gray.900" borderBottom="1px solid" borderColor="gray.800" px="6" py="4" flexShrink={0}>
         <Flex justify="space-between" align="center">
           <Logo clickable={true} />
-          <Button onClick={handleFinishInterview} colorScheme="teal" size="sm">
+          <Button
+            onClick={handleFinishInterview}
+            size="sm"
+            bg="teal.600"
+            color="white"
+            _hover={{ bg: "teal.500" }}
+            fontWeight="semibold"
+          >
             Finish Interview
           </Button>
         </Flex>
