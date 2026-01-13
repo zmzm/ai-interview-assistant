@@ -147,9 +147,17 @@ export function QuestionPanel({
                   Expected Direction (Reference Only)
                 </Text>
                 <Box p="5" borderRadius="md" border="1px solid" borderColor="gray.800" bg="gray.900">
-                  <Text fontSize="sm" color="gray.400" lineHeight="tall">
-                    {selectedQuestion.expectedDirection}
-                  </Text>
+                  {selectedQuestion.expectedDirection.split("\n").map((line, index) => (
+                    <Text
+                      key={index}
+                      fontSize="sm"
+                      color="gray.400"
+                      lineHeight="tall"
+                      mb={line.trim() === "" ? "3" : "0"}
+                    >
+                      {line || "\u00A0"}
+                    </Text>
+                  ))}
                 </Box>
               </Box>
             )}
