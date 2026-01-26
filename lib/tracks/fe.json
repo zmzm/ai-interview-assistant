@@ -68,7 +68,46 @@
             "Какие решения по состоянию со временем оказались ошибочными?"
           ],
           "expectedDirection": "- Говорит о границах ответственности компонентов.\n- Осознаёт проблемы lifting state up.\n- Использует кастомные хуки осознанно, не как silver bullet.\n- Может привести пример плохого решения из прошлого."
-        }
+        },
+        {
+  "id": "fe-40",
+  "text": {
+    "en": "What is the difference between client state and server state?",
+    "ru": "В чём разница между client state и server state?"
+  },
+  "prompts": [
+    "Какие признаки у server state?",
+    "Почему server state не стоит хранить в Redux/Zustand?",
+    "Что происходит при устаревании данных?"
+  ],
+  "expectedDirection": "- Server state кешируемый, асинхронный и может устаревать.\n- Client state — UI, формы, локальные флаги.\n- Server state не дублируется в global store.\n- Используются библиотеки типа TanStack Query."
+},
+        {
+  "id": "fe-50",
+  "text": {
+    "en": "Why is storing server state in Redux or Zustand usually a bad idea?",
+    "ru": "Почему хранение server state в Redux или Zustand обычно является плохой практикой?"
+  },
+  "prompts": [
+    "Как решается cache invalidation?",
+    "Что с request deduplication?",
+    "Какие race conditions возникают?"
+  ],
+  "expectedDirection": "- Нет встроенной инвалидации кеша.\n- Нет дедупликации запросов.\n- Возникают race conditions.\n- Происходит дублирование ответственности."
+},
+        {
+  "id": "fe-usememo-usecallback-harm",
+  "text": {
+    "en": "Why can excessive use of useCallback and useMemo hurt performance?",
+    "ru": "Почему чрезмерное использование useCallback и useMemo может вредить производительности?"
+  },
+  "prompts": [
+    "В каких случаях мемоизация не даёт выигрыша?",
+    "Как это влияет на читаемость и поддержку кода?",
+    "Когда оптимизация должна быть измеримой?"
+  ],
+  "expectedDirection": "- Мемоизация увеличивает сложность.\n- Может мешать GC.\n- Имеет смысл только при memoized children и стабильных deps.\n- Оптимизация должна подтверждаться измерениями."
+}
       ]
     },
     {
@@ -129,7 +168,20 @@
             "Как ты подтвердил root cause?"
           ],
           "expectedDirection": "- Понимает browser rendering pipeline (layout / paint / composite).\n- Упоминает DevTools, Performance tab, Long Tasks.\n- Отличает JS-блокировки от layout thrashing.\n- Не сводит performance только к React."
-        }
+        },
+        {
+  "id": "fe-ts-vs-runtime-validation",
+  "text": {
+    "en": "Why do you still need runtime validation if you use TypeScript?",
+    "ru": "Зачем нужна runtime-валидация, если есть TypeScript?"
+  },
+  "prompts": [
+    "Где TypeScript перестаёт работать?",
+    "Какие источники данных небезопасны?",
+    "Как ты синхронизируешь типы и схемы?"
+  ],
+  "expectedDirection": "- TypeScript не существует в runtime.\n- API, env и user input небезопасны.\n- Используются zod/io-ts.\n- Типы выводятся из схем, а не дублируются."
+}
       ]
     },
     {
@@ -164,7 +216,20 @@
             "Как ты избегаешь блокировки пользователя?"
           ],
           "expectedDirection": "- Думает про UX, а не только про fetch.\n- Упоминает retry, timeout, fallback UI.\n- Различает error, empty, loading states.\n- Осознаёт влияние latency на восприятие продукта."
-        }
+        },
+        {
+  "id": "fe-optimistic-updates",
+  "text": {
+    "en": "When do you use optimistic updates and what are the risks?",
+    "ru": "Когда ты используешь optimistic updates и какие в них риски?"
+  },
+  "prompts": [
+    "Какие операции подходят для optimistic updates?",
+    "Как делать rollback?",
+    "Что происходит при конфликте данных?"
+  ],
+  "expectedDirection": "- Используются только для быстрых и обратимых операций.\n- Всегда предусмотрен rollback.\n- Возможны конфликты и race conditions.\n- Сервер остаётся source of truth."
+}
       ]
     },
     {
