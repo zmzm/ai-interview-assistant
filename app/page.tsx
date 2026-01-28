@@ -3,10 +3,9 @@
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { TrackSelector } from "@/components/track-selector"
-import { FeatureList } from "@/components/feature-list"
 import { ColorModeButton } from "@/components/ui/color-mode"
-import { Box, Container, Heading, Text, Button, HStack, Badge, Separator, Flex } from "@chakra-ui/react"
-import { ArrowRight } from "lucide-react"
+import { Box, Container, Heading, Text, Button, Badge, Flex, SimpleGrid } from "@chakra-ui/react"
+import { ArrowRight, Clock, FileCheck, MessageSquare, FileText } from "lucide-react"
 
 export type InterviewTrack = "frontend" | "backend" | "fullstack" | null
 
@@ -21,126 +20,145 @@ export default function HomePage() {
   }
 
   return (
-    <Box minH="100vh" maxH="100vh" bg="gray.950" _light={{ bg: "gray.50" }} display="flex" flexDirection="column" overflow="hidden">
-      <Container maxW="5xl" px={{ base: "5", lg: "8" }} py={{ base: "6", lg: "8" }} flex="1" display="flex" flexDirection="column">
-        {/* Header */}
-        <Box mb="6">
-          <Flex justify="space-between" align="center" mb="3">
-            <Badge
-              bg="gray.800"
-              color="gray.400"
-              _light={{ bg: "teal.50", borderColor: "teal.200", border: "1px solid", color: "teal.700" }}
-              fontSize="xs"
-              fontWeight="semibold"
-              letterSpacing="wider"
-              textTransform="uppercase"
-              px="3"
-              py="1.5"
-              borderRadius="full"
-            >
-              Internal Tool
-            </Badge>
-            <ColorModeButton />
-          </Flex>
-          <Heading
-            as="h1"
-            fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }}
-            fontWeight="bold"
-            letterSpacing="tight"
-            lineHeight="1.1"
-            color="gray.50"
-            _light={{ color: "gray.900" }}
-            mb="2"
-          >
-            Interview Assistant
-          </Heading>
-          <Text fontSize="md" color="gray.400" _light={{ color: "gray.600" }} maxW="2xl" lineHeight="relaxed">
-            Structured technical interviews for evaluating Senior Engineer candidates
-          </Text>
-        </Box>
-
-        {/* Track Selection */}
-        <Box mb="5">
-          <Text
+    <Box minH="100vh" maxH="100vh" bg="gray.950" _light={{ bg: "white" }} overflow="hidden">
+      {/* Header */}
+      <Box
+        borderBottom="1px solid"
+        borderColor="gray.800"
+        _light={{ borderColor: "gray.200" }}
+        px={{ base: "6", lg: "8" }}
+        py="4"
+      >
+        <Flex justify="space-between" align="center" maxW="7xl" mx="auto">
+          <Badge
+            bg="gray.800"
+            color="gray.400"
+            _light={{ bg: "teal.50", borderColor: "teal.200", border: "1px solid", color: "teal.700" }}
             fontSize="xs"
             fontWeight="semibold"
-            textTransform="uppercase"
             letterSpacing="wider"
-            color="gray.500"
-            _light={{ color: "gray.600" }}
-            mb="3"
+            textTransform="uppercase"
+            px="3"
+            py="1.5"
+            borderRadius="full"
           >
-            Select Interview Track
-          </Text>
-          <TrackSelector selectedTrack={selectedTrack} onSelectTrack={setSelectedTrack} />
-        </Box>
+            Internal Tool
+          </Badge>
+          <ColorModeButton />
+        </Flex>
+      </Box>
 
-        {/* Feature List */}
-        <Box mb="5">
-          <FeatureList />
-        </Box>
-
-        {/* Actions & Footer Combined */}
-        <Box mt="auto">
-          <Flex gap="3" flexWrap="wrap" align="center" mb="5">
-            <Button
-              size="lg"
-              height="12"
-              px="7"
-              bg="teal.500"
-              color="white"
-              fontSize="md"
-              fontWeight="semibold"
-              _hover={{ bg: "teal.400", transform: "translateY(-1px)", shadow: "lg" }}
-              _active={{ transform: "translateY(0)", shadow: "md" }}
-              _disabled={{ opacity: 0.4, cursor: "not-allowed" }}
-              _light={{
-                bg: "teal.600",
-                _hover: { bg: "teal.700", transform: "translateY(-1px)", shadow: "lg" },
-              }}
-              transition="all 0.2s"
-              shadow="md"
-              disabled={!selectedTrack}
-              onClick={handleStartInterview}
+      {/* Main Content */}
+      <Container maxW="7xl" px={{ base: "6", lg: "8" }} h="calc(100vh - 73px)" display="flex" alignItems="center">
+        <SimpleGrid columns={{ base: 1, lg: 2 }} gap={{ base: "12", lg: "16" }} w="full" alignItems="center">
+          {/* Left Column - Hero */}
+          <Box>
+            <Heading
+              as="h1"
+              fontSize={{ base: "5xl", md: "6xl", lg: "7xl" }}
+              fontWeight="bold"
+              letterSpacing="tight"
+              lineHeight="1"
+              color="gray.50"
+              _light={{ color: "gray.900" }}
+              mb="6"
             >
-              Start Interview
-              <ArrowRight size={18} />
-            </Button>
-            {!selectedTrack && (
-              <Text fontSize="sm" color="gray.500" _light={{ color: "gray.600" }} fontWeight="medium">
-                Select a track to begin
-              </Text>
-            )}
-          </Flex>
+              Interview
+              <br />
+              Assistant
+            </Heading>
+            <Text fontSize={{ base: "lg", lg: "xl" }} color="gray.400" _light={{ color: "gray.600" }} mb="8" lineHeight="tall" maxW="lg">
+              Conduct structured technical interviews for Senior Engineers with guided questions, scoring rubrics, and
+              comprehensive summaries
+            </Text>
 
-          <Box
-            pt="4"
-            borderTop="1px solid"
-            borderColor="gray.800"
-            _light={{ borderColor: "gray.200" }}
-          >
-            <Flex align="center" justify="space-between" gap="4" flexWrap="wrap">
-              <Text fontSize="xs" color="gray.600" _light={{ color: "gray.500" }}>
-                This tool runs locally. No data is stored or shared externally.
-              </Text>
-              {selectedTrack && (
-                <Badge
-                  bg="gray.800"
-                  _light={{ bg: "gray.100" }}
-                  color="gray.400"
-                  _light={{ color: "gray.600" }}
-                  fontSize="xs"
-                  px="2"
-                  py="1"
-                  borderRadius="md"
-                  fontFamily="mono"
-                >
-                  {selectedTrack.toUpperCase()} Selected
-                </Badge>
+            {/* Quick Features */}
+            <SimpleGrid columns={2} gap="4" mb="10">
+              <Flex gap="2" align="center">
+                <Box color="teal.400" _light={{ color: "teal.600" }}>
+                  <Clock size={18} />
+                </Box>
+                <Text fontSize="sm" color="gray.400" _light={{ color: "gray.700" }}>
+                  60-min structure
+                </Text>
+              </Flex>
+              <Flex gap="2" align="center">
+                <Box color="teal.400" _light={{ color: "teal.600" }}>
+                  <MessageSquare size={18} />
+                </Box>
+                <Text fontSize="sm" color="gray.400" _light={{ color: "gray.700" }}>
+                  Guided questions
+                </Text>
+              </Flex>
+              <Flex gap="2" align="center">
+                <Box color="teal.400" _light={{ color: "teal.600" }}>
+                  <FileCheck size={18} />
+                </Box>
+                <Text fontSize="sm" color="gray.400" _light={{ color: "gray.700" }}>
+                  Scoring rubric
+                </Text>
+              </Flex>
+              <Flex gap="2" align="center">
+                <Box color="teal.400" _light={{ color: "teal.600" }}>
+                  <FileText size={18} />
+                </Box>
+                <Text fontSize="sm" color="gray.400" _light={{ color: "gray.700" }}>
+                  Auto summary
+                </Text>
+              </Flex>
+            </SimpleGrid>
+
+            {/* CTA */}
+            <Flex gap="4" align="center">
+              <Button
+                size="xl"
+                height="14"
+                px="8"
+                bg="teal.500"
+                color="white"
+                fontSize="md"
+                fontWeight="semibold"
+                _hover={{ bg: "teal.400" }}
+                _disabled={{ opacity: 0.5, cursor: "not-allowed", _hover: { bg: "teal.500" } }}
+                _light={{
+                  bg: "teal.600",
+                  _hover: { bg: "teal.700" },
+                }}
+                disabled={!selectedTrack}
+                onClick={handleStartInterview}
+              >
+                Start Interview
+                <ArrowRight size={20} />
+              </Button>
+              {!selectedTrack && (
+                <Text fontSize="sm" color="gray.500" _light={{ color: "gray.600" }}>
+                  Select a track to begin
+                </Text>
               )}
             </Flex>
+
+            {/* Footer */}
+            <Text fontSize="xs" color="gray.600" _light={{ color: "gray.500" }} mt="8">
+              Runs locally. No data stored externally.
+            </Text>
           </Box>
-        </Box>
+
+          {/* Right Column - Track Selection */}
+          <Box>
+            <Text
+              fontSize="xs"
+              fontWeight="semibold"
+              textTransform="uppercase"
+              letterSpacing="wider"
+              color="gray.500"
+              _light={{ color: "gray.600" }}
+              mb="4"
+            >
+              Select Interview Track
+            </Text>
+            <TrackSelector selectedTrack={selectedTrack} onSelectTrack={setSelectedTrack} />
+          </Box>
+        </SimpleGrid>
       </Container>
     </Box>
   )
