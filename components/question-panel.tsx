@@ -28,15 +28,36 @@ export function QuestionPanel({
     <Box p="8">
       {/* Block Header */}
       <Box mb="8">
-        <Text fontSize="xs" fontFamily="mono" color={isLight ? "gray.600" : "gray.500"} mb="3" fontWeight="medium">
-          {block.timeRange} • {block.duration}
-        </Text>
-        <Text fontSize="3xl" fontWeight="bold" color={isLight ? "gray.900" : "gray.100"} mb="3" letterSpacing="tight">
-          {block.title}
-        </Text>
-        <Text fontSize="md" color={isLight ? "gray.600" : "gray.400"} lineHeight="tall">
-          {block.goal}
-        </Text>
+        <Flex justify="space-between" align="flex-start" mb="3">
+          <Box flex="1">
+            <Text fontSize="xs" fontFamily="mono" color={isLight ? "gray.600" : "gray.500"} mb="3" fontWeight="medium">
+              {block.timeRange} • {block.duration}
+            </Text>
+            <Text fontSize="3xl" fontWeight="bold" color={isLight ? "gray.900" : "gray.100"} mb="3" letterSpacing="tight">
+              {block.title}
+            </Text>
+            <Text fontSize="md" color={isLight ? "gray.600" : "gray.400"} lineHeight="tall">
+              {block.goal}
+            </Text>
+          </Box>
+          <Button
+            size="lg"
+            bg="teal.600"
+            color="white"
+            _hover={{ bg: "teal.500", transform: "translateY(-1px)" }}
+            _active={{ transform: "translateY(0)" }}
+            _disabled={{ opacity: 0.5, cursor: "not-allowed" }}
+            transition="all 0.2s"
+            onClick={onNextBlock}
+            disabled={isLastBlock}
+            px="6"
+            fontWeight="semibold"
+            flexShrink={0}
+          >
+            {isLastBlock ? "Complete" : "Next Block"}
+            {!isLastBlock && <ArrowRight size={18} />}
+          </Button>
+        </Flex>
       </Box>
 
       {!selectedQuestion ? (
@@ -203,28 +224,6 @@ export function QuestionPanel({
           </Box>
         </>
       )}
-
-      <Separator borderColor={isLight ? "gray.200" : "gray.800"} mb="6" />
-
-      {/* Actions */}
-      <Flex gap="3">
-        <Button
-          size="lg"
-          bg="teal.600"
-          color="white"
-          _hover={{ bg: "teal.500", transform: "translateY(-1px)" }}
-          _active={{ transform: "translateY(0)" }}
-          _disabled={{ opacity: 0.5, cursor: "not-allowed" }}
-          transition="all 0.2s"
-          onClick={onNextBlock}
-          disabled={isLastBlock}
-          px="6"
-          fontWeight="semibold"
-        >
-          {isLastBlock ? "Interview Complete" : "Next Block"}
-          {!isLastBlock && <ArrowRight size={18} />}
-        </Button>
-      </Flex>
     </Box>
   )
 }
