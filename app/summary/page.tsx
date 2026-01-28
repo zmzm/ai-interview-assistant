@@ -117,12 +117,11 @@ function SummaryContent() {
   }
 
   return (
-    <Box h="100vh" bg="gray.950" overflow="hidden" display="flex" flexDirection="column">
+    <Box h="100vh" bg="gray.950" _light={{ bg: "gray.50" }} overflow="hidden" display="flex" flexDirection="column">
       {/* Header */}
       <Box
         bg="gray.900"
-        borderBottom="1px solid"
-        borderColor="gray.800"
+        _light={{ bg: "white" }}
         px="6"
         py="4"
         flexShrink={0}
@@ -131,9 +130,9 @@ function SummaryContent() {
       </Box>
 
       {/* Content */}
-      <Box flex="1" overflowY="auto" px="8" py="8">
-        <Box maxW="900px" mx="auto">
-          <Heading size="lg" color="gray.100" mb="8">
+      <Box flex="1" overflowY="auto" px="8" py="12">
+        <Box maxW="1000px" mx="auto">
+          <Heading size="4xl" fontWeight="bold" color="gray.50" _light={{ color: "gray.900" }} mb="12" letterSpacing="tight">
             Interview Summary
           </Heading>
 
@@ -142,44 +141,47 @@ function SummaryContent() {
             mb="8"
             p="6"
             bg="gray.900"
-            borderRadius="lg"
+            _light={{ bg: "white", shadow: "sm" }}
+            borderRadius="xl"
             border="1px solid"
             borderColor="gray.800"
+            _light={{ borderColor: "gray.200" }}
           >
             <Text
-              fontSize="sm"
-              fontWeight="medium"
+              fontSize="xs"
+              fontWeight="semibold"
               textTransform="uppercase"
               letterSpacing="wider"
-              color="gray.400"
-              mb="4"
+              color="gray.500"
+              _light={{ color: "gray.600" }}
+              mb="5"
             >
               Interview Overview
             </Text>
-            <Flex gap="6" flexWrap="wrap">
+            <Flex gap="8" flexWrap="wrap">
               <Flex align="center" gap="2">
-                <Text fontSize="sm" color="gray.500">
+                <Text fontSize="sm" color="gray.500" _light={{ color: "gray.600" }}>
                   Track:
                 </Text>
-                <Text fontSize="sm" color="gray.200" fontWeight="medium">
+                <Text fontSize="md" color="gray.100" _light={{ color: "gray.900" }} fontWeight="semibold">
                   {data.track.toUpperCase()}
                 </Text>
               </Flex>
               <Flex align="center" gap="2">
-                <Box as={Clock} boxSize="14px" color="gray.500" />
-                <Text fontSize="sm" color="gray.500">
+                <Box as={Clock} boxSize="16px" color="teal.500" />
+                <Text fontSize="sm" color="gray.500" _light={{ color: "gray.600" }}>
                   Duration:
                 </Text>
-                <Text fontSize="sm" color="gray.200">
+                <Text fontSize="md" color="gray.100" _light={{ color: "gray.900" }}>
                   {data.duration}
                 </Text>
               </Flex>
               <Flex align="center" gap="2">
-                <Box as={Calendar} boxSize="14px" color="gray.500" />
-                <Text fontSize="sm" color="gray.500">
+                <Box as={Calendar} boxSize="16px" color="teal.500" />
+                <Text fontSize="sm" color="gray.500" _light={{ color: "gray.600" }}>
                   Date:
                 </Text>
-                <Text fontSize="sm" color="gray.200">
+                <Text fontSize="md" color="gray.100" _light={{ color: "gray.900" }}>
                   {data.date}
                 </Text>
               </Flex>
@@ -189,24 +191,26 @@ function SummaryContent() {
           {/* Section 2: Final Decision */}
           <Box
             mb="8"
-            p="6"
+            p="8"
             bg="gray.900"
-            borderRadius="lg"
-            border="1px solid"
-            borderColor="gray.800"
+            _light={{ bg: "white", shadow: "sm" }}
+            borderRadius="xl"
+            border="2px solid"
+            borderColor={verdict.color}
           >
             <Text
-              fontSize="sm"
-              fontWeight="medium"
+              fontSize="xs"
+              fontWeight="semibold"
               textTransform="uppercase"
               letterSpacing="wider"
-              color="gray.400"
-              mb="4"
+              color="gray.500"
+              _light={{ color: "gray.600" }}
+              mb="6"
             >
               Final Decision
             </Text>
-            <Flex align="center" gap="4" mb="4">
-              <Text fontSize="2xl" fontWeight="bold" color={verdict.color}>
+            <Flex align="center" gap="4" mb="5">
+              <Text fontSize="4xl" fontWeight="bold" color={verdict.color} letterSpacing="tight">
                 {verdict.text}
               </Text>
               {hasRedFlags && (
@@ -214,22 +218,24 @@ function SummaryContent() {
                   align="center"
                   gap="2"
                   px="3"
-                  py="1"
+                  py="2"
                   bg="orange.900"
-                  borderRadius="md"
+                  _light={{ bg: "orange.100" }}
+                  borderRadius="lg"
                   border="1px solid"
                   borderColor="orange.700"
+                  _light={{ borderColor: "orange.300" }}
                 >
-                  <Box as={AlertTriangle} boxSize="16px" color="orange.300" />
-                  <Text fontSize="xs" color="orange.300" fontWeight="medium">
+                  <Box as={AlertTriangle} boxSize="18px" color="orange.300" _light={{ color: "orange.700" }} />
+                  <Text fontSize="sm" color="orange.300" _light={{ color: "orange.700" }} fontWeight="semibold">
                     Red Flags Present
                   </Text>
                 </Flex>
               )}
             </Flex>
-            <Text fontSize="sm" color="gray.400">
+            <Text fontSize="lg" color="gray.400" _light={{ color: "gray.600" }}>
               Total Score:{" "}
-              <Text as="span" color="gray.200" fontWeight="medium">
+              <Text as="span" color="gray.100" _light={{ color: "gray.900" }} fontWeight="bold" fontSize="xl">
                 {totalScore}/{maxScore}
               </Text>
             </Text>
@@ -240,44 +246,49 @@ function SummaryContent() {
             mb="8"
             p="6"
             bg="gray.900"
-            borderRadius="lg"
+            _light={{ bg: "white", shadow: "sm" }}
+            borderRadius="xl"
             border="1px solid"
             borderColor="gray.800"
+            _light={{ borderColor: "gray.200" }}
           >
             <Text
-              fontSize="sm"
-              fontWeight="medium"
+              fontSize="xs"
+              fontWeight="semibold"
               textTransform="uppercase"
               letterSpacing="wider"
-              color="gray.400"
-              mb="4"
+              color="gray.500"
+              _light={{ color: "gray.600" }}
+              mb="5"
             >
               Scoring Rubric Breakdown
             </Text>
-            <Box display="flex" flexDirection="column" gap="4">
+            <Box display="flex" flexDirection="column" gap="3">
               {data.rubric.criteria?.map((criterion: any) => {
                 const score = data.scores[criterion.id] || 0
                 const evidenceText = data.evidence[criterion.id] || ""
                 return (
                   <Box
                     key={criterion.id}
-                    p="4"
-                    bg="gray.950"
-                    borderRadius="md"
+                    p="5"
+                    bg="gray.800"
+                    _light={{ bg: "gray.50" }}
+                    borderRadius="lg"
                     border="1px solid"
-                    borderColor="gray.800"
+                    borderColor="gray.700"
+                    _light={{ borderColor: "gray.200" }}
                   >
-                    <Flex justify="space-between" align="center" mb="2">
-                      <Text fontSize="sm" fontWeight="medium" color="gray.200">
+                    <Flex justify="space-between" align="center" mb="3">
+                      <Text fontSize="md" fontWeight="semibold" color="gray.100" _light={{ color: "gray.900" }}>
                         {criterion.name}
                       </Text>
-                      <Text fontSize="lg" fontWeight="bold" color="teal.400">
+                      <Text fontSize="2xl" fontWeight="bold" color="teal.400" _light={{ color: "teal.600" }}>
                         {score}/3
                       </Text>
                     </Flex>
                     {evidenceText && (
-                      <Text fontSize="xs" color="gray.500" mt="2">
-                        Evidence: {evidenceText}
+                      <Text fontSize="sm" color="gray.400" _light={{ color: "gray.700" }} lineHeight="tall">
+                        <Text as="span" fontWeight="medium" color="gray.300" _light={{ color: "gray.600" }}>Evidence:</Text> {evidenceText}
                       </Text>
                     )}
                   </Box>
@@ -292,23 +303,27 @@ function SummaryContent() {
               mb="8"
               p="6"
               bg="gray.900"
-              borderRadius="lg"
+              _light={{ bg: "white", shadow: "sm" }}
+              borderRadius="xl"
               border="1px solid"
               borderColor="gray.800"
+              _light={{ borderColor: "gray.200" }}
             >
               <Text
-                fontSize="sm"
-                fontWeight="medium"
+                fontSize="xs"
+                fontWeight="semibold"
                 textTransform="uppercase"
                 letterSpacing="wider"
-                color="gray.400"
-                mb="4"
+                color="gray.500"
+                _light={{ color: "gray.600" }}
+                mb="5"
               >
                 Interview Notes
               </Text>
               <Text
                 fontSize="sm"
                 color="gray.300"
+                _light={{ color: "gray.700" }}
                 whiteSpace="pre-wrap"
                 lineHeight="tall"
               >
@@ -322,29 +337,32 @@ function SummaryContent() {
             mb="8"
             p="6"
             bg="gray.900"
-            borderRadius="lg"
+            _light={{ bg: "white", shadow: "sm" }}
+            borderRadius="xl"
             border="1px solid"
             borderColor="gray.800"
+            _light={{ borderColor: "gray.200" }}
           >
             <Text
-              fontSize="sm"
-              fontWeight="medium"
+              fontSize="xs"
+              fontWeight="semibold"
               textTransform="uppercase"
               letterSpacing="wider"
-              color="gray.400"
-              mb="4"
+              color="gray.500"
+              _light={{ color: "gray.600" }}
+              mb="5"
             >
               Questions Covered
             </Text>
-            <Box display="flex" flexDirection="column" gap="4">
+            <Box display="flex" flexDirection="column" gap="5">
               {data.blocks.map((block: any) => (
                 <Box key={block.id}>
-                  <Text fontSize="sm" fontWeight="medium" color="gray.200" mb="2">
-                    {block.title} ({block.timeRange})
+                  <Text fontSize="md" fontWeight="semibold" color="gray.100" _light={{ color: "gray.900" }} mb="3">
+                    {block.title} <Text as="span" fontSize="sm" color="gray.500" _light={{ color: "gray.600" }} fontWeight="normal">({block.timeRange})</Text>
                   </Text>
-                  <Box as="ul" pl="5" display="flex" flexDirection="column" gap="1">
+                  <Box as="ul" pl="5" display="flex" flexDirection="column" gap="2">
                     {block.questions.map((q: any) => (
-                      <Box as="li" key={q.id} fontSize="xs" color="gray.500">
+                      <Box as="li" key={q.id} fontSize="sm" color="gray.400" _light={{ color: "gray.700" }} lineHeight="tall">
                         {q.text.en}
                       </Box>
                     ))}
@@ -355,20 +373,38 @@ function SummaryContent() {
           </Box>
 
           {/* Actions */}
-          <Flex gap="3" justify="center">
-            <Button onClick={exportAsMarkdown} colorPalette="teal" size="lg">
-              <Box as={Download} boxSize="18px" mr="2" />
+          <Flex gap="4" justify="center" mb="8">
+            <Button
+              onClick={exportAsMarkdown}
+              colorPalette="teal"
+              size="xl"
+              height="14"
+              px="8"
+              fontWeight="semibold"
+              _hover={{ transform: "translateY(-1px)", shadow: "lg" }}
+              _active={{ transform: "translateY(0)" }}
+              transition="all 0.2s"
+            >
+              <Box as={Download} boxSize="20px" mr="2" />
               Export as Markdown
             </Button>
             <Button
               onClick={() => router.push("/")}
               variant="outline"
-              size="lg"
+              size="xl"
+              height="14"
+              px="8"
               borderColor="gray.700"
+              _light={{ borderColor: "gray.300" }}
               color="gray.300"
-              _hover={{ bg: "gray.800" }}
+              _light={{ color: "gray.700" }}
+              fontWeight="semibold"
+              _hover={{ bg: "gray.800", borderColor: "gray.600", transform: "translateY(-1px)" }}
+              _light={{ _hover: { bg: "gray.100", borderColor: "gray.400" } }}
+              _active={{ transform: "translateY(0)" }}
+              transition="all 0.2s"
             >
-              <Box as={Home} boxSize="18px" mr="2" />
+              <Box as={Home} boxSize="20px" mr="2" />
               Start New Interview
             </Button>
           </Flex>
