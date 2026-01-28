@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation"
 import { Box, Text, Flex, Button, Heading } from "@chakra-ui/react"
 import { AlertTriangle, Calendar, Clock, Download, Home } from "lucide-react"
 import { Logo } from "@/components/logo"
+import { ColorModeButton } from "@/components/ui/color-mode"
 import type { InterviewTrack } from "@/app/page"
 
 interface SummaryData {
@@ -126,7 +127,10 @@ function SummaryContent() {
         py="4"
         flexShrink={0}
       >
-        <Logo clickable={true} />
+        <Flex justify="space-between" align="center">
+          <Logo clickable={true} />
+          <ColorModeButton />
+        </Flex>
       </Box>
 
       {/* Content */}
