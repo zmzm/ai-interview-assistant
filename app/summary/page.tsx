@@ -122,7 +122,9 @@ function SummaryContent() {
   }
 
   return (
-    <Box h="100vh" bg="gray.950" _light={{ bg: "gray.50" }} overflow="hidden" display="flex" flexDirection="column">
+    <Box h="100vh" 
+              bg={isLight ? "white" : "gray.900"}
+              borderColor={isLight ? "gray.200" : "gray.800"} overflow="hidden" display="flex" flexDirection="column">
       {/* Header */}
       <Box
         bg="gray.900"
@@ -130,6 +132,7 @@ function SummaryContent() {
         px="6"
         py="4"
         flexShrink={0}
+        bg={isLight ? "white" : "gray.900"}
       >
         <Flex justify="space-between" align="center">
           <Logo clickable={true} />
@@ -198,11 +201,10 @@ function SummaryContent() {
           <Box
             mb="8"
             p="8"
-            bg="gray.900"
-            _light={{ bg: "white", shadow: "sm" }}
             borderRadius="xl"
             border="2px solid"
             borderColor={verdict.color}
+            bg={isLight ? "white" : "gray.900"}
           >
             <Text
               fontSize="xs"
@@ -224,12 +226,10 @@ function SummaryContent() {
                   gap="2"
                   px="3"
                   py="2"
-                  bg="orange.900"
-                  _light={{ bg: "orange.100" }}
                   borderRadius="lg"
                   border="1px solid"
-                  borderColor="orange.700"
-                  _light={{ borderColor: "orange.300" }}
+                  bg={isLight ? "orange.100" : "orange.900"}
+                  borderColor={isLight ? "orange.300" : "orange.700"}
                 >
                   <Box as={AlertTriangle} boxSize="18px" color={isLight ? "orange.700" : "orange.300"} />
                   <Text fontSize="sm" color={isLight ? "orange.700" : "orange.300"} fontWeight="semibold">
@@ -250,12 +250,10 @@ function SummaryContent() {
           <Box
             mb="8"
             p="6"
-            bg="gray.900"
-            _light={{ bg: "white", shadow: "sm" }}
             borderRadius="xl"
             border="1px solid"
-            borderColor="gray.800"
-            _light={{ borderColor: "gray.200" }}
+            bg={isLight ? "white" : "gray.900"}
+            borderColor={isLight ? "gray.200" : "gray.800"}
           >
             <Text
               fontSize="xs"
@@ -275,12 +273,10 @@ function SummaryContent() {
                   <Box
                     key={criterion.id}
                     p="5"
-                    bg="gray.800"
-                    _light={{ bg: "gray.50" }}
                     borderRadius="lg"
                     border="1px solid"
-                    borderColor="gray.700"
-                    _light={{ borderColor: "gray.200" }}
+                    bg={isLight ? "gray.50" : "gray.800"}
+                    borderColor={isLight ? "gray.200" : "gray.700"}
                   >
                     <Flex justify="space-between" align="center" mb="3">
                       <Text fontSize="md" fontWeight="semibold" color={isLight ? "gray.900" : "gray.100"}>
@@ -306,12 +302,10 @@ function SummaryContent() {
             <Box
               mb="8"
               p="6"
-              bg="gray.900"
-              _light={{ bg: "white", shadow: "sm" }}
               borderRadius="xl"
               border="1px solid"
-              borderColor="gray.800"
-              _light={{ borderColor: "gray.200" }}
+              bg={isLight ? "white" : "gray.900"}
+              borderColor={isLight ? "gray.200" : "gray.800"}
             >
               <Text
                 fontSize="xs"
@@ -338,12 +332,10 @@ function SummaryContent() {
           <Box
             mb="8"
             p="6"
-            bg="gray.900"
-            _light={{ bg: "white", shadow: "sm" }}
             borderRadius="xl"
             border="1px solid"
-            borderColor="gray.800"
-            _light={{ borderColor: "gray.200" }}
+            bg={isLight ? "white" : "gray.900"}
+            borderColor={isLight ? "gray.200" : "gray.800"}
           >
             <Text
               fontSize="xs"
@@ -358,12 +350,12 @@ function SummaryContent() {
             <Box display="flex" flexDirection="column" gap="5">
               {data.blocks.map((block: any) => (
                 <Box key={block.id}>
-                  <Text fontSize="md" fontWeight="semibold" color="gray.100" _light={{ color: "gray.900" }} mb="3">
-                    {block.title} <Text as="span" fontSize="sm" color="gray.500" _light={{ color: "gray.600" }} fontWeight="normal">({block.timeRange})</Text>
+                  <Text fontSize="md" fontWeight="semibold" borderColor={isLight ? "gray.900" : "gray.100"} mb="3">
+                    {block.title} <Text as="span" fontSize="sm" color={isLight ? "gray.600" : "gray.500"} fontWeight="normal">({block.timeRange})</Text>
                   </Text>
                   <Box as="ul" pl="5" display="flex" flexDirection="column" gap="2">
                     {block.questions.map((q: any) => (
-                      <Box as="li" key={q.id} fontSize="sm" color="gray.400" _light={{ color: "gray.700" }} lineHeight="tall">
+                      <Box as="li" key={q.id} fontSize="sm" color={isLight ? "gray.700" : "gray.400"} lineHeight="tall">
                         {q.text.en}
                       </Box>
                     ))}
