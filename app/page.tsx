@@ -21,11 +21,11 @@ export default function HomePage() {
   }
 
   return (
-    <Box minH="100vh" bg="gray.950" _light={{ bg: "gray.50" }} display="flex" flexDirection="column">
-      <Container maxW="6xl" px={{ base: "6", lg: "8" }} py={{ base: "12", lg: "16" }} flex="1" display="flex" flexDirection="column">
+    <Box minH="100vh" maxH="100vh" bg="gray.950" _light={{ bg: "gray.50" }} display="flex" flexDirection="column" overflow="hidden">
+      <Container maxW="5xl" px={{ base: "6", lg: "8" }} py={{ base: "8", lg: "10" }} flex="1" display="flex" flexDirection="column" overflow="auto">
         {/* Header */}
-        <Box mb={{ base: "12", lg: "16" }}>
-          <Flex justify="space-between" align="center" mb="6">
+        <Box mb="8">
+          <Flex justify="space-between" align="center" mb="4">
             <Badge
               bg="gray.800"
               color="gray.400"
@@ -44,32 +44,31 @@ export default function HomePage() {
           </Flex>
           <Heading
             as="h1"
-            fontSize={{ base: "4xl", md: "5xl", lg: "6xl" }}
+            fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }}
             fontWeight="bold"
             letterSpacing="tight"
             lineHeight="1.1"
             color="gray.50"
             _light={{ color: "gray.900" }}
-            mb="5"
-            maxW="4xl"
+            mb="3"
           >
             Interview Assistant
           </Heading>
-          <Text fontSize={{ base: "lg", md: "xl" }} color="gray.400" _light={{ color: "gray.600" }} maxW="2xl" lineHeight="tall">
+          <Text fontSize="md" color="gray.400" _light={{ color: "gray.600" }} maxW="2xl" lineHeight="relaxed">
             A structured technical interview tool for evaluating Senior Engineer candidates. For interviewers only.
           </Text>
         </Box>
 
         {/* Track Selection */}
-        <Box mb="12">
+        <Box mb="6">
           <Text
             fontSize="sm"
             fontWeight="semibold"
             textTransform="uppercase"
-            letterSpacing="widest"
+            letterSpacing="wider"
             color="gray.500"
             _light={{ color: "gray.600" }}
-            mb="6"
+            mb="4"
           >
             Select Interview Track
           </Text>
@@ -77,17 +76,17 @@ export default function HomePage() {
         </Box>
 
         {/* Feature List */}
-        <Box mb="12">
+        <Box mb="6">
           <FeatureList />
         </Box>
 
         {/* Actions */}
-        <Box mb="8">
+        <Box mb="6">
           <Flex gap="4" flexWrap="wrap" align="center">
             <Button
-              size="xl"
-              height="14"
-              px="8"
+              size="lg"
+              height="12"
+              px="6"
               bg="teal.500"
               color="white"
               fontSize="md"
@@ -105,10 +104,10 @@ export default function HomePage() {
               onClick={handleStartInterview}
             >
               Start Interview
-              <ArrowRight size={18} />
+              <ArrowRight size={16} />
             </Button>
             {!selectedTrack && (
-              <Text fontSize="md" color="gray.500" _light={{ color: "gray.600" }}>
+              <Text fontSize="sm" color="gray.500" _light={{ color: "gray.600" }}>
                 Select a track to begin
               </Text>
             )}
@@ -117,7 +116,7 @@ export default function HomePage() {
 
         {/* Footer */}
         <Box mt="auto">
-          <Separator borderColor="gray.800" _light={{ borderColor: "gray.200" }} mb="5" />
+          <Separator borderColor="gray.800" _light={{ borderColor: "gray.200" }} mb="4" />
           <Text fontSize="sm" color="gray.500" _light={{ color: "gray.600" }}>
             This tool runs locally. No data is stored or shared externally.
           </Text>

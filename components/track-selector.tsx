@@ -47,10 +47,11 @@ export function TrackSelector({ selectedTrack, onSelectTrack }: TrackSelectorPro
             onClick={() => onSelectTrack(isSelected ? null : track.id)}
             position="relative"
             display="flex"
-            flexDirection="column"
-            alignItems="flex-start"
+            flexDirection="row"
+            alignItems="center"
+            gap="3"
             textAlign="left"
-            p="5"
+            p="4"
             borderRadius="lg"
             border="1px solid"
             borderColor={isSelected ? "teal.500" : "gray.800"}
@@ -60,15 +61,13 @@ export function TrackSelector({ selectedTrack, onSelectTrack }: TrackSelectorPro
               shadow: isSelected ? "md" : "sm",
               _hover: {
                 shadow: "md",
+                borderColor: isSelected ? "teal.400" : "gray.400",
               },
             }}
             bg="gray.900"
             transition="all 0.2s"
             _hover={{
               borderColor: isSelected ? "teal.400" : "gray.700",
-              _light: {
-                borderColor: isSelected ? "teal.400" : "gray.400",
-              },
             }}
             cursor="pointer"
           >
@@ -78,7 +77,7 @@ export function TrackSelector({ selectedTrack, onSelectTrack }: TrackSelectorPro
               justify="center"
               w="10"
               h="10"
-              mb="4"
+              flexShrink={0}
               borderRadius="md"
               bg={isSelected ? "teal.500" : "gray.800"}
               color={isSelected ? "gray.950" : "gray.400"}
@@ -90,23 +89,18 @@ export function TrackSelector({ selectedTrack, onSelectTrack }: TrackSelectorPro
               <TrackIcon size={20} />
             </Flex>
 
-            {/* Title */}
-            <Text fontWeight="medium" color="gray.100" _light={{ color: "gray.900" }} mb="1">
-              {track.label}
-            </Text>
-
-            {/* Short label */}
-            <Text fontSize="xs" fontFamily="mono" color="gray.500" _light={{ color: "gray.600" }} mb="2">
-              {track.shortLabel}
-            </Text>
-
-            {/* Description */}
-            <Text fontSize="sm" color="gray.400" _light={{ color: "gray.700" }} lineHeight="tall">
-              {track.description}
-            </Text>
+            {/* Content */}
+            <Box flex="1" minW="0">
+              <Text fontWeight="semibold" color="gray.100" _light={{ color: "gray.900" }} mb="0.5" fontSize="sm">
+                {track.label}
+              </Text>
+              <Text fontSize="xs" color="gray.500" _light={{ color: "gray.600" }} lineHeight="relaxed" noOfLines={2}>
+                {track.description}
+              </Text>
+            </Box>
 
             {/* Selected indicator */}
-            {isSelected && <Box position="absolute" top="3" right="3" w="2" h="2" borderRadius="full" bg="teal.500" />}
+            {isSelected && <Box position="absolute" top="2" right="2" w="2" h="2" borderRadius="full" bg="teal.500" />}
           </Box>
         )
       })}
