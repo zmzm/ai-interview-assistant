@@ -25,10 +25,10 @@ export function QuestionPanel({
   const selectedQuestion = block.questions.find((q) => q.id === selectedQuestionId)
 
   return (
-    <Box p="8">
-      {/* Block Header */}
-      <Box mb="8">
-        <Flex justify="space-between" align="flex-start" mb="3">
+    <Box h="full" display="flex" flexDirection="column">
+      {/* Block Header - Fixed */}
+      <Box p="8" pb="6" flexShrink={0}>
+        <Flex justify="space-between" align="flex-start">
           <Box flex="1">
             <Text fontSize="xs" fontFamily="mono" color={isLight ? "gray.600" : "gray.500"} mb="3" fontWeight="medium">
               {block.timeRange} • {block.duration}
@@ -60,10 +60,12 @@ export function QuestionPanel({
         </Flex>
       </Box>
 
-      {!selectedQuestion ? (
-        <>
-          {/* Question Cards */}
-          <Box mb="6">
+      {/* Scrollable Content */}
+      <Box flex="1" overflowY="auto" px="8" pb="8">
+        {!selectedQuestion ? (
+          <>
+            {/* Question Cards */}
+            <Box mb="6">
             <Text
               fontSize="xs"
               fontWeight="semibold"
@@ -223,7 +225,8 @@ export function QuestionPanel({
             )}
           </Box>
         </>
-      )}
+        )}
+      </Box>
     </Box>
   )
 }
