@@ -39,10 +39,10 @@ export function QuestionPanel({
           left: 0,
           right: 0,
           height: "1px",
-          bgGradient="to-r"
-          gradientFrom="transparent"
-          gradientVia="gray.200"
-          gradientTo="transparent"
+          bgGradient: "to-r",
+          gradientFrom: "transparent",
+          gradientVia: "gray.200",
+          gradientTo: "transparent"
         }}
       >
         <Flex justify="space-between" align="flex-start">
