@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { useTheme } from "next-themes"
 import { useRouter } from "next/navigation"
 import { Box, Text, Flex, Button, Heading } from "@chakra-ui/react"
 import { AlertTriangle, Calendar, Clock, Download, Home } from "lucide-react"
@@ -23,6 +24,9 @@ interface SummaryData {
 function SummaryContent() {
   const router = useRouter()
   const [data, setData] = useState<SummaryData | null>(null)
+
+  const { theme } = useTheme()
+  const isLight = theme === "light"
 
   useEffect(() => {
     const storedData = sessionStorage.getItem("interviewSummary")
@@ -314,16 +318,14 @@ function SummaryContent() {
                 fontWeight="semibold"
                 textTransform="uppercase"
                 letterSpacing="wider"
-                color="gray.500"
-                _light={{ color: "gray.600" }}
+                color={isLight ? "gray.600" : "gray.500"}
                 mb="5"
               >
                 Interview Notes
               </Text>
               <Text
                 fontSize="sm"
-                color="gray.300"
-                _light={{ color: "gray.700" }}
+                color={isLight ? "gray.700" : "gray.300"}
                 whiteSpace="pre-wrap"
                 lineHeight="tall"
               >
@@ -348,8 +350,7 @@ function SummaryContent() {
               fontWeight="semibold"
               textTransform="uppercase"
               letterSpacing="wider"
-              color="gray.500"
-              _light={{ color: "gray.600" }}
+              color={isLight ? "gray.600" : "gray.500"}
               mb="5"
             >
               Questions Covered
