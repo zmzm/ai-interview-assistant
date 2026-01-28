@@ -28,9 +28,8 @@ export default function HomePage() {
           <Flex justify="space-between" align="center" mb="2">
             <Badge
               bg="gray.800"
-              _light={{ bg: "teal.50", borderColor: "teal.200", border: "1px solid" }}
               color="gray.400"
-              _light={{ color: "teal.700" }}
+              _light={{ bg: "teal.50", borderColor: "teal.200", border: "1px solid", color: "teal.700" }}
               fontSize="xs"
               fontWeight="medium"
               letterSpacing="wider"
