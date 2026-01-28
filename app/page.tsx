@@ -22,28 +22,8 @@ export default function HomePage() {
   return (
     <Box minH="100vh" maxH="100vh" bg="gray.950" _light={{ bg: "white" }} overflow="hidden">
       {/* Header */}
-      <Box
-        borderBottom="1px solid"
-        borderColor="gray.800"
-        _light={{ borderColor: "gray.200" }}
-        px={{ base: "6", lg: "8" }}
-        py="4"
-      >
-        <Flex justify="space-between" align="center" maxW="7xl" mx="auto">
-          <Badge
-            bg="gray.800"
-            color="gray.400"
-            _light={{ bg: "teal.50", borderColor: "teal.200", border: "1px solid", color: "teal.700" }}
-            fontSize="xs"
-            fontWeight="semibold"
-            letterSpacing="wider"
-            textTransform="uppercase"
-            px="3"
-            py="1.5"
-            borderRadius="full"
-          >
-            Internal Tool
-          </Badge>
+      <Box px={{ base: "6", lg: "8" }} py="4">
+        <Flex justify="flex-end" align="center" maxW="7xl" mx="auto">
           <ColorModeButton />
         </Flex>
       </Box>
@@ -53,6 +33,21 @@ export default function HomePage() {
         <SimpleGrid columns={{ base: 1, lg: 2 }} gap={{ base: "12", lg: "16" }} w="full" alignItems="center">
           {/* Left Column - Hero */}
           <Box>
+            <Badge
+              bg="gray.800"
+              color="gray.400"
+              _light={{ bg: "teal.50", borderColor: "teal.200", border: "1px solid", color: "teal.700" }}
+              fontSize="xs"
+              fontWeight="semibold"
+              letterSpacing="wider"
+              textTransform="uppercase"
+              px="3"
+              py="1.5"
+              borderRadius="full"
+              mb="4"
+            >
+              Internal Tool
+            </Badge>
             <Heading
               as="h1"
               fontSize={{ base: "5xl", md: "6xl", lg: "7xl" }}
