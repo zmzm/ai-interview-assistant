@@ -83,8 +83,8 @@ export function TrackSelector({ selectedTrack, onSelectTrack }: TrackSelectorPro
               bg={isSelected ? "teal.500" : "gray.800"}
               color={isSelected ? "gray.950" : "gray.400"}
               _light={{
-                bg: isSelected ? "teal.500" : "gray.800",
-                color: isSelected ? "white" : "teal.400",
+                bg: isSelected ? "teal.500" : "teal.50",
+                color: isSelected ? "white" : "teal.600",
               }}
             >
               <TrackIcon size={20} />

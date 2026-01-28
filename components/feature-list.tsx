@@ -65,8 +65,8 @@ export function FeatureList() {
                 bg="gray.800"
                 color="gray.400"
                 _light={{
-                  bg: "gray.800",
-                  color: "teal.400",
+                  bg: "teal.100",
+                  color: "teal.700",
                 }}
               >
                 <FeatureIcon size={16} />
