@@ -81,7 +81,7 @@ export default function HomePage() {
         </Box>
 
         {/* Actions */}
-        <Box mb="6">
+        <Box mb="8">
           <Flex gap="4" flexWrap="wrap" align="center">
             <Button
               size="lg"
@@ -115,7 +115,7 @@ export default function HomePage() {
         </Box>
 
         {/* Footer */}
-        <Box mt="auto">
+        <Box>
           <Separator borderColor="gray.800" _light={{ borderColor: "gray.200" }} mb="4" />
           <Text fontSize="sm" color="gray.500" _light={{ color: "gray.600" }}>
             This tool runs locally. No data is stored or shared externally.
