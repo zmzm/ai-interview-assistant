@@ -122,9 +122,13 @@ function SummaryContent() {
   }
 
   return (
-    <Box h="100vh" 
-              bg={isLight ? "white" : "gray.900"}
-              borderColor={isLight ? "gray.200" : "gray.800"} overflow="hidden" display="flex" flexDirection="column">
+    <Box 
+      h="100vh" 
+      bg={isLight ? "white" : "gray.950"}
+      overflow="hidden"
+      display="flex"
+      flexDirection="column"
+    >
       {/* Header */}
       <Box
         bg="gray.900"
