@@ -126,7 +126,7 @@ function InterviewContent() {
         <GridItem 
           bg={isLight ? "gray.50" : "gray.950"}
           overflowY="auto"
-          bgGradient="to-b"
+          bgGradient="to-t"
           gradientFrom="gray.100"
           gradientVia="gray.50"
           gradientTo="white"
