@@ -144,48 +144,46 @@ function SummaryContent() {
           <Box
             mb="8"
             p="6"
-            bg="gray.900"
-            _light={{ bg: "white", shadow: "sm" }}
             borderRadius="xl"
             border="1px solid"
-            borderColor="gray.800"
-            _light={{ borderColor: "gray.200" }}
+            borderColor={isLight ? "gray.200" : "gray.800"}
+            bg={isLight ? "white" : "gray.900"}
+            boxShadow={isLight ? "sm" : "none"}
           >
             <Text
               fontSize="xs"
               fontWeight="semibold"
               textTransform="uppercase"
               letterSpacing="wider"
-              color="gray.500"
-              _light={{ color: "gray.600" }}
+              color={isLight ? "gray.600" : "gray.500"}
               mb="5"
             >
               Interview Overview
             </Text>
             <Flex gap="8" flexWrap="wrap">
               <Flex align="center" gap="2">
-                <Text fontSize="sm" color="gray.500" _light={{ color: "gray.600" }}>
+                <Text fontSize="sm" color={isLight ? "gray.600" : "gray.500"}>
                   Track:
                 </Text>
-                <Text fontSize="md" color="gray.100" _light={{ color: "gray.900" }} fontWeight="semibold">
+                <Text fontSize="md" color={isLight ? "gray.900" : "gray.100"} fontWeight="semibold">
                   {data.track.toUpperCase()}
                 </Text>
               </Flex>
               <Flex align="center" gap="2">
                 <Box as={Clock} boxSize="16px" color="teal.500" />
-                <Text fontSize="sm" color="gray.500" _light={{ color: "gray.600" }}>
+                <Text fontSize="sm" color={isLight ? "gray.600" : "gray.500"}>
                   Duration:
                 </Text>
-                <Text fontSize="md" color="gray.100" _light={{ color: "gray.900" }}>
+                <Text fontSize="md" color={isLight ? "gray.900" : "gray.100"}>
                   {data.duration}
                 </Text>
               </Flex>
               <Flex align="center" gap="2">
                 <Box as={Calendar} boxSize="16px" color="teal.500" />
-                <Text fontSize="sm" color="gray.500" _light={{ color: "gray.600" }}>
+                <Text fontSize="sm" color={isLight ? "gray.600" : "gray.500"}>
                   Date:
                 </Text>
-                <Text fontSize="md" color="gray.100" _light={{ color: "gray.900" }}>
+                <Text fontSize="md" color={isLight ? "gray.900" : "gray.100"}>
                   {data.date}
                 </Text>
               </Flex>
@@ -207,8 +205,7 @@ function SummaryContent() {
               fontWeight="semibold"
               textTransform="uppercase"
               letterSpacing="wider"
-              color="gray.500"
-              _light={{ color: "gray.600" }}
+              color={isLight ? "gray.600" : "gray.500"}
               mb="6"
             >
               Final Decision
@@ -230,16 +227,16 @@ function SummaryContent() {
                   borderColor="orange.700"
                   _light={{ borderColor: "orange.300" }}
                 >
-                  <Box as={AlertTriangle} boxSize="18px" color="orange.300" _light={{ color: "orange.700" }} />
-                  <Text fontSize="sm" color="orange.300" _light={{ color: "orange.700" }} fontWeight="semibold">
+                  <Box as={AlertTriangle} boxSize="18px" color={isLight ? "orange.700" : "orange.300"} />
+                  <Text fontSize="sm" color={isLight ? "orange.700" : "orange.300"} fontWeight="semibold">
                     Red Flags Present
                   </Text>
                 </Flex>
               )}
             </Flex>
-            <Text fontSize="lg" color="gray.400" _light={{ color: "gray.600" }}>
+            <Text fontSize="lg" color={isLight ? "gray.600" : "gray.400"}>
               Total Score:{" "}
-              <Text as="span" color="gray.100" _light={{ color: "gray.900" }} fontWeight="bold" fontSize="xl">
+              <Text as="span" color={isLight ? "gray.900" : "gray.100"} fontWeight="bold" fontSize="xl">
                 {totalScore}/{maxScore}
               </Text>
             </Text>
@@ -261,8 +258,7 @@ function SummaryContent() {
               fontWeight="semibold"
               textTransform="uppercase"
               letterSpacing="wider"
-              color="gray.500"
-              _light={{ color: "gray.600" }}
+              color={isLight ? "gray.600" : "gray.500"}
               mb="5"
             >
               Scoring Rubric Breakdown
@@ -283,16 +279,16 @@ function SummaryContent() {
                     _light={{ borderColor: "gray.200" }}
                   >
                     <Flex justify="space-between" align="center" mb="3">
-                      <Text fontSize="md" fontWeight="semibold" color="gray.100" _light={{ color: "gray.900" }}>
+                      <Text fontSize="md" fontWeight="semibold" color={isLight ? "gray.900" : "gray.100"}>
                         {criterion.name}
                       </Text>
-                      <Text fontSize="2xl" fontWeight="bold" color="teal.400" _light={{ color: "teal.600" }}>
+                      <Text fontSize="2xl" fontWeight="bold" color={isLight ? "gray.600" : "gray.400"}>
                         {score}/3
                       </Text>
                     </Flex>
                     {evidenceText && (
-                      <Text fontSize="sm" color="gray.400" _light={{ color: "gray.700" }} lineHeight="tall">
-                        <Text as="span" fontWeight="medium" color="gray.300" _light={{ color: "gray.600" }}>Evidence:</Text> {evidenceText}
+                      <Text fontSize="sm" color={isLight ? "gray.700" : "gray.400"} lineHeight="tall">
+                        <Text as="span" fontWeight="medium" color={isLight ? "gray.600" : "gray.300"}>Evidence:</Text> {evidenceText}
                       </Text>
                     )}
                   </Box>
