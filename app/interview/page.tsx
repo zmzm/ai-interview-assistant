@@ -123,7 +123,14 @@ function InterviewContent() {
         </GridItem>
 
         {/* Center: Questions */}
-        <GridItem bg={isLight ? "gray.50" : "gray.950"} overflowY="auto">
+        <GridItem 
+          bg={isLight ? "gray.50" : "gray.950"}
+          overflowY="auto"
+          bgGradient="to-r"
+          gradientFrom="white"
+          gradientVia="gray.50"
+          gradientTo="gray.200"
+        >
           <QuestionPanel
             block={currentBlock}
             selectedQuestionId={selectedQuestionId}

@@ -32,18 +32,6 @@ export function QuestionPanel({
         pb="6"
         flexShrink={0}
         position="relative"
-        _after={{
-          content: '""',
-          position: "absolute",
-          bottom: 0,
-          left: 0,
-          right: 0,
-          height: "1px",
-          bgGradient: "to-r",
-          gradientFrom: "transparent",
-          gradientVia: "gray.200",
-          gradientTo: "transparent"
-        }}
       >
         <Flex justify="space-between" align="flex-start">
           <Box flex="1">
