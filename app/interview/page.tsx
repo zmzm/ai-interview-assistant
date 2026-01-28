@@ -126,10 +126,10 @@ function InterviewContent() {
         <GridItem 
           bg={isLight ? "gray.50" : "gray.950"}
           overflowY="auto"
-          bgGradient="to-r"
-          gradientFrom="white"
+          bgGradient="0deg"
+          gradientFrom="gray.100"
           gradientVia="gray.50"
-          gradientTo="gray.200"
+          gradientTo="white"
         >
           <QuestionPanel
             block={currentBlock}
