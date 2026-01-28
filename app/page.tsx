@@ -22,10 +22,10 @@ export default function HomePage() {
 
   return (
     <Box minH="100vh" maxH="100vh" bg="gray.950" _light={{ bg: "gray.50" }} display="flex" flexDirection="column" overflow="hidden">
-      <Container maxW="5xl" px={{ base: "6", lg: "8" }} py={{ base: "8", lg: "10" }} flex="1" display="flex" flexDirection="column" overflow="auto">
+      <Container maxW="5xl" px={{ base: "5", lg: "8" }} py={{ base: "6", lg: "8" }} flex="1" display="flex" flexDirection="column">
         {/* Header */}
-        <Box mb="8">
-          <Flex justify="space-between" align="center" mb="4">
+        <Box mb="6">
+          <Flex justify="space-between" align="center" mb="3">
             <Badge
               bg="gray.800"
               color="gray.400"
@@ -50,25 +50,25 @@ export default function HomePage() {
             lineHeight="1.1"
             color="gray.50"
             _light={{ color: "gray.900" }}
-            mb="3"
+            mb="2"
           >
             Interview Assistant
           </Heading>
           <Text fontSize="md" color="gray.400" _light={{ color: "gray.600" }} maxW="2xl" lineHeight="relaxed">
-            A structured technical interview tool for evaluating Senior Engineer candidates. For interviewers only.
+            Structured technical interviews for evaluating Senior Engineer candidates
           </Text>
         </Box>
 
         {/* Track Selection */}
-        <Box mb="6">
+        <Box mb="5">
           <Text
-            fontSize="sm"
+            fontSize="xs"
             fontWeight="semibold"
             textTransform="uppercase"
             letterSpacing="wider"
             color="gray.500"
             _light={{ color: "gray.600" }}
-            mb="4"
+            mb="3"
           >
             Select Interview Track
           </Text>
@@ -76,17 +76,17 @@ export default function HomePage() {
         </Box>
 
         {/* Feature List */}
-        <Box mb="6">
+        <Box mb="5">
           <FeatureList />
         </Box>
 
-        {/* Actions */}
-        <Box mb="8">
-          <Flex gap="4" flexWrap="wrap" align="center">
+        {/* Actions & Footer Combined */}
+        <Box mt="auto">
+          <Flex gap="3" flexWrap="wrap" align="center" mb="5">
             <Button
               size="lg"
               height="12"
-              px="6"
+              px="7"
               bg="teal.500"
               color="white"
               fontSize="md"
@@ -104,22 +104,42 @@ export default function HomePage() {
               onClick={handleStartInterview}
             >
               Start Interview
-              <ArrowRight size={16} />
+              <ArrowRight size={18} />
             </Button>
             {!selectedTrack && (
-              <Text fontSize="sm" color="gray.500" _light={{ color: "gray.600" }}>
+              <Text fontSize="sm" color="gray.500" _light={{ color: "gray.600" }} fontWeight="medium">
                 Select a track to begin
               </Text>
             )}
           </Flex>
-        </Box>
 
-        {/* Footer */}
-        <Box>
-          <Separator borderColor="gray.800" _light={{ borderColor: "gray.200" }} mb="4" />
-          <Text fontSize="sm" color="gray.500" _light={{ color: "gray.600" }}>
-            This tool runs locally. No data is stored or shared externally.
-          </Text>
+          <Box
+            pt="4"
+            borderTop="1px solid"
+            borderColor="gray.800"
+            _light={{ borderColor: "gray.200" }}
+          >
+            <Flex align="center" justify="space-between" gap="4" flexWrap="wrap">
+              <Text fontSize="xs" color="gray.600" _light={{ color: "gray.500" }}>
+                This tool runs locally. No data is stored or shared externally.
+              </Text>
+              {selectedTrack && (
+                <Badge
+                  bg="gray.800"
+                  _light={{ bg: "gray.100" }}
+                  color="gray.400"
+                  _light={{ color: "gray.600" }}
+                  fontSize="xs"
+                  px="2"
+                  py="1"
+                  borderRadius="md"
+                  fontFamily="mono"
+                >
+                  {selectedTrack.toUpperCase()} Selected
+                </Badge>
+              )}
+            </Flex>
+          </Box>
         </Box>
       </Container>
     </Box>
