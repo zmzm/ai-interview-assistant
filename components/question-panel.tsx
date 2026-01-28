@@ -28,13 +28,13 @@ export function QuestionPanel({
     <Box p="8">
       {/* Block Header */}
       <Box mb="8">
-        <Text fontSize="xs" fontFamily="mono" color={isLight ? "gray.600" : "gray.500"} mb="2">
+        <Text fontSize="xs" fontFamily="mono" color={isLight ? "gray.600" : "gray.500"} mb="3" fontWeight="medium">
           {block.timeRange} • {block.duration}
         </Text>
-        <Text fontSize="2xl" fontWeight="semibold" color={isLight ? "gray.900" : "gray.100"} mb="2">
+        <Text fontSize="3xl" fontWeight="bold" color={isLight ? "gray.900" : "gray.100"} mb="3" letterSpacing="tight">
           {block.title}
         </Text>
-        <Text fontSize="sm" color={isLight ? "gray.600" : "gray.400"}>
+        <Text fontSize="md" color={isLight ? "gray.600" : "gray.400"} lineHeight="tall">
           {block.goal}
         </Text>
       </Box>
@@ -44,8 +44,8 @@ export function QuestionPanel({
           {/* Question Cards */}
           <Box mb="6">
             <Text
-              fontSize="sm"
-              fontWeight="medium"
+              fontSize="xs"
+              fontWeight="semibold"
               textTransform="uppercase"
               letterSpacing="wider"
               color={isLight ? "gray.600" : "gray.500"}
@@ -59,8 +59,8 @@ export function QuestionPanel({
                   key={question.id}
                   as="button"
                   onClick={() => onSelectQuestion(question.id)}
-                  p="4"
-                  borderRadius="md"
+                  p="5"
+                  borderRadius="lg"
                   border="1px solid"
                   borderColor={isLight ? "gray.200" : "gray.800"}
                   bg={isLight ? "white" : "gray.900"}
@@ -69,20 +69,20 @@ export function QuestionPanel({
                   transition="all 0.2s"
                   _hover={{
                     borderColor: "teal.500",
-                    bg: isLight ? "white" : "gray.800",
-                    boxShadow: isLight ? "md" : "none",
+                    transform: "translateY(-2px)",
+                    boxShadow: isLight ? "md" : "lg",
                   }}
                   cursor="pointer"
                 >
                   <Flex gap="3">
-                    <Box color={isLight ? "gray.600" : "gray.500"} flexShrink={0}>
-                      <MessageSquare size={16} />
+                    <Box color="teal.500" flexShrink={0} mt="0.5">
+                      <MessageSquare size={18} />
                     </Box>
                     <Box flex="1">
-                      <Text fontSize="sm" fontWeight="medium" color={isLight ? "gray.900" : "gray.200"} mb="1">
+                      <Text fontSize="md" fontWeight="semibold" color={isLight ? "gray.900" : "gray.100"} mb="2" lineHeight="tall">
                         {question.text.en}
                       </Text>
-                      <Text fontSize="xs" color={isLight ? "gray.600" : "gray.500"}>
+                      <Text fontSize="sm" color={isLight ? "gray.600" : "gray.500"} lineHeight="relaxed">
                         {question.text.ru}
                       </Text>
                     </Box>
@@ -98,11 +98,11 @@ export function QuestionPanel({
           <Box mb="6">
             <Flex justify="space-between" align="center" mb="4">
               <Text
-                fontSize="sm"
-                fontWeight="medium"
+                fontSize="xs"
+                fontWeight="semibold"
                 textTransform="uppercase"
                 letterSpacing="wider"
-                color={isLight ? "gray.600" : "gray.500"}
+                color="teal.500"
               >
                 Active Question
               </Text>
@@ -119,18 +119,17 @@ export function QuestionPanel({
             </Flex>
 
             <Box
-              p="5"
-              borderRadius="md"
-              border="1px solid"
-              borderColor={isLight ? "gray.200" : "gray.800"}
-              bg={isLight ? "white" : "gray.900"}
-              boxShadow={isLight ? "sm" : "none"}
+              p="6"
+              borderRadius="lg"
+              border="2px solid"
+              borderColor="teal.500"
+              bg={isLight ? "teal.50" : "gray.800"}
               mb="6"
             >
-              <Text fontSize="md" fontWeight="medium" color={isLight ? "gray.900" : "gray.100"} mb="2">
+              <Text fontSize="lg" fontWeight="bold" color={isLight ? "gray.900" : "gray.50"} mb="3" lineHeight="tall">
                 {selectedQuestion.text.en}
               </Text>
-              <Text fontSize="sm" color={isLight ? "gray.600" : "gray.400"} mb="4">
+              <Text fontSize="md" color={isLight ? "gray.700" : "gray.300"} lineHeight="relaxed">
                 {selectedQuestion.text.ru}
               </Text>
             </Box>
@@ -138,8 +137,8 @@ export function QuestionPanel({
             {selectedQuestion.prompts && selectedQuestion.prompts.length > 0 && (
               <Box mb="6">
                 <Text
-                  fontSize="sm"
-                  fontWeight="medium"
+                  fontSize="xs"
+                  fontWeight="semibold"
                   textTransform="uppercase"
                   letterSpacing="wider"
                   color={isLight ? "gray.600" : "gray.500"}
@@ -151,14 +150,14 @@ export function QuestionPanel({
                   {selectedQuestion.prompts.map((prompt, index) => (
                     <Box
                       key={index}
-                      p="5"
-                      borderRadius="md"
+                      p="4"
+                      borderRadius="lg"
                       border="1px solid"
                       borderColor={isLight ? "gray.200" : "gray.800"}
                       bg={isLight ? "white" : "gray.900"}
                       boxShadow={isLight ? "sm" : "none"}
                     >
-                      <Text fontSize="sm" color={isLight ? "gray.700" : "gray.300"}>
+                      <Text fontSize="sm" color={isLight ? "gray.700" : "gray.300"} lineHeight="tall">
                         {prompt}
                       </Text>
                     </Box>
@@ -170,8 +169,8 @@ export function QuestionPanel({
             {selectedQuestion.expectedDirection && (
               <Box mb="6">
                 <Text
-                  fontSize="sm"
-                  fontWeight="medium"
+                  fontSize="xs"
+                  fontWeight="semibold"
                   textTransform="uppercase"
                   letterSpacing="wider"
                   color={isLight ? "gray.600" : "gray.500"}
@@ -181,10 +180,10 @@ export function QuestionPanel({
                 </Text>
                 <Box
                   p="5"
-                  borderRadius="md"
+                  borderRadius="lg"
                   border="1px solid"
                   borderColor={isLight ? "gray.200" : "gray.800"}
-                  bg={isLight ? "white" : "gray.900"}
+                  bg={isLight ? "gray.50" : "gray.900"}
                   boxShadow={isLight ? "sm" : "none"}
                 >
                   {selectedQuestion.expectedDirection.split("\n").map((line, index) => (
@@ -210,15 +209,20 @@ export function QuestionPanel({
       {/* Actions */}
       <Flex gap="3">
         <Button
-          size="md"
-          bg="teal.500"
+          size="lg"
+          bg="teal.600"
           color="white"
-          _hover={{ bg: "teal.400" }}
+          _hover={{ bg: "teal.500", transform: "translateY(-1px)" }}
+          _active={{ transform: "translateY(0)" }}
+          _disabled={{ opacity: 0.5, cursor: "not-allowed" }}
+          transition="all 0.2s"
           onClick={onNextBlock}
           disabled={isLastBlock}
+          px="6"
+          fontWeight="semibold"
         >
           {isLastBlock ? "Interview Complete" : "Next Block"}
-          {!isLastBlock && <ArrowRight size={16} />}
+          {!isLastBlock && <ArrowRight size={18} />}
         </Button>
       </Flex>
     </Box>

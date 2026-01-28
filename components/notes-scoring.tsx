@@ -52,11 +52,11 @@ export function NotesScoring({
       <Box mb="6">
         <Flex align="center" gap="2" mb="3">
           <Box color="teal.500">
-            <FileText size={16} />
+            <FileText size={18} />
           </Box>
           <Text
-            fontSize="sm"
-            fontWeight="medium"
+            fontSize="xs"
+            fontWeight="semibold"
             textTransform="uppercase"
             letterSpacing="wider"
             color={isLight ? "gray.600" : "gray.400"}
@@ -74,8 +74,9 @@ export function NotesScoring({
           borderColor={isLight ? "gray.300" : "gray.800"}
           color={isLight ? "gray.900" : "gray.200"}
           fontSize="sm"
-          _placeholder={{ color: "gray.600" }}
-          _focus={{ borderColor: "teal.500", outline: "none" }}
+          borderRadius="lg"
+          _placeholder={{ color: "gray.500" }}
+          _focus={{ borderColor: "teal.500", outline: "none", shadow: "0 0 0 3px rgba(20, 184, 166, 0.1)" }}
         />
       </Box>
 
@@ -85,11 +86,11 @@ export function NotesScoring({
       <Box mb="6">
         <Flex align="center" gap="2" mb="4">
           <Box color="teal.500">
-            <Star size={16} />
+            <Star size={18} />
           </Box>
           <Text
-            fontSize="sm"
-            fontWeight="medium"
+            fontSize="xs"
+            fontWeight="semibold"
             textTransform="uppercase"
             letterSpacing="wider"
             color={isLight ? "gray.600" : "gray.400"}
@@ -98,20 +99,20 @@ export function NotesScoring({
           </Text>
         </Flex>
 
-        <Box display="flex" flexDirection="column" gap="4">
+        <Box display="flex" flexDirection="column" gap="3">
           {rubric.criteria.map((criterion) => (
             <Box
               key={criterion.id}
               p="4"
-              borderRadius="md"
+              borderRadius="lg"
               bg={isLight ? "white" : "gray.900"}
               border="1px solid"
               borderColor={isLight ? "gray.200" : "gray.800"}
             >
-              <Text fontSize="sm" fontWeight="medium" color={isLight ? "gray.900" : "gray.200"} mb="2">
+              <Text fontSize="sm" fontWeight="semibold" color={isLight ? "gray.900" : "gray.100"} mb="2">
                 {criterion.name}
               </Text>
-              <Text fontSize="xs" color={isLight ? "gray.600" : "gray.500"} mb="3">
+              <Text fontSize="xs" color={isLight ? "gray.600" : "gray.500"} mb="3" lineHeight="relaxed">
                 {criterion.description}
               </Text>
 
@@ -145,8 +146,9 @@ export function NotesScoring({
                 borderColor={isLight ? "gray.300" : "gray.700"}
                 color={isLight ? "gray.900" : "gray.300"}
                 fontSize="xs"
-                _placeholder={{ color: "gray.600" }}
-                _focus={{ borderColor: "teal.500", outline: "none" }}
+                borderRadius="md"
+                _placeholder={{ color: "gray.500" }}
+                _focus={{ borderColor: "teal.500", outline: "none", shadow: "0 0 0 3px rgba(20, 184, 166, 0.1)" }}
               />
             </Box>
           ))}
@@ -158,8 +160,8 @@ export function NotesScoring({
       {/* Red Flags */}
       <Box>
         <Text
-          fontSize="sm"
-          fontWeight="medium"
+          fontSize="xs"
+          fontWeight="semibold"
           textTransform="uppercase"
           letterSpacing="wider"
           color={isLight ? "gray.600" : "gray.400"}
@@ -167,7 +169,7 @@ export function NotesScoring({
         >
           Red Flags
         </Text>
-        <Box display="flex" flexDirection="column" gap="2">
+        <Box display="flex" flexDirection="column" gap="3">
           {rubric.redFlags.map((flag) => (
             <Checkbox.Root
               key={flag}
@@ -180,7 +182,7 @@ export function NotesScoring({
                 <Checkbox.Indicator />
               </Checkbox.Control>
               <Checkbox.Label>
-                <Text fontSize="sm" color={isLight ? "gray.700" : "gray.300"}>
+                <Text fontSize="sm" color={isLight ? "gray.700" : "gray.300"} lineHeight="relaxed">
                   {flag}
                 </Text>
               </Checkbox.Label>
