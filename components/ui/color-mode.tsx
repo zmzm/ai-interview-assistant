@@ -1,55 +1,17 @@
 "use client"
 
 import type React from "react"
-
 import { IconButton } from "@chakra-ui/react"
-import { ThemeProvider, useTheme } from "next-themes"
-import type { ThemeProviderProps } from "next-themes"
-import { forwardRef, useEffect, useState } from "react"
+import { useColorMode as useChakraColorMode, useColorModeValue } from "@chakra-ui/react"
+import { forwardRef } from "react"
 
-export interface ColorModeProviderProps extends ThemeProviderProps {}
-
-export function ColorModeProvider(props: ColorModeProviderProps) {
-  return <ThemeProvider attribute="class" disableTransitionOnChange defaultTheme="dark" {...props} />
-}
-
-export function useColorMode() {
-  const { theme, setTheme, systemTheme } = useTheme()
-  const [mounted, setMounted] = useState(false)
-
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  const toggleColorMode = () => {
-    console.log("[v0] Toggling theme from:", theme)
-    setTheme(theme === "dark" ? "light" : "dark")
-  }
-
-  return {
-    colorMode: mounted ? theme : undefined,
-    setColorMode: setTheme,
-    toggleColorMode,
-    systemTheme,
-    mounted,
-  }
-}
-
-export function useColorModeValue<T>(light: T, dark: T) {
-  const { theme, systemTheme } = useTheme()
-  const colorMode = theme === "system" ? systemTheme : theme
-  return colorMode === "dark" ? dark : light
-}
+export { useColorMode, useColorModeValue } from "@chakra-ui/react"
 
 export const ColorModeButton = forwardRef<
   HTMLButtonElement,
   Omit<React.ComponentProps<typeof IconButton>, "aria-label">
 >(function ColorModeButton(props, ref) {
-  const { toggleColorMode, colorMode, mounted } = useColorMode()
-
-  if (!mounted) {
-    return <IconButton variant="ghost" aria-label="Toggle color mode" size="sm" ref={ref} {...props} />
-  }
+  const { toggleColorMode, colorMode } = useChakraColorMode()
 
   const isDark = colorMode === "dark"
 

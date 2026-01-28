@@ -30,6 +30,11 @@ export function FeatureList() {
       borderRadius="lg"
       border="1px solid"
       borderColor="gray.800"
+      _light={{
+        borderColor: "gray.300",
+        bg: "white",
+        shadow: "sm",
+      }}
       bg="gray.900"
       p="6"
     >
@@ -39,6 +44,7 @@ export function FeatureList() {
         textTransform="uppercase"
         letterSpacing="wider"
         color="gray.500"
+        _light={{ color: "gray.600" }}
         mb="5"
       >
         What This Tool Does
@@ -58,20 +64,18 @@ export function FeatureList() {
                 borderRadius="md"
                 bg="gray.800"
                 color="gray.400"
-                css={{
-                  ".light &": {
-                    backgroundColor: "var(--chakra-colors-gray-800)",
-                    color: "var(--chakra-colors-teal-400)",
-                  },
+                _light={{
+                  bg: "gray.800",
+                  color: "teal.400",
                 }}
               >
                 <FeatureIcon size={16} />
               </Flex>
               <Box>
-                <Text fontWeight="medium" color="gray.100" mb="1">
+                <Text fontWeight="medium" color="gray.100" _light={{ color: "gray.900" }} mb="1">
                   {feature.title}
                 </Text>
-                <Text fontSize="sm" color="gray.400" lineHeight="tall">
+                <Text fontSize="sm" color="gray.400" _light={{ color: "gray.700" }} lineHeight="tall">
                   {feature.description}
                 </Text>
               </Box>
