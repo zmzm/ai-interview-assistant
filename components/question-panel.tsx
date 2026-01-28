@@ -27,7 +27,23 @@ export function QuestionPanel({
   return (
     <Box h="full" display="flex" flexDirection="column">
       {/* Block Header - Fixed */}
-      <Box p="8" pb="6" flexShrink={0}>
+      <Box
+        p="8"
+        pb="6"
+        flexShrink={0}
+        position="relative"
+        _after={{
+          content: '""',
+          position: "absolute",
+          bottom: 0,
+          left: 0,
+          right: 0,
+          height: "1px",
+          bgGradient: isLight
+            ? "to-r, transparent, gray.200, transparent"
+            : "to-r, transparent, gray.800, transparent",
+        }}
+      >
         <Flex justify="space-between" align="flex-start">
           <Box flex="1">
             <Text fontSize="xs" fontFamily="mono" color={isLight ? "gray.600" : "gray.500"} mb="3" fontWeight="medium">
@@ -61,7 +77,7 @@ export function QuestionPanel({
       </Box>
 
       {/* Scrollable Content */}
-      <Box flex="1" overflowY="auto" px="8" pb="8">
+      <Box flex="1" overflowY="auto" px="8" pb="8" pt="6">
         {!selectedQuestion ? (
           <>
             {/* Question Cards */}
