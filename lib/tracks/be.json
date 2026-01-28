@@ -81,7 +81,33 @@
             "Как организуешь request-id/correlation-id?"
           ],
           "expectedDirection": "- Разносит concerns по pipes/guards/interceptors/filters.\n- Делает единый error contract.\n- Думает про трассировку и структурные логи."
-        }
+        },
+        {
+  "id": "be-nest-di-container",
+  "text": {
+    "en": "How does the dependency injection container work in NestJS?",
+    "ru": "Как работает DI-контейнер в NestJS?"
+  },
+  "prompts": [
+    "Когда строится dependency graph?",
+    "Что такое inversion of control?",
+    "Как контейнер управляет жизненным циклом?"
+  ],
+  "expectedDirection": "- Dependency graph строится при старте.\n- Используется constructor injection.\n- Контейнер управляет lifecycle.\n- IoC как базовый принцип."
+},
+        {
+  "id": "be-nest-scopes",
+  "text": {
+    "en": "What provider scopes exist in NestJS and when should they be used?",
+    "ru": "Какие бывают scopes в NestJS и когда их использовать?"
+  },
+  "prompts": [
+    "Почему REQUEST scope используется редко?",
+    "В чём стоимость TRANSIENT?",
+    "Какие проблемы с производительностью?"
+  ],
+  "expectedDirection": "- DEFAULT (singleton) — основной.\n- REQUEST — редко, из-за perf.\n- TRANSIENT — новый инстанс на инъекцию.\n- Понимание trade-offs."
+}
       ]
     },
     {
@@ -116,7 +142,20 @@
             "Как предотвращаешь cascading failures?"
           ],
           "expectedDirection": "- Думает про таймауты/лимиты/очереди.\n- Понимает каскадные отказы.\n- Говорит про graceful degradation."
-        }
+        },
+        {
+  "id": "be-nest-lifecycle-hooks",
+  "text": {
+    "en": "Why does NestJS provide lifecycle hooks?",
+    "ru": "Зачем в NestJS нужны lifecycle hooks?"
+  },
+  "prompts": [
+    "Где инициализируются ресурсы?",
+    "Как реализовать graceful shutdown?",
+    "Какие хуки ты реально использовал?"
+  ],
+  "expectedDirection": "- Инициализация ресурсов.\n- Корректное закрытие соединений.\n- onModuleInit / beforeApplicationShutdown.\n- Продакшен-контекст."
+}
       ]
     },
     {
@@ -190,7 +229,20 @@
             "Как учитываешь балансировщик/оркестратор?"
           ],
           "expectedDirection": "- Знает SIGTERM/SIGINT.\n- Корректно дренит запросы.\n- Учитывает таймауты и дедлайны."
-        }
+        },
+        {
+  "id": "be-db-index-performance",
+  "text": {
+    "en": "When can a database index hurt performance?",
+    "ru": "Когда индекс в базе данных может ухудшить производительность?"
+  },
+  "prompts": [
+    "Что происходит с write-heavy таблицами?",
+    "Что такое low selectivity?",
+    "Почему лишние индексы опасны?"
+  ],
+  "expectedDirection": "- Write-heavy workload.\n- Низкая селективность.\n- Неправильный порядок колонок.\n- Лишние индексы замедляют записи."
+}
       ]
     },
     {
@@ -251,7 +303,20 @@
             "Что ломалось при росте сложности правил доступа?"
           ],
           "expectedDirection": "- Разделяет identity и access control.\n- Умеет объяснить подходы RBAC/ABAC.\n- Думает о тестируемости и прозрачности правил."
-        }
+        },
+        {
+  "id": "be-grpc-vs-rest",
+  "text": {
+    "en": "Why did you choose gRPC over REST?",
+    "ru": "Почему вы выбрали gRPC, а не REST?"
+  },
+  "prompts": [
+    "Какие преимущества даёт бинарный протокол?",
+    "Почему важны строгие контракты?",
+    "Где gRPC не подходит?"
+  ],
+  "expectedDirection": "- Бинарный протокол.\n- Строгие контракты.\n- Low latency.\n- Используется для internal service-to-service."
+}
       ]
     },
     {
