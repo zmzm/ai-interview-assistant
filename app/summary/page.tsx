@@ -394,17 +394,19 @@ function SummaryContent() {
             </Button>
             <Button
               onClick={() => router.push("/")}
-              variant="outline"
               size="xl"
               height="14"
               px="8"
+              bg="gray.800"
+              _light={{ bg: "white" }}
+              borderWidth="2px"
               borderColor="gray.700"
               _light={{ borderColor: "gray.300" }}
-              color="gray.300"
-              _light={{ color: "gray.700" }}
+              color="gray.200"
+              _light={{ color: "gray.900" }}
               fontWeight="semibold"
-              _hover={{ bg: "gray.800", borderColor: "gray.600", transform: "translateY(-1px)" }}
-              _light={{ _hover: { bg: "gray.100", borderColor: "gray.400" } }}
+              _hover={{ bg: "gray.700", borderColor: "gray.600", transform: "translateY(-1px)" }}
+              _light={{ _hover: { bg: "gray.50", borderColor: "gray.400" } }}
               _active={{ transform: "translateY(0)" }}
               transition="all 0.2s"
             >
