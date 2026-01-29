@@ -81,9 +81,6 @@ function InterviewContent() {
     <Box h="100vh" bg={isLight ? "gray.50" : "gray.950"} overflow="hidden" display="flex" flexDirection="column">
       <Box
         bg={isLight ? "white" : "gray.900"}
-        boxShadow={isLight ? "sm" : "none"}
-        borderBottom="1px solid"
-        borderColor={isLight ? "gray.200" : "gray.800"}
         px="6"
         py="4"
         flexShrink={0}
@@ -94,11 +91,14 @@ function InterviewContent() {
             <ColorModeButton />
             <Button
               onClick={handleFinishInterview}
-              size="sm"
+              size="md"
               bg="teal.600"
               color="white"
-              _hover={{ bg: "teal.500" }}
+              _hover={{ bg: "teal.500", transform: "translateY(-1px)" }}
+              _active={{ transform: "translateY(0)" }}
+              transition="all 0.2s"
               fontWeight="semibold"
+              px="6"
             >
               Finish Interview
             </Button>
@@ -123,7 +123,16 @@ function InterviewContent() {
         </GridItem>
 
         {/* Center: Questions */}
-        <GridItem bg={isLight ? "gray.50" : "gray.950"} overflowY="auto">
+        <GridItem 
+          bg={isLight ? "gray.50" : "gray.950"}
+          {...(isLight && {
+            bgGradient: "to-t",
+            gradientFrom: "gray.100",
+            gradientVia: "gray.50",
+            gradientTo: "white"
+          })}
+          overflowY="auto"
+        >
           <QuestionPanel
             block={currentBlock}
             selectedQuestionId={selectedQuestionId}

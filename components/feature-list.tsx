@@ -36,44 +36,46 @@ export function FeatureList() {
         shadow: "sm",
       }}
       bg="gray.900"
-      p="6"
+      p="5"
     >
       <Text
-        fontSize="sm"
-        fontWeight="medium"
+        fontSize="xs"
+        fontWeight="semibold"
         textTransform="uppercase"
         letterSpacing="wider"
         color="gray.500"
         _light={{ color: "gray.600" }}
-        mb="5"
+        mb="4"
       >
         What This Tool Does
       </Text>
 
-      <SimpleGrid columns={{ base: 1, sm: 2 }} gap="6">
+      <SimpleGrid columns={{ base: 1, sm: 2 }} gap="4">
         {features.map((feature) => {
           const FeatureIcon = feature.icon
           return (
-            <Flex key={feature.title} gap="4">
+            <Flex key={feature.title} gap="3">
               <Flex
                 align="center"
                 justify="center"
-                w="9"
-                h="9"
+                w="8"
+                h="8"
                 flexShrink={0}
                 borderRadius="md"
                 bg="gray.800"
-                _light={{ bg: "gray.800" }}
                 color="gray.400"
-                _light={{ color: "teal.400" }}
+                _light={{
+                  bg: "teal.100",
+                  color: "teal.700",
+                }}
               >
-                <FeatureIcon size={16} />
+                <FeatureIcon size={14} />
               </Flex>
-              <Box>
-                <Text fontWeight="medium" color="gray.100" _light={{ color: "gray.900" }} mb="1">
+              <Box flex="1" minW="0">
+                <Text fontWeight="semibold" color="gray.100" _light={{ color: "gray.900" }} mb="0.5" fontSize="sm">
                   {feature.title}
                 </Text>
-                <Text fontSize="sm" color="gray.400" _light={{ color: "gray.700" }} lineHeight="tall">
+                <Text fontSize="xs" color="gray.400" _light={{ color: "gray.700" }} lineHeight="relaxed">
                   {feature.description}
                 </Text>
               </Box>

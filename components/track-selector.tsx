@@ -35,7 +35,7 @@ const tracks = [
 
 export function TrackSelector({ selectedTrack, onSelectTrack }: TrackSelectorProps) {
   return (
-    <SimpleGrid columns={{ base: 1, sm: 3 }} gap="4">
+    <Flex direction="column" gap="3">
       {tracks.map((track) => {
         const TrackIcon = track.icon
         const isSelected = selectedTrack === track.id
@@ -47,28 +47,26 @@ export function TrackSelector({ selectedTrack, onSelectTrack }: TrackSelectorPro
             onClick={() => onSelectTrack(isSelected ? null : track.id)}
             position="relative"
             display="flex"
-            flexDirection="column"
-            alignItems="flex-start"
+            alignItems="center"
+            gap="4"
             textAlign="left"
             p="5"
-            borderRadius="lg"
-            border="1px solid"
+            borderRadius="xl"
+            border="2px solid"
             borderColor={isSelected ? "teal.500" : "gray.800"}
             _light={{
-              borderColor: isSelected ? "teal.500" : "gray.300",
-              bg: "white",
-              shadow: isSelected ? "md" : "sm",
+              borderColor: isSelected ? "teal.500" : "gray.200",
+              bg: isSelected ? "teal.50" : "gray.50",
               _hover: {
-                shadow: "md",
+                borderColor: isSelected ? "teal.600" : "gray.300",
+                bg: isSelected ? "teal.100" : "white",
               },
             }}
-            bg="gray.900"
+            bg={isSelected ? "gray.800" : "gray.900"}
             transition="all 0.2s"
             _hover={{
               borderColor: isSelected ? "teal.400" : "gray.700",
-              _light: {
-                borderColor: isSelected ? "teal.400" : "gray.400",
-              },
+              bg: isSelected ? "gray.700" : "gray.850",
             }}
             cursor="pointer"
           >
@@ -76,38 +74,50 @@ export function TrackSelector({ selectedTrack, onSelectTrack }: TrackSelectorPro
             <Flex
               align="center"
               justify="center"
-              w="10"
-              h="10"
-              mb="4"
-              borderRadius="md"
+              w="12"
+              h="12"
+              flexShrink={0}
+              borderRadius="lg"
               bg={isSelected ? "teal.500" : "gray.800"}
-              _light={{ bg: isSelected ? "teal.500" : "gray.800" }}
-              color={isSelected ? "gray.950" : "gray.400"}
-              _light={{ color: isSelected ? "white" : "teal.400" }}
+              color={isSelected ? "white" : "gray.400"}
+              _light={{
+                bg: isSelected ? "teal.600" : "white",
+                color: isSelected ? "white" : "teal.600",
+              }}
             >
-              <TrackIcon size={20} />
+              <TrackIcon size={24} />
             </Flex>
 
-            {/* Title */}
-            <Text fontWeight="medium" color="gray.100" _light={{ color: "gray.900" }} mb="1">
-              {track.label}
-            </Text>
+            {/* Content */}
+            <Box flex="1" minW="0">
+              <Text fontWeight="bold" color="gray.50" _light={{ color: "gray.900" }} mb="1" fontSize="md">
+                {track.label}
+              </Text>
+              <Text fontSize="sm" color="gray.400" _light={{ color: "gray.600" }} lineHeight="relaxed">
+                {track.description}
+              </Text>
+            </Box>
 
-            {/* Short label */}
-            <Text fontSize="xs" fontFamily="mono" color="gray.500" _light={{ color: "gray.600" }} mb="2">
-              {track.shortLabel}
-            </Text>
-
-            {/* Description */}
-            <Text fontSize="sm" color="gray.400" _light={{ color: "gray.700" }} lineHeight="tall">
-              {track.description}
-            </Text>
-
-            {/* Selected indicator */}
-            {isSelected && <Box position="absolute" top="3" right="3" w="2" h="2" borderRadius="full" bg="teal.500" />}
+            {/* Selected checkmark */}
+            {isSelected && (
+              <Flex
+                align="center"
+                justify="center"
+                w="6"
+                h="6"
+                borderRadius="full"
+                bg="teal.500"
+                color="white"
+                flexShrink={0}
+              >
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                  <path d="M11.6667 3.5L5.25004 9.91667L2.33337 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </Flex>
+            )}
           </Box>
         )
       })}
-    </SimpleGrid>
+    </Flex>
   )
 }

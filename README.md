@@ -21,7 +21,7 @@ A structured, interviewer-facing web app for running senior technical interviews
 
 ## Project Structure
 
-```
+\`\`\`
 app/
   page.tsx        # Track selection landing page
   interview/      # Interview flow UI
@@ -29,35 +29,35 @@ app/
 components/       # UI building blocks
 lib/              # Interview data + helpers
 styles/           # Global styles
-```
+\`\`\`
 
 ## Getting Started
 
 ### Install
 
-```bash
+\`\`\`bash
 pnpm install
-```
+\`\`\`
 
 ### Run locally
 
-```bash
+\`\`\`bash
 pnpm dev
-```
+\`\`\`
 
 The app will be available at `http://localhost:3000`.
 
 ### Build
 
-```bash
+\`\`\`bash
 pnpm build
-```
+\`\`\`
 
 ### Lint
 
-```bash
+\`\`\`bash
 pnpm lint
-```
+\`\`\`
 
 ## Usage
 
@@ -74,9 +74,9 @@ All interview data is kept in the browser for the current session (via `sessionS
 
 This project can be deployed to any Node-compatible host. For Vercel:
 
-```bash
+\`\`\`bash
 vercel
-```
+\`\`\`
 
 ## License
 

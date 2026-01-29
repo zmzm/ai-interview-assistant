@@ -19,11 +19,11 @@ export function InterviewTimeline({ blocks, currentBlockIndex, onSelectBlock }: 
     <Box p="6">
       <Flex align="center" gap="2" mb="6">
         <Box color="teal.500">
-          <Clock size={16} />
+          <Clock size={18} />
         </Box>
         <Text
-          fontSize="sm"
-          fontWeight="medium"
+          fontSize="xs"
+          fontWeight="semibold"
           textTransform="uppercase"
           letterSpacing="wider"
           color={isLight ? "gray.600" : "gray.400"}
@@ -32,7 +32,7 @@ export function InterviewTimeline({ blocks, currentBlockIndex, onSelectBlock }: 
         </Text>
       </Flex>
 
-      <Box display="flex" flexDirection="column" gap="2">
+      <Box display="flex" flexDirection="column" gap="3">
         {blocks.map((block, index) => {
           const isCurrent = index === currentBlockIndex
           const isPast = index < currentBlockIndex
@@ -44,8 +44,8 @@ export function InterviewTimeline({ blocks, currentBlockIndex, onSelectBlock }: 
               as="button"
               onClick={() => onSelectBlock(index)}
               p="4"
-              borderRadius="md"
-              border="1px solid"
+              borderRadius="lg"
+              border="2px solid"
               borderColor={
                 isCurrent
                   ? "teal.500"
@@ -73,9 +73,11 @@ export function InterviewTimeline({ blocks, currentBlockIndex, onSelectBlock }: 
               textAlign="left"
               transition="all 0.2s"
               _hover={{
-                borderColor: isCurrent ? "teal.400" : isLight ? "gray.300" : "gray.700",
+                borderColor: isCurrent ? "teal.400" : isLight ? "gray.400" : "gray.600",
+                transform: isCurrent ? "scale(1.02)" : "none",
               }}
               opacity={isFuture ? 0.6 : 1}
+              cursor="pointer"
             >
               <Flex justify="space-between" align="start" mb="2">
                 <Text fontSize="xs" fontFamily="mono" color={isLight ? "gray.600" : "gray.500"}>

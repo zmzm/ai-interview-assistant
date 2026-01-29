@@ -1,10 +1,12 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { useTheme } from "next-themes"
 import { useRouter } from "next/navigation"
 import { Box, Text, Flex, Button, Heading } from "@chakra-ui/react"
 import { AlertTriangle, Calendar, Clock, Download, Home } from "lucide-react"
 import { Logo } from "@/components/logo"
+import { ColorModeButton } from "@/components/ui/color-mode"
 import type { InterviewTrack } from "@/app/page"
 
 interface SummaryData {
@@ -22,6 +24,9 @@ interface SummaryData {
 function SummaryContent() {
   const router = useRouter()
   const [data, setData] = useState<SummaryData | null>(null)
+
+  const { theme } = useTheme()
+  const isLight = theme === "light"
 
   useEffect(() => {
     const storedData = sessionStorage.getItem("interviewSummary")
@@ -42,7 +47,6 @@ function SummaryContent() {
       <Box
         h="100vh"
         bg="gray.950"
-        _light={{ bg: "gray.50" }}
         display="flex"
         alignItems="center"
         justifyContent="center"
@@ -118,25 +122,32 @@ function SummaryContent() {
   }
 
   return (
-    <Box h="100vh" bg="gray.950" _light={{ bg: "gray.50" }} overflow="hidden" display="flex" flexDirection="column">
+    <Box 
+      h="100vh" 
+      bg={isLight ? "white" : "gray.950"}
+      overflow="hidden"
+      display="flex"
+      flexDirection="column"
+    >
       {/* Header */}
       <Box
         bg="gray.900"
-        _light={{ bg: "white", boxShadow: "sm" }}
-        borderBottom="1px solid"
-        borderColor="gray.800"
-        _light={{ borderColor: "gray.200" }}
+        _light={{ bg: "white" }}
         px="6"
         py="4"
         flexShrink={0}
+        bg={isLight ? "white" : "gray.900"}
       >
-        <Logo clickable={true} />
+        <Flex justify="space-between" align="center">
+          <Logo clickable={true} />
+          <ColorModeButton />
+        </Flex>
       </Box>
 
       {/* Content */}
-      <Box flex="1" overflowY="auto" px="8" py="8">
-        <Box maxW="900px" mx="auto">
-          <Heading size="lg" color="gray.100" _light={{ color: "gray.900" }} mb="8">
+      <Box flex="1" overflowY="auto" px="8" py="12">
+        <Box maxW="1000px" mx="auto">
+          <Heading size="4xl" fontWeight="bold" color="gray.50" _light={{ color: "gray.900" }} mb="12" letterSpacing="tight">
             Interview Summary
           </Heading>
 
@@ -144,48 +155,46 @@ function SummaryContent() {
           <Box
             mb="8"
             p="6"
-            bg="gray.900"
-            _light={{ bg: "white", boxShadow: "sm" }}
-            borderRadius="lg"
+            borderRadius="xl"
             border="1px solid"
-            borderColor="gray.800"
-            _light={{ borderColor: "gray.200" }}
+            borderColor={isLight ? "gray.200" : "gray.800"}
+            bg={isLight ? "white" : "gray.900"}
+            boxShadow={isLight ? "sm" : "none"}
           >
             <Text
-              fontSize="sm"
-              fontWeight="medium"
+              fontSize="xs"
+              fontWeight="semibold"
               textTransform="uppercase"
               letterSpacing="wider"
-              color="gray.400"
-              _light={{ color: "gray.600" }}
-              mb="4"
+              color={isLight ? "gray.600" : "gray.500"}
+              mb="5"
             >
               Interview Overview
             </Text>
-            <Flex gap="6" flexWrap="wrap">
+            <Flex gap="8" flexWrap="wrap">
               <Flex align="center" gap="2">
-                <Text fontSize="sm" color="gray.500" _light={{ color: "gray.600" }}>
+                <Text fontSize="sm" color={isLight ? "gray.600" : "gray.500"}>
                   Track:
                 </Text>
-                <Text fontSize="sm" color="gray.200" _light={{ color: "gray.900" }} fontWeight="medium">
+                <Text fontSize="md" color={isLight ? "gray.900" : "gray.100"} fontWeight="semibold">
                   {data.track.toUpperCase()}
                 </Text>
               </Flex>
               <Flex align="center" gap="2">
-                <Box as={Clock} boxSize="14px" color="gray.500" _light={{ color: "gray.600" }} />
-                <Text fontSize="sm" color="gray.500" _light={{ color: "gray.600" }}>
+                <Box as={Clock} boxSize="16px" color="teal.500" />
+                <Text fontSize="sm" color={isLight ? "gray.600" : "gray.500"}>
                   Duration:
                 </Text>
-                <Text fontSize="sm" color="gray.200" _light={{ color: "gray.900" }}>
+                <Text fontSize="md" color={isLight ? "gray.900" : "gray.100"}>
                   {data.duration}
                 </Text>
               </Flex>
               <Flex align="center" gap="2">
-                <Box as={Calendar} boxSize="14px" color="gray.500" _light={{ color: "gray.600" }} />
-                <Text fontSize="sm" color="gray.500" _light={{ color: "gray.600" }}>
+                <Box as={Calendar} boxSize="16px" color="teal.500" />
+                <Text fontSize="sm" color={isLight ? "gray.600" : "gray.500"}>
                   Date:
                 </Text>
-                <Text fontSize="sm" color="gray.200" _light={{ color: "gray.900" }}>
+                <Text fontSize="md" color={isLight ? "gray.900" : "gray.100"}>
                   {data.date}
                 </Text>
               </Flex>
@@ -195,27 +204,24 @@ function SummaryContent() {
           {/* Section 2: Final Decision */}
           <Box
             mb="8"
-            p="6"
-            bg="gray.900"
-            _light={{ bg: "white", boxShadow: "sm" }}
-            borderRadius="lg"
-            border="1px solid"
-            borderColor="gray.800"
-            _light={{ borderColor: "gray.200" }}
+            p="8"
+            borderRadius="xl"
+            border="2px solid"
+            borderColor={verdict.color}
+            bg={isLight ? "white" : "gray.900"}
           >
             <Text
-              fontSize="sm"
-              fontWeight="medium"
+              fontSize="xs"
+              fontWeight="semibold"
               textTransform="uppercase"
               letterSpacing="wider"
-              color="gray.400"
-              _light={{ color: "gray.600" }}
-              mb="4"
+              color={isLight ? "gray.600" : "gray.500"}
+              mb="6"
             >
               Final Decision
             </Text>
-            <Flex align="center" gap="4" mb="4">
-              <Text fontSize="2xl" fontWeight="bold" color={verdict.color}>
+            <Flex align="center" gap="4" mb="5">
+              <Text fontSize="4xl" fontWeight="bold" color={verdict.color} letterSpacing="tight">
                 {verdict.text}
               </Text>
               {hasRedFlags && (
@@ -223,24 +229,22 @@ function SummaryContent() {
                   align="center"
                   gap="2"
                   px="3"
-                  py="1"
-                  bg="orange.900"
-                  _light={{ bg: "orange.100" }}
-                  borderRadius="md"
+                  py="2"
+                  borderRadius="lg"
                   border="1px solid"
-                  borderColor="orange.700"
-                  _light={{ borderColor: "orange.300" }}
+                  bg={isLight ? "orange.100" : "orange.900"}
+                  borderColor={isLight ? "orange.300" : "orange.700"}
                 >
-                  <Box as={AlertTriangle} boxSize="16px" color="orange.300" _light={{ color: "orange.600" }} />
-                  <Text fontSize="xs" color="orange.300" _light={{ color: "orange.700" }} fontWeight="medium">
+                  <Box as={AlertTriangle} boxSize="18px" color={isLight ? "orange.700" : "orange.300"} />
+                  <Text fontSize="sm" color={isLight ? "orange.700" : "orange.300"} fontWeight="semibold">
                     Red Flags Present
                   </Text>
                 </Flex>
               )}
             </Flex>
-            <Text fontSize="sm" color="gray.400" _light={{ color: "gray.600" }}>
+            <Text fontSize="lg" color={isLight ? "gray.600" : "gray.400"}>
               Total Score:{" "}
-              <Text as="span" color="gray.200" _light={{ color: "gray.900" }} fontWeight="medium">
+              <Text as="span" color={isLight ? "gray.900" : "gray.100"} fontWeight="bold" fontSize="xl">
                 {totalScore}/{maxScore}
               </Text>
             </Text>
@@ -250,50 +254,45 @@ function SummaryContent() {
           <Box
             mb="8"
             p="6"
-            bg="gray.900"
-            _light={{ bg: "white", boxShadow: "sm" }}
-            borderRadius="lg"
+            borderRadius="xl"
             border="1px solid"
-            borderColor="gray.800"
-            _light={{ borderColor: "gray.200" }}
+            bg={isLight ? "white" : "gray.900"}
+            borderColor={isLight ? "gray.200" : "gray.800"}
           >
             <Text
-              fontSize="sm"
-              fontWeight="medium"
+              fontSize="xs"
+              fontWeight="semibold"
               textTransform="uppercase"
               letterSpacing="wider"
-              color="gray.400"
-              _light={{ color: "gray.600" }}
-              mb="4"
+              color={isLight ? "gray.600" : "gray.500"}
+              mb="5"
             >
               Scoring Rubric Breakdown
             </Text>
-            <Box display="flex" flexDirection="column" gap="4">
+            <Box display="flex" flexDirection="column" gap="3">
               {data.rubric.criteria?.map((criterion: any) => {
                 const score = data.scores[criterion.id] || 0
                 const evidenceText = data.evidence[criterion.id] || ""
                 return (
                   <Box
                     key={criterion.id}
-                    p="4"
-                    bg="gray.950"
-                    _light={{ bg: "gray.50" }}
-                    borderRadius="md"
+                    p="5"
+                    borderRadius="lg"
                     border="1px solid"
-                    borderColor="gray.800"
-                    _light={{ borderColor: "gray.200" }}
+                    bg={isLight ? "gray.50" : "gray.800"}
+                    borderColor={isLight ? "gray.200" : "gray.700"}
                   >
-                    <Flex justify="space-between" align="center" mb="2">
-                      <Text fontSize="sm" fontWeight="medium" color="gray.200" _light={{ color: "gray.900" }}>
+                    <Flex justify="space-between" align="center" mb="3">
+                      <Text fontSize="md" fontWeight="semibold" color={isLight ? "gray.900" : "gray.100"}>
                         {criterion.name}
                       </Text>
-                      <Text fontSize="lg" fontWeight="bold" color="teal.400" _light={{ color: "teal.600" }}>
+                      <Text fontSize="2xl" fontWeight="bold" color={isLight ? "gray.600" : "gray.400"}>
                         {score}/3
                       </Text>
                     </Flex>
                     {evidenceText && (
-                      <Text fontSize="xs" color="gray.500" _light={{ color: "gray.600" }} mt="2">
-                        Evidence: {evidenceText}
+                      <Text fontSize="sm" color={isLight ? "gray.700" : "gray.400"} lineHeight="tall">
+                        <Text as="span" fontWeight="medium" color={isLight ? "gray.600" : "gray.300"}>Evidence:</Text> {evidenceText}
                       </Text>
                     )}
                   </Box>
@@ -307,28 +306,24 @@ function SummaryContent() {
             <Box
               mb="8"
               p="6"
-              bg="gray.900"
-              _light={{ bg: "white", boxShadow: "sm" }}
-              borderRadius="lg"
+              borderRadius="xl"
               border="1px solid"
-              borderColor="gray.800"
-              _light={{ borderColor: "gray.200" }}
+              bg={isLight ? "white" : "gray.900"}
+              borderColor={isLight ? "gray.200" : "gray.800"}
             >
               <Text
-                fontSize="sm"
-                fontWeight="medium"
+                fontSize="xs"
+                fontWeight="semibold"
                 textTransform="uppercase"
                 letterSpacing="wider"
-                color="gray.400"
-                _light={{ color: "gray.600" }}
-                mb="4"
+                color={isLight ? "gray.600" : "gray.500"}
+                mb="5"
               >
                 Interview Notes
               </Text>
               <Text
                 fontSize="sm"
-                color="gray.300"
-                _light={{ color: "gray.700" }}
+                color={isLight ? "gray.700" : "gray.300"}
                 whiteSpace="pre-wrap"
                 lineHeight="tall"
               >
@@ -341,33 +336,30 @@ function SummaryContent() {
           <Box
             mb="8"
             p="6"
-            bg="gray.900"
-            _light={{ bg: "white", boxShadow: "sm" }}
-            borderRadius="lg"
+            borderRadius="xl"
             border="1px solid"
-            borderColor="gray.800"
-            _light={{ borderColor: "gray.200" }}
+            bg={isLight ? "white" : "gray.900"}
+            borderColor={isLight ? "gray.200" : "gray.800"}
           >
             <Text
-              fontSize="sm"
-              fontWeight="medium"
+              fontSize="xs"
+              fontWeight="semibold"
               textTransform="uppercase"
               letterSpacing="wider"
-              color="gray.400"
-              _light={{ color: "gray.600" }}
-              mb="4"
+              color={isLight ? "gray.600" : "gray.500"}
+              mb="5"
             >
               Questions Covered
             </Text>
-            <Box display="flex" flexDirection="column" gap="4">
+            <Box display="flex" flexDirection="column" gap="5">
               {data.blocks.map((block: any) => (
                 <Box key={block.id}>
-                  <Text fontSize="sm" fontWeight="medium" color="gray.200" _light={{ color: "gray.900" }} mb="2">
-                    {block.title} ({block.timeRange})
+                  <Text fontSize="md" fontWeight="semibold" borderColor={isLight ? "gray.900" : "gray.100"} mb="3">
+                    {block.title} <Text as="span" fontSize="sm" color={isLight ? "gray.600" : "gray.500"} fontWeight="normal">({block.timeRange})</Text>
                   </Text>
-                  <Box as="ul" pl="5" display="flex" flexDirection="column" gap="1">
+                  <Box as="ul" pl="5" display="flex" flexDirection="column" gap="2">
                     {block.questions.map((q: any) => (
-                      <Box as="li" key={q.id} fontSize="xs" color="gray.500" _light={{ color: "gray.600" }}>
+                      <Box as="li" key={q.id} fontSize="sm" color={isLight ? "gray.700" : "gray.400"} lineHeight="tall">
                         {q.text.en}
                       </Box>
                     ))}
@@ -378,22 +370,40 @@ function SummaryContent() {
           </Box>
 
           {/* Actions */}
-          <Flex gap="3" justify="center">
-            <Button onClick={exportAsMarkdown} colorPalette="teal" size="lg">
-              <Box as={Download} boxSize="18px" mr="2" />
+          <Flex gap="4" justify="center" mb="8">
+            <Button
+              onClick={exportAsMarkdown}
+              colorPalette="teal"
+              size="xl"
+              height="14"
+              px="8"
+              fontWeight="semibold"
+              _hover={{ transform: "translateY(-1px)", shadow: "lg" }}
+              _active={{ transform: "translateY(0)" }}
+              transition="all 0.2s"
+            >
+              <Box as={Download} boxSize="20px" mr="2" />
               Export as Markdown
             </Button>
             <Button
               onClick={() => router.push("/")}
-              variant="outline"
-              size="lg"
+              size="xl"
+              height="14"
+              px="8"
+              bg="gray.800"
+              _light={{ bg: "white" }}
+              borderWidth="2px"
               borderColor="gray.700"
-              _light={{ borderColor: "gray.300", color: "gray.700" }}
-              color="gray.300"
-              _hover={{ bg: "gray.800" }}
-              _light={{ _hover: { bg: "gray.50" } }}
+              _light={{ borderColor: "gray.300" }}
+              color="gray.200"
+              _light={{ color: "gray.900" }}
+              fontWeight="semibold"
+              _hover={{ bg: "gray.700", borderColor: "gray.600", transform: "translateY(-1px)" }}
+              _light={{ _hover: { bg: "gray.50", borderColor: "gray.400" } }}
+              _active={{ transform: "translateY(0)" }}
+              transition="all 0.2s"
             >
-              <Box as={Home} boxSize="18px" mr="2" />
+              <Box as={Home} boxSize="20px" mr="2" />
               Start New Interview
             </Button>
           </Flex>
