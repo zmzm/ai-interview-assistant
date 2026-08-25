@@ -5,6 +5,7 @@ services:
     restart: unless-stopped
     environment:
       - NODE_ENV=production
+      - PORT=4000
       # сюда добавь свои переменные окружения:
       # - DATABASE_URL=...
       # - NEXTAUTH_URL=...

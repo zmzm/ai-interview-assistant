@@ -1,7 +1,0 @@
-:80 {
-  redir / /interview-assistant 308
-
-  handle /interview-assistant* {
-    reverse_proxy app:4000
-  }
-}

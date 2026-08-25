@@ -1,83 +1,112 @@
 # AI Interview Assistant
 
-A structured, interviewer-facing web app for running senior technical interviews. The UI guides you through a prebuilt interview plan, captures notes and rubric scores, and generates a summary you can export as Markdown — all locally in the browser.
+Interviewer-facing web app for running structured senior engineering interviews. It provides role-specific interview tracks, guided question blocks, rubric scoring, evidence capture, red-flag tracking, and a Markdown summary export.
+
+The app runs entirely client-side for interview data: notes, scores, evidence, and summary state are kept in `sessionStorage` for the current browser session.
 
 ## Features
 
-- **Track-based interviews** for frontend, backend, or fullstack roles.
-- **Timeline-driven flow** to move through interview blocks and questions.
-- **Scoring + evidence capture** aligned to a rubric, including red-flag tracking.
-- **End-of-interview summary** with calculated verdicts and Markdown export.
-- **Light/Dark mode** support.
-- **Local-only data** stored in `sessionStorage` during the session.
+- Track selection for Senior Frontend, Senior Backend, and Senior Fullstack interviews.
+- 60-minute timeline with interview blocks, goals, and guided questions.
+- Bilingual question text in the track data (`en` and `ru`).
+- Rubric scoring with evidence fields for each criterion.
+- Red-flag checklist and verdict calculation on the summary page.
+- Markdown export for the final interview summary.
+- Light and dark color modes.
 
 ## Tech Stack
 
-- **Next.js 16** (App Router)
-- **React 19**
-- **Chakra UI**
-- **Tailwind CSS utilities** (via `tailwind-merge`, `tailwindcss-animate`)
-- **Lucide Icons**
+- Next.js 16 App Router
+- React 19
+- TypeScript
+- Chakra UI 3
+- Tailwind CSS 4 utilities
+- Lucide React icons
+- pnpm
 
 ## Project Structure
 
-\`\`\`
+```text
 app/
-  page.tsx        # Track selection landing page
-  interview/      # Interview flow UI
-  summary/        # Summary + export
-components/       # UI building blocks
-lib/              # Interview data + helpers
-styles/           # Global styles
-\`\`\`
+  page.tsx              Track selection
+  interview/page.tsx    Interview timeline, questions, notes, and scoring
+  summary/page.tsx      Final verdict and Markdown export
+  layout.tsx            Root provider and metadata
+  globals.css           App-level global styles
+components/
+  *.tsx                 UI components for tracks, timeline, questions, scoring, logo, theme
+  ui/                   Chakra/color-mode provider helpers
+lib/
+  interview-data.ts     Typed loader for track JSON files
+  tracks/
+    fe.json             Frontend interview plan
+    be.json             Backend interview plan
+    fs.json             Fullstack interview plan
+public/                 Static icons/placeholders
+styles/                 Additional global style entry
+Dockerfile              Standalone production Next.js image
+docker-compose.yml      Production app service on the external proxy network
+```
 
-## Getting Started
+## Requirements
 
-### Install
+- Node.js 20+
+- pnpm via Corepack
 
-\`\`\`bash
+Enable pnpm if needed:
+
+```bash
+corepack enable
+```
+
+## Local Development
+
+Install dependencies:
+
+```bash
 pnpm install
-\`\`\`
+```
 
-### Run locally
+Run the development server:
 
-\`\`\`bash
+```bash
 pnpm dev
-\`\`\`
+```
 
-The app will be available at `http://localhost:3000`.
+Open `http://localhost:3000`.
 
-### Build
+## Scripts
 
-\`\`\`bash
-pnpm build
-\`\`\`
+```bash
+pnpm dev      # Start the Next.js dev server with webpack
+pnpm build    # Build the standalone production app
+pnpm start    # Start the production server after a build
+pnpm lint     # Run ESLint
+```
 
-### Lint
+## Docker
 
-\`\`\`bash
-pnpm lint
-\`\`\`
+Build and run the production image:
 
-## Usage
+```bash
+docker build -t ai-interview-assistant .
+docker run --rm -p 4000:4000 ai-interview-assistant
+```
 
-1. **Select a track** on the landing page.
-2. **Run the interview** using the timeline, selecting questions in each block.
-3. **Capture notes, scores, red flags, and evidence** as you go.
-4. **Finish the interview** to review the summary and **export as Markdown**.
+Open `http://localhost:4000`.
 
-## Data & Privacy
+The included `docker-compose.yml` expects an external Docker network named `proxy` and runs the app service as `nextapp`. The app listens on port `4000` inside the container.
 
-All interview data is kept in the browser for the current session (via `sessionStorage`). Nothing is persisted or sent to external services by default.
+## Interview Data
 
-## Deployment
+Interview plans live in `lib/tracks/*.json`. Each track file contains:
 
-This project can be deployed to any Node-compatible host. For Vercel:
+- `blocks`: timed interview sections with goals and questions.
+- `rubric.criteria`: scoreable criteria used by the notes/scoring panel and summary.
+- `rubric.redFlags`: red flags shown during evaluation.
 
-\`\`\`bash
-vercel
-\`\`\`
+`lib/interview-data.ts` maps the route-level track names (`frontend`, `backend`, `fullstack`) to those JSON files.
 
-## License
+## Data And Privacy
 
-This project is intended for internal use. Add a license if you plan to distribute it.
+No backend persistence is configured. Interview notes, scores, red flags, evidence, and summary payloads are stored in browser `sessionStorage` only. Closing the tab or browser session can discard the current interview state.
