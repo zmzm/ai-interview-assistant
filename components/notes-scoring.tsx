@@ -4,6 +4,7 @@ import { Box, Text, Flex, Textarea, Separator, Checkbox, RadioGroup } from "@cha
 import { FileText, Star } from "lucide-react"
 import { useTheme } from "next-themes"
 import type { RubricCriterion, ScoreAnchor, ScoreValue } from "@/lib/interview-data"
+import { localizeCriterion, localizeRedFlag, localizeScoreAnchor, useLanguage } from "@/lib/i18n"
 
 interface NotesScoringProps {
   notes: string
@@ -34,6 +35,7 @@ export function NotesScoring({
 }: NotesScoringProps) {
   const { theme } = useTheme()
   const isLight = theme === "light"
+  const { locale, tr } = useLanguage()
 
   const handleScoreChange = (criterionId: string, value: string) => {
     const score: ScoreValue = value === "na" ? "na" : (Number(value) as ScoreValue)
@@ -63,13 +65,13 @@ export function NotesScoring({
             letterSpacing="wider"
             color={isLight ? "gray.600" : "gray.400"}
           >
-            Interview Notes
+            {tr("Interview Notes", "Заметки интервью")}
           </Text>
         </Flex>
         <Textarea
           value={notes}
           onChange={(e) => onNotesChange(e.target.value)}
-          placeholder="Take notes during the interview..."
+          placeholder={tr("Take notes during the interview...", "Фиксируйте наблюдения и конкретные примеры...")}
           rows={8}
           bg={isLight ? "white" : "gray.900"}
           border="1px solid"
@@ -97,12 +99,15 @@ export function NotesScoring({
             letterSpacing="wider"
             color={isLight ? "gray.600" : "gray.400"}
           >
-            Scoring Rubric
+            {tr("Scoring Rubric", "Критерии оценки")}
           </Text>
         </Flex>
 
         <Box display="flex" flexDirection="column" gap="3">
-          {rubric.criteria.map((criterion) => (
+          {rubric.criteria.map((criterion) => {
+            const localizedCriterion = localizeCriterion(criterion, locale)
+
+            return (
             <Box
               key={criterion.id}
               p="4"
@@ -112,10 +117,10 @@ export function NotesScoring({
               borderColor={isLight ? "gray.200" : "gray.800"}
             >
               <Text fontSize="sm" fontWeight="semibold" color={isLight ? "gray.900" : "gray.100"} mb="2">
-                {criterion.name}
+                {localizedCriterion.name}
               </Text>
               <Text fontSize="xs" color={isLight ? "gray.600" : "gray.500"} mb="3" lineHeight="relaxed">
-                {criterion.description}
+                {localizedCriterion.description}
               </Text>
 
               <RadioGroup.Root
@@ -127,21 +132,28 @@ export function NotesScoring({
                 size="sm"
               >
                 <Flex gap="3" mb="3" flexWrap="wrap">
-                  {rubric.scoreAnchors.map((anchor) => (
+                  {rubric.scoreAnchors.map((anchor) => {
+                    const localizedAnchor = localizeScoreAnchor(anchor, locale)
+
+                    return (
                     <RadioGroup.Item key={anchor.value} value={anchor.value.toString()}>
                       <RadioGroup.ItemHiddenInput />
                       <RadioGroup.ItemIndicator />
                       <RadioGroup.ItemText color={isLight ? "gray.700" : "gray.400"} fontSize="xs">
-                        {anchor.value === "na" ? "N/A" : anchor.value} — {anchor.label}
+                        {anchor.value === "na" ? "N/A" : anchor.value} — {localizedAnchor.label}
                       </RadioGroup.ItemText>
                     </RadioGroup.Item>
-                  ))}
+                    )
+                  })}
                 </Flex>
               </RadioGroup.Root>
 
               {scores[criterion.id] !== undefined && (
                 <Text fontSize="xs" color={isLight ? "gray.600" : "gray.400"} mb="3" lineHeight="relaxed">
-                  {rubric.scoreAnchors.find((anchor) => anchor.value === scores[criterion.id])?.description}
+                  {(() => {
+                    const anchor = rubric.scoreAnchors.find((item) => item.value === scores[criterion.id])
+                    return anchor ? localizeScoreAnchor(anchor, locale).description : ""
+                  })()}
                 </Text>
               )}
 
@@ -149,7 +161,7 @@ export function NotesScoring({
               <Textarea
                 value={evidence[criterion.id] || ""}
                 onChange={(e) => handleEvidenceChange(criterion.id, e.target.value)}
-                placeholder="Evidence notes..."
+                placeholder={tr("Evidence notes...", "Подтверждающие наблюдения...")}
                 rows={2}
                 bg={isLight ? "gray.50" : "gray.800"}
                 border="1px solid"
@@ -161,7 +173,8 @@ export function NotesScoring({
                 _focus={{ borderColor: "teal.500", outline: "none", shadow: "0 0 0 3px rgba(20, 184, 166, 0.1)" }}
               />
             </Box>
-          ))}
+            )
+          })}
         </Box>
       </Box>
 
@@ -177,10 +190,13 @@ export function NotesScoring({
           color={isLight ? "gray.600" : "gray.400"}
           mb="3"
         >
-          Red Flags
+          {tr("Red Flags", "Красные флаги")}
         </Text>
         <Text fontSize="xs" color={isLight ? "gray.600" : "gray.500"} mb="3">
-          Mark only observable behavior and capture a concrete example in the notes.
+          {tr(
+            "Mark only observable behavior and capture a concrete example in the notes.",
+            "Отмечайте только наблюдаемое поведение и фиксируйте конкретный пример в заметках.",
+          )}
         </Text>
         <Box display="flex" flexDirection="column" gap="3">
           {rubric.redFlags.map((flag) => (
@@ -196,7 +212,7 @@ export function NotesScoring({
               </Checkbox.Control>
               <Checkbox.Label>
                 <Text fontSize="sm" color={isLight ? "gray.700" : "gray.300"} lineHeight="relaxed">
-                  {flag}
+                  {localizeRedFlag(flag, locale)}
                 </Text>
               </Checkbox.Label>
             </Checkbox.Root>

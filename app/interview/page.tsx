@@ -6,11 +6,13 @@ import { useTheme } from "next-themes"
 import { Box, Grid, GridItem, Flex, Button } from "@chakra-ui/react"
 import { Logo } from "@/components/logo"
 import { ColorModeButton } from "@/components/ui/color-mode"
+import { LanguageToggle } from "@/components/language-toggle"
 import { InterviewTimeline } from "@/components/interview-timeline"
 import { QuestionPanel } from "@/components/question-panel"
 import { NotesScoring } from "@/components/notes-scoring"
 import type { InterviewTrack } from "@/app/page"
 import { getInterviewPlan, type ScoreValue } from "@/lib/interview-data"
+import { useLanguage } from "@/lib/i18n"
 
 function InterviewContent() {
   const searchParams = useSearchParams()
@@ -18,6 +20,7 @@ function InterviewContent() {
   const track = searchParams.get("track") as InterviewTrack
   const { theme } = useTheme()
   const isLight = theme === "light"
+  const { tr } = useLanguage()
 
   const [currentBlockIndex, setCurrentBlockIndex] = useState(0)
   const [selectedQuestionId, setSelectedQuestionId] = useState<string | null>(null)
@@ -90,6 +93,7 @@ function InterviewContent() {
         <Flex justify="space-between" align="center">
           <Logo clickable={true} />
           <Flex align="center" gap="3">
+            <LanguageToggle />
             <ColorModeButton />
             <Button
               onClick={handleFinishInterview}
@@ -102,7 +106,7 @@ function InterviewContent() {
               fontWeight="semibold"
               px="6"
             >
-              Finish Interview
+              {tr("Finish Interview", "Завершить интервью")}
             </Button>
           </Flex>
         </Flex>

@@ -9,6 +9,7 @@ The app runs entirely client-side for interview data: notes, scores, evidence, a
 - Track selection for Senior Frontend, Senior Backend, and Senior Fullstack interviews.
 - Track-specific timelines: 60 minutes for Frontend/Backend and 90 minutes for Fullstack.
 - Bilingual question text in the track data (`en` and `ru`).
+- Persistent Russian/English language switcher across home, interview, and summary screens.
 - Rubric scoring with evidence fields for each criterion.
 - Red-flag checklist and verdict calculation on the summary page.
 - Markdown export for the final interview summary.
@@ -109,6 +110,10 @@ Interview plans live in `lib/tracks/*.json`. Each track file contains:
 Interviewers should ask every Core question and mark questions as covered. Optional questions are a bank for role-relevant depth, not a checklist. Unassessed (`N/A`) criteria are excluded from the total score, and the summary requires evidence across at least 60% of the rubric before producing a score-based verdict.
 
 Each track also contains a `choose_one` Practical Work Sample block. The interviewer selects one of five rendered artifacts: code review, production trace, architecture diagnosis, safe migration plan, or code analysis. Marking an option as covered automatically replaces any previously selected option from that block.
+
+## Language
+
+The interface defaults to Russian and can be switched between Russian and English from every screen. The preference is stored in `localStorage`. Candidate-facing question text uses the track's explicit `ru`/`en` variants; untranslated legacy interviewer guidance falls back to language-specific calibrated prompts rather than mixing languages on screen.
 
 `lib/interview-data.ts` maps the route-level track names (`frontend`, `backend`, `fullstack`) to those JSON files.
 

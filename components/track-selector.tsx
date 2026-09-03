@@ -3,6 +3,7 @@
 import type { InterviewTrack } from "@/app/page"
 import { Box, SimpleGrid, Text, Flex } from "@chakra-ui/react"
 import { Monitor, Server, Layers } from "lucide-react"
+import { useLanguage } from "@/lib/i18n"
 
 interface TrackSelectorProps {
   selectedTrack: InterviewTrack
@@ -13,27 +14,35 @@ const tracks = [
   {
     id: "frontend" as const,
     label: "Senior Frontend",
+    labelRu: "Senior Frontend",
     shortLabel: "FE",
     description: "60 min · React, TypeScript, Web Performance, Accessibility",
+    descriptionRu: "60 минут · React, TypeScript, производительность, accessibility",
     icon: Monitor,
   },
   {
     id: "backend" as const,
     label: "Senior Backend",
+    labelRu: "Senior Backend",
     shortLabel: "Node.js + NestJS",
     description: "60 min · Node.js, NestJS, APIs, Databases, System Design",
+    descriptionRu: "60 минут · Node.js, NestJS, API, базы данных, системный дизайн",
     icon: Server,
   },
   {
     id: "fullstack" as const,
     label: "Senior Fullstack",
+    labelRu: "Senior Fullstack",
     shortLabel: "FE + BE",
     description: "90 min · Full-stack architecture, End-to-end ownership",
+    descriptionRu: "90 минут · Fullstack-архитектура, end-to-end ownership",
     icon: Layers,
   },
 ]
 
 export function TrackSelector({ selectedTrack, onSelectTrack }: TrackSelectorProps) {
+  const { locale } = useLanguage()
+
   return (
     <Flex direction="column" gap="3">
       {tracks.map((track) => {
@@ -91,10 +100,10 @@ export function TrackSelector({ selectedTrack, onSelectTrack }: TrackSelectorPro
             {/* Content */}
             <Box flex="1" minW="0">
               <Text fontWeight="bold" color="gray.50" _light={{ color: "gray.900" }} mb="1" fontSize="md">
-                {track.label}
+                {locale === "ru" ? track.labelRu : track.label}
               </Text>
               <Text fontSize="sm" color="gray.400" _light={{ color: "gray.600" }} lineHeight="relaxed">
-                {track.description}
+                {locale === "ru" ? track.descriptionRu : track.description}
               </Text>
             </Box>
 

@@ -4,6 +4,8 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { TrackSelector } from "@/components/track-selector"
 import { ColorModeButton } from "@/components/ui/color-mode"
+import { LanguageToggle } from "@/components/language-toggle"
+import { useLanguage } from "@/lib/i18n"
 import { Box, Container, Heading, Text, Button, Badge, Flex, SimpleGrid } from "@chakra-ui/react"
 import { ArrowRight, Clock, FileCheck, MessageSquare, FileText } from "lucide-react"
 
@@ -12,6 +14,7 @@ export type InterviewTrack = "frontend" | "backend" | "fullstack" | null
 export default function HomePage() {
   const [selectedTrack, setSelectedTrack] = useState<InterviewTrack>(null)
   const router = useRouter()
+  const { tr } = useLanguage()
 
   const handleStartInterview = () => {
     if (selectedTrack) {
@@ -23,7 +26,8 @@ export default function HomePage() {
     <Box minH="100vh" maxH="100vh" bg="gray.950" _light={{ bg: "white" }} overflow="hidden">
       {/* Header */}
       <Box px={{ base: "6", lg: "8" }} py="4">
-        <Flex justify="flex-end" align="center" maxW="7xl" mx="auto">
+        <Flex justify="flex-end" align="center" gap="3" maxW="7xl" mx="auto">
+          <LanguageToggle />
           <ColorModeButton />
         </Flex>
       </Box>
@@ -46,7 +50,7 @@ export default function HomePage() {
               borderRadius="full"
               mb="4"
             >
-              Internal Tool
+              {tr("Internal Tool", "Внутренний инструмент")}
             </Badge>
             <Heading
               as="h1"
@@ -58,13 +62,15 @@ export default function HomePage() {
               _light={{ color: "gray.900" }}
               mb="6"
             >
-              Interview
+              {tr("Interview", "Помощник")}
               <br />
-              Assistant
+              {tr("Assistant", "для интервью")}
             </Heading>
             <Text fontSize={{ base: "lg", lg: "xl" }} color="gray.400" _light={{ color: "gray.600" }} mb="8" lineHeight="tall" maxW="lg">
-              Conduct structured technical interviews for Senior Engineers with guided questions, scoring rubrics, and
-              comprehensive summaries
+              {tr(
+                "Conduct structured technical interviews for Senior Engineers with guided questions, scoring rubrics, and comprehensive summaries.",
+                "Проводите структурированные технические интервью Senior-инженеров с вопросами, критериями оценки и итоговым отчётом.",
+              )}
             </Text>
 
             {/* Quick Features */}
@@ -74,7 +80,7 @@ export default function HomePage() {
                   <Clock size={18} />
                 </Box>
                 <Text fontSize="sm" color="gray.400" _light={{ color: "gray.700" }}>
-                  60–90 min structure
+                  {tr("60–90 min structure", "Структура на 60–90 минут")}
                 </Text>
               </Flex>
               <Flex gap="2" align="center">
@@ -82,7 +88,7 @@ export default function HomePage() {
                   <MessageSquare size={18} />
                 </Box>
                 <Text fontSize="sm" color="gray.400" _light={{ color: "gray.700" }}>
-                  Guided questions
+                  {tr("Guided questions", "Вопросы с подсказками")}
                 </Text>
               </Flex>
               <Flex gap="2" align="center">
@@ -90,7 +96,7 @@ export default function HomePage() {
                   <FileCheck size={18} />
                 </Box>
                 <Text fontSize="sm" color="gray.400" _light={{ color: "gray.700" }}>
-                  Scoring rubric
+                  {tr("Scoring rubric", "Критерии оценки")}
                 </Text>
               </Flex>
               <Flex gap="2" align="center">
@@ -98,7 +104,7 @@ export default function HomePage() {
                   <FileText size={18} />
                 </Box>
                 <Text fontSize="sm" color="gray.400" _light={{ color: "gray.700" }}>
-                  Auto summary
+                  {tr("Auto summary", "Автоматический итог")}
                 </Text>
               </Flex>
             </SimpleGrid>
@@ -122,19 +128,19 @@ export default function HomePage() {
                 disabled={!selectedTrack}
                 onClick={handleStartInterview}
               >
-                Start Interview
+                {tr("Start Interview", "Начать интервью")}
                 <ArrowRight size={20} />
               </Button>
               {!selectedTrack && (
                 <Text fontSize="sm" color="gray.500" _light={{ color: "gray.600" }}>
-                  Select a track to begin
+                  {tr("Select a track to begin", "Выберите направление")}
                 </Text>
               )}
             </Flex>
 
             {/* Footer */}
             <Text fontSize="xs" color="gray.600" _light={{ color: "gray.500" }} mt="8">
-              Runs locally. No data stored externally.
+              {tr("Runs locally. No data stored externally.", "Работает локально. Данные не передаются наружу.")}
             </Text>
           </Box>
 
@@ -149,7 +155,7 @@ export default function HomePage() {
               _light={{ color: "gray.600" }}
               mb="4"
             >
-              Select Interview Track
+              {tr("Select Interview Track", "Выберите направление интервью")}
             </Text>
             <TrackSelector selectedTrack={selectedTrack} onSelectTrack={setSelectedTrack} />
           </Box>

@@ -7,8 +7,16 @@ import { Box, Text, Flex, Button, Heading } from "@chakra-ui/react"
 import { AlertTriangle, Calendar, Clock, Download, Home } from "lucide-react"
 import { Logo } from "@/components/logo"
 import { ColorModeButton } from "@/components/ui/color-mode"
+import { LanguageToggle } from "@/components/language-toggle"
 import type { InterviewTrack } from "@/app/page"
 import type { InterviewBlock, InterviewPlan, ScoreValue } from "@/lib/interview-data"
+import {
+  localizeBlockTitle,
+  localizeCriterion,
+  localizeQuestionText,
+  localizeRedFlag,
+  useLanguage,
+} from "@/lib/i18n"
 
 interface SummaryData {
   track: NonNullable<InterviewTrack>
@@ -29,6 +37,7 @@ function SummaryContent() {
 
   const { theme } = useTheme()
   const isLight = theme === "light"
+  const { locale, tr } = useLanguage()
 
   useEffect(() => {
     const storedData = sessionStorage.getItem("interviewSummary")
@@ -36,13 +45,13 @@ function SummaryContent() {
       const parsedData = JSON.parse(storedData)
       setData({
         ...parsedData,
-        date: new Date(parsedData.date).toLocaleDateString(),
+        date: new Date(parsedData.date).toLocaleDateString(locale === "ru" ? "ru-RU" : "en-GB"),
       })
     } else {
       // Redirect to home if no data found
       router.push("/")
     }
-  }, [router])
+  }, [locale, router])
 
   if (!data) {
     return (
@@ -53,7 +62,7 @@ function SummaryContent() {
         alignItems="center"
         justifyContent="center"
       >
-        <Text color="gray.400">Loading summary...</Text>
+        <Text color="gray.400">{tr("Loading summary...", "Загрузка итогов...")}</Text>
       </Box>
     )
   }
@@ -68,65 +77,67 @@ function SummaryContent() {
 
   // Determine verdict based on score
   const getVerdict = () => {
-    if (hasRedFlags) return { text: "Review Required", color: "orange.500" }
-    if (assessedScores.length < minimumEvidence) return { text: "Insufficient Evidence", color: "gray.500" }
+    if (hasRedFlags) return { text: tr("Review Required", "Требуется обсуждение"), color: "orange.500" }
+    if (assessedScores.length < minimumEvidence) return { text: tr("Insufficient Evidence", "Недостаточно данных"), color: "gray.500" }
     const percentage = (totalScore / maxScore) * 100
-    if (percentage >= 85) return { text: "Strong Hire", color: "green.500" }
-    if (percentage >= 70) return { text: "Hire", color: "teal.500" }
-    if (percentage >= 50) return { text: "Strong Maybe", color: "orange.500" }
-    return { text: "No Hire", color: "red.500" }
+    if (percentage >= 85) return { text: tr("Strong Hire", "Однозначно нанимать"), color: "green.500" }
+    if (percentage >= 70) return { text: tr("Hire", "Нанимать"), color: "teal.500" }
+    if (percentage >= 50) return { text: tr("Strong Maybe", "Скорее дополнительная оценка"), color: "orange.500" }
+    return { text: tr("No Hire", "Не нанимать"), color: "red.500" }
   }
 
   const verdict = getVerdict()
+  const localizedDuration = data.duration.replace("minutes", tr("minutes", "минут"))
 
   const exportAsMarkdown = () => {
-    let markdown = `# Interview Summary\n\n`
-    markdown += `## Interview Overview\n`
-    markdown += `- **Track:** ${data.track.toUpperCase()}\n`
-    markdown += `- **Date:** ${data.date}\n`
-    markdown += `- **Duration:** ${data.duration}\n\n`
+    let markdown = `# ${tr("Interview Summary", "Итоги интервью")}\n\n`
+    markdown += `## ${tr("Interview Overview", "Обзор интервью")}\n`
+    markdown += `- **${tr("Track", "Направление")}:** ${data.track.toUpperCase()}\n`
+    markdown += `- **${tr("Date", "Дата")}:** ${data.date}\n`
+    markdown += `- **${tr("Duration", "Продолжительность")}:** ${localizedDuration}\n\n`
 
-    markdown += `## Final Decision\n`
-    markdown += `**Verdict:** ${verdict.text}\n\n`
-    markdown += `**Score:** ${maxScore > 0 ? `${totalScore}/${maxScore}` : "Not assessed"}\n\n`
+    markdown += `## ${tr("Final Decision", "Итоговое решение")}\n`
+    markdown += `**${tr("Verdict", "Вердикт")}:** ${verdict.text}\n\n`
+    markdown += `**${tr("Score", "Балл")}:** ${maxScore > 0 ? `${totalScore}/${maxScore}` : tr("Not assessed", "Не оценено")}\n\n`
     if (hasRedFlags) {
-      markdown += `⚠️ **Red Flags Identified**\n\n`
+      markdown += `⚠️ **${tr("Red Flags Identified", "Обнаружены красные флаги")}**\n\n`
     }
 
-    markdown += `## Scoring Rubric Breakdown\n\n`
+    markdown += `## ${tr("Scoring Rubric Breakdown", "Оценка по критериям")}\n\n`
     data.rubric.criteria?.forEach((criterion) => {
+      const localizedCriterion = localizeCriterion(criterion, locale)
       const score = data.scores[criterion.id]
-      const evidenceText = data.evidence[criterion.id] || "No evidence provided"
-      markdown += `### ${criterion.name}\n`
-      markdown += `**Score:** ${typeof score === "number" ? `${score}/3` : "N/A"}\n\n`
-      markdown += `**Evidence:** ${evidenceText}\n\n`
+      const evidenceText = data.evidence[criterion.id] || tr("No evidence provided", "Подтверждающие данные не указаны")
+      markdown += `### ${localizedCriterion.name}\n`
+      markdown += `**${tr("Score", "Балл")}:** ${typeof score === "number" ? `${score}/3` : "N/A"}\n\n`
+      markdown += `**${tr("Evidence", "Подтверждение")}:** ${evidenceText}\n\n`
     })
 
-    markdown += `## Interview Notes\n\n`
-    markdown += data.notes || "No notes taken.\n\n"
+    markdown += `## ${tr("Interview Notes", "Заметки интервью")}\n\n`
+    markdown += data.notes || tr("No notes taken.\n\n", "Заметки отсутствуют.\n\n")
 
-    markdown += `## Red Flags\n\n`
+    markdown += `## ${tr("Red Flags", "Красные флаги")}\n\n`
     const selectedFlags = Object.entries(data.redFlags)
       .filter(([, checked]) => checked)
       .map(([flag]) => flag)
     if (selectedFlags.length > 0) {
       selectedFlags.forEach((flag) => {
-        markdown += `- ${flag}\n`
+        markdown += `- ${localizeRedFlag(flag, locale)}\n`
       })
     } else {
-      markdown += `No red flags identified.\n`
+      markdown += `${tr("No red flags identified.", "Красные флаги не обнаружены.")}\n`
     }
 
-    markdown += `\n## Questions Covered\n\n`
+    markdown += `\n## ${tr("Questions Covered", "Пройденные вопросы")}\n\n`
     const coveredQuestions = data.blocks.flatMap((block) =>
       block.questions.filter((question) => data.coveredQuestionIds?.includes(question.id)),
     )
     if (coveredQuestions.length > 0) {
       coveredQuestions.forEach((question) => {
-        markdown += `- ${question.text.en}\n`
+        markdown += `- ${localizeQuestionText(question, locale)}\n`
       })
     } else {
-      markdown += `No questions marked as covered.\n`
+      markdown += `${tr("No questions marked as covered.", "Нет вопросов, отмеченных как пройденные.")}\n`
     }
 
     // Download
@@ -156,7 +167,10 @@ function SummaryContent() {
       >
         <Flex justify="space-between" align="center">
           <Logo clickable={true} />
-          <ColorModeButton />
+          <Flex align="center" gap="3">
+            <LanguageToggle />
+            <ColorModeButton />
+          </Flex>
         </Flex>
       </Box>
 
@@ -164,7 +178,7 @@ function SummaryContent() {
       <Box flex="1" overflowY="auto" px="8" py="12">
         <Box maxW="1000px" mx="auto">
           <Heading size="4xl" fontWeight="bold" color="gray.50" _light={{ color: "gray.900" }} mb="12" letterSpacing="tight">
-            Interview Summary
+            {tr("Interview Summary", "Итоги интервью")}
           </Heading>
 
           {/* Section 1: Interview Overview */}
@@ -185,12 +199,12 @@ function SummaryContent() {
               color={isLight ? "gray.600" : "gray.500"}
               mb="5"
             >
-              Interview Overview
+              {tr("Interview Overview", "Обзор интервью")}
             </Text>
             <Flex gap="8" flexWrap="wrap">
               <Flex align="center" gap="2">
                 <Text fontSize="sm" color={isLight ? "gray.600" : "gray.500"}>
-                  Track:
+                  {tr("Track:", "Направление:")}
                 </Text>
                 <Text fontSize="md" color={isLight ? "gray.900" : "gray.100"} fontWeight="semibold">
                   {data.track.toUpperCase()}
@@ -199,16 +213,16 @@ function SummaryContent() {
               <Flex align="center" gap="2">
                 <Box as={Clock} boxSize="16px" color="teal.500" />
                 <Text fontSize="sm" color={isLight ? "gray.600" : "gray.500"}>
-                  Duration:
+                  {tr("Duration:", "Продолжительность:")}
                 </Text>
                 <Text fontSize="md" color={isLight ? "gray.900" : "gray.100"}>
-                  {data.duration}
+                  {localizedDuration}
                 </Text>
               </Flex>
               <Flex align="center" gap="2">
                 <Box as={Calendar} boxSize="16px" color="teal.500" />
                 <Text fontSize="sm" color={isLight ? "gray.600" : "gray.500"}>
-                  Date:
+                  {tr("Date:", "Дата:")}
                 </Text>
                 <Text fontSize="md" color={isLight ? "gray.900" : "gray.100"}>
                   {data.date}
@@ -234,7 +248,7 @@ function SummaryContent() {
               color={isLight ? "gray.600" : "gray.500"}
               mb="6"
             >
-              Final Decision
+              {tr("Final Decision", "Итоговое решение")}
             </Text>
             <Flex align="center" gap="4" mb="5">
               <Text fontSize="4xl" fontWeight="bold" color={verdict.color} letterSpacing="tight">
@@ -253,15 +267,15 @@ function SummaryContent() {
                 >
                   <Box as={AlertTriangle} boxSize="18px" color={isLight ? "orange.700" : "orange.300"} />
                   <Text fontSize="sm" color={isLight ? "orange.700" : "orange.300"} fontWeight="semibold">
-                    Red Flags Present
+                    {tr("Red Flags Present", "Есть красные флаги")}
                   </Text>
                 </Flex>
               )}
             </Flex>
             <Text fontSize="lg" color={isLight ? "gray.600" : "gray.400"}>
-              Total Score:{" "}
+              {tr("Total Score:", "Общий балл:")}{" "}
               <Text as="span" color={isLight ? "gray.900" : "gray.100"} fontWeight="bold" fontSize="xl">
-                {maxScore > 0 ? `${totalScore}/${maxScore}` : "Not assessed"}
+                {maxScore > 0 ? `${totalScore}/${maxScore}` : tr("Not assessed", "Не оценено")}
               </Text>
             </Text>
           </Box>
@@ -283,10 +297,11 @@ function SummaryContent() {
               color={isLight ? "gray.600" : "gray.500"}
               mb="5"
             >
-              Scoring Rubric Breakdown
+              {tr("Scoring Rubric Breakdown", "Оценка по критериям")}
             </Text>
             <Box display="flex" flexDirection="column" gap="3">
               {data.rubric.criteria?.map((criterion) => {
+                const localizedCriterion = localizeCriterion(criterion, locale)
                 const score = data.scores[criterion.id]
                 const evidenceText = data.evidence[criterion.id] || ""
                 return (
@@ -300,7 +315,7 @@ function SummaryContent() {
                   >
                     <Flex justify="space-between" align="center" mb="3">
                       <Text fontSize="md" fontWeight="semibold" color={isLight ? "gray.900" : "gray.100"}>
-                        {criterion.name}
+                        {localizedCriterion.name}
                       </Text>
                       <Text fontSize="2xl" fontWeight="bold" color={isLight ? "gray.600" : "gray.400"}>
                         {typeof score === "number" ? `${score}/3` : "N/A"}
@@ -308,7 +323,7 @@ function SummaryContent() {
                     </Flex>
                     {evidenceText && (
                       <Text fontSize="sm" color={isLight ? "gray.700" : "gray.400"} lineHeight="tall">
-                        <Text as="span" fontWeight="medium" color={isLight ? "gray.600" : "gray.300"}>Evidence:</Text> {evidenceText}
+                        <Text as="span" fontWeight="medium" color={isLight ? "gray.600" : "gray.300"}>{tr("Evidence:", "Подтверждение:")}</Text> {evidenceText}
                       </Text>
                     )}
                   </Box>
@@ -335,7 +350,7 @@ function SummaryContent() {
                 color={isLight ? "gray.600" : "gray.500"}
                 mb="5"
               >
-                Interview Notes
+                {tr("Interview Notes", "Заметки интервью")}
               </Text>
               <Text
                 fontSize="sm"
@@ -365,7 +380,7 @@ function SummaryContent() {
               color={isLight ? "gray.600" : "gray.500"}
               mb="5"
             >
-              Questions Covered
+              {tr("Questions Covered", "Пройденные вопросы")}
             </Text>
             <Box display="flex" flexDirection="column" gap="5">
               {data.blocks.map((block) => {
@@ -378,12 +393,12 @@ function SummaryContent() {
                 return (
                 <Box key={block.id}>
                   <Text fontSize="md" fontWeight="semibold" borderColor={isLight ? "gray.900" : "gray.100"} mb="3">
-                    {block.title} <Text as="span" fontSize="sm" color={isLight ? "gray.600" : "gray.500"} fontWeight="normal">({block.timeRange})</Text>
+                    {localizeBlockTitle(block, locale)} <Text as="span" fontSize="sm" color={isLight ? "gray.600" : "gray.500"} fontWeight="normal">({block.timeRange})</Text>
                   </Text>
                   <Box as="ul" pl="5" display="flex" flexDirection="column" gap="2">
                     {coveredQuestions.map((q) => (
                       <Box as="li" key={q.id} fontSize="sm" color={isLight ? "gray.700" : "gray.400"} lineHeight="tall">
-                        {q.text.en}
+                        {localizeQuestionText(q, locale)}
                       </Box>
                     ))}
                   </Box>
@@ -392,7 +407,7 @@ function SummaryContent() {
               })}
               {!data.coveredQuestionIds?.length && (
                 <Text fontSize="sm" color={isLight ? "gray.600" : "gray.500"}>
-                  No questions were marked as covered.
+                  {tr("No questions were marked as covered.", "Нет вопросов, отмеченных как пройденные.")}
                 </Text>
               )}
             </Box>
@@ -412,7 +427,7 @@ function SummaryContent() {
               transition="all 0.2s"
             >
               <Box as={Download} boxSize="20px" mr="2" />
-              Export as Markdown
+              {tr("Export as Markdown", "Экспортировать Markdown")}
             </Button>
             <Button
               onClick={() => router.push("/")}
@@ -433,7 +448,7 @@ function SummaryContent() {
               transition="all 0.2s"
             >
               <Box as={Home} boxSize="20px" mr="2" />
-              Start New Interview
+              {tr("Start New Interview", "Новое интервью")}
             </Button>
           </Flex>
         </Box>

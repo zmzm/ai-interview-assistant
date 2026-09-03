@@ -4,6 +4,7 @@ import { Box, Text, Flex, Badge } from "@chakra-ui/react"
 import { Clock, CheckCircle2 } from "lucide-react"
 import { useTheme } from "next-themes"
 import type { InterviewBlock } from "@/lib/interview-data"
+import { localizeBlockGoal, localizeBlockTitle, useLanguage } from "@/lib/i18n"
 
 interface InterviewTimelineProps {
   blocks: InterviewBlock[]
@@ -14,6 +15,7 @@ interface InterviewTimelineProps {
 export function InterviewTimeline({ blocks, currentBlockIndex, onSelectBlock }: InterviewTimelineProps) {
   const { theme } = useTheme()
   const isLight = theme === "light"
+  const { locale, tr } = useLanguage()
 
   return (
     <Box p="6">
@@ -28,7 +30,7 @@ export function InterviewTimeline({ blocks, currentBlockIndex, onSelectBlock }: 
           letterSpacing="wider"
           color={isLight ? "gray.600" : "gray.400"}
         >
-          Interview Timeline
+          {tr("Interview Timeline", "План интервью")}
         </Text>
       </Flex>
 
@@ -90,7 +92,7 @@ export function InterviewTimeline({ blocks, currentBlockIndex, onSelectBlock }: 
                 )}
                 {isCurrent && (
                   <Badge bg="teal.500" color="white" fontSize="xs" px="2" py="0.5">
-                    Now
+                    {tr("Now", "Сейчас")}
                   </Badge>
                 )}
               </Flex>
@@ -100,10 +102,10 @@ export function InterviewTimeline({ blocks, currentBlockIndex, onSelectBlock }: 
                 color={isCurrent ? (isLight ? "gray.900" : "gray.100") : isLight ? "gray.700" : "gray.300"}
                 mb="1"
               >
-                {block.title}
+                {localizeBlockTitle(block, locale)}
               </Text>
               <Text fontSize="xs" color={isLight ? "gray.600" : "gray.500"} lineHeight="tall">
-                {block.goal}
+                {localizeBlockGoal(block, locale)}
               </Text>
             </Box>
           )

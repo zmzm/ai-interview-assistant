@@ -5,7 +5,7 @@ import { Analytics } from "@vercel/analytics/next"
 import { Provider } from "@/components/ui/provider"
 import "./globals.css"
 
-const inter = Inter({ subsets: ["latin"] })
+const inter = Inter({ subsets: ["latin", "cyrillic"] })
 
 export const metadata: Metadata = {
   title: "Interview Assistant",
@@ -19,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="ru" suppressHydrationWarning>
       <body className={inter.className}>
         <Provider>{children}</Provider>
         <Analytics />

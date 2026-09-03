@@ -22,7 +22,9 @@ export interface Question {
     ru: string
   }
   prompts?: string[]
+  promptsEn?: string[]
   expectedDirection?: string
+  expectedDirectionEn?: string
   artifact?: {
     type: "code_review" | "production_trace" | "architecture" | "migration" | "code_analysis"
     title: string

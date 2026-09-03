@@ -4,6 +4,14 @@ import { Badge, Box, Text, Flex, Button, SimpleGrid } from "@chakra-ui/react"
 import { MessageSquare, ArrowRight, RefreshCw, CheckCircle2 } from "lucide-react"
 import { useTheme } from "next-themes"
 import type { InterviewBlock } from "@/lib/interview-data"
+import {
+  localizeBlockGoal,
+  localizeBlockTitle,
+  localizeExpectedDirection,
+  localizePrompts,
+  localizeQuestionText,
+  useLanguage,
+} from "@/lib/i18n"
 
 interface QuestionPanelProps {
   block: InterviewBlock
@@ -26,7 +34,19 @@ export function QuestionPanel({
 }: QuestionPanelProps) {
   const { theme } = useTheme()
   const isLight = theme === "light"
+  const { locale, tr } = useLanguage()
   const selectedQuestion = block.questions.find((q) => q.id === selectedQuestionId)
+  const selectedPrompts = selectedQuestion ? localizePrompts(selectedQuestion, locale) : []
+  const selectedExpectedDirection = selectedQuestion ? localizeExpectedDirection(selectedQuestion, locale) : undefined
+  const artifactTypeLabel = selectedQuestion?.artifact
+    ? {
+        code_review: tr("code review", "ревью кода"),
+        production_trace: tr("production trace", "production trace"),
+        architecture: tr("architecture", "архитектура"),
+        migration: tr("migration", "миграция"),
+        code_analysis: tr("code analysis", "анализ кода"),
+      }[selectedQuestion.artifact.type]
+    : ""
   const orderedQuestions = [...block.questions].sort(
     (left, right) => Number(right.priority === "core") - Number(left.priority === "core"),
   )
@@ -46,10 +66,10 @@ export function QuestionPanel({
               {block.timeRange} • {block.duration}
             </Text>
             <Text fontSize="3xl" fontWeight="bold" color={isLight ? "gray.900" : "gray.100"} mb="3" letterSpacing="tight">
-              {block.title}
+              {localizeBlockTitle(block, locale)}
             </Text>
             <Text fontSize="md" color={isLight ? "gray.600" : "gray.400"} lineHeight="tall">
-              {block.goal}
+              {localizeBlockGoal(block, locale)}
             </Text>
           </Box>
           <Button
@@ -66,7 +86,7 @@ export function QuestionPanel({
             fontWeight="semibold"
             flexShrink={0}
           >
-            {isLastBlock ? "Complete" : "Next Block"}
+            {isLastBlock ? tr("Complete", "Готово") : tr("Next Block", "Следующий блок")}
             {!isLastBlock && <ArrowRight size={18} />}
           </Button>
         </Flex>
@@ -86,10 +106,18 @@ export function QuestionPanel({
               color={isLight ? "gray.600" : "gray.500"}
               mb="4"
             >
-              Interview Questions
+              {tr("Interview Questions", "Вопросы интервью")}
             </Text>
             <Text fontSize="sm" color={isLight ? "gray.600" : "gray.500"} mb="4">
-              {block.instructions || "Ask every Core question. Use Optional questions only for a relevant deep-dive or remaining time."}
+              {block.selectionMode === "choose_one"
+                ? tr(
+                    "Choose exactly one artifact. Give the candidate quiet reading time, then ask them to think aloud.",
+                    "Выберите ровно один артефакт. Дайте кандидату время прочитать его, затем попросите рассуждать вслух.",
+                  )
+                : tr(
+                    "Ask every Core question. Use Optional questions only for a relevant deep-dive or remaining time.",
+                    "Задайте все Core-вопросы. Optional используйте только для релевантного углубления или если осталось время.",
+                  )}
             </Text>
             <SimpleGrid columns={1} gap="3">
               {orderedQuestions.map((question) => (
@@ -119,20 +147,17 @@ export function QuestionPanel({
                     <Box flex="1">
                       <Flex gap="2" mb="2" align="center">
                         <Badge colorPalette={block.selectionMode === "choose_one" || question.priority === "core" ? "teal" : "gray"} size="sm">
-                          {block.selectionMode === "choose_one" ? "Option" : question.priority === "core" ? "Core" : "Optional"}
+                          {block.selectionMode === "choose_one" ? tr("Option", "Вариант") : question.priority === "core" ? "Core" : "Optional"}
                         </Badge>
                         {coveredQuestionIds.includes(question.id) && (
                           <Flex align="center" gap="1" color="green.500">
                             <CheckCircle2 size={14} />
-                            <Text fontSize="xs">Covered</Text>
+                            <Text fontSize="xs">{tr("Covered", "Пройден")}</Text>
                           </Flex>
                         )}
                       </Flex>
                       <Text fontSize="md" fontWeight="semibold" color={isLight ? "gray.900" : "gray.100"} mb="2" lineHeight="tall">
-                        {question.text.en}
-                      </Text>
-                      <Text fontSize="sm" color={isLight ? "gray.600" : "gray.500"} lineHeight="relaxed">
-                        {question.text.ru}
+                        {localizeQuestionText(question, locale)}
                       </Text>
                     </Box>
                   </Flex>
@@ -153,7 +178,7 @@ export function QuestionPanel({
                 letterSpacing="wider"
                 color="teal.500"
               >
-                Active Question
+                {tr("Active Question", "Активный вопрос")}
               </Text>
               <Button
                 size="sm"
@@ -163,7 +188,7 @@ export function QuestionPanel({
                 onClick={() => onSelectQuestion(null)}
               >
                 <RefreshCw size={14} />
-                Switch Question
+                {tr("Switch Question", "Сменить вопрос")}
               </Button>
             </Flex>
 
@@ -175,7 +200,7 @@ export function QuestionPanel({
               onClick={() => onToggleCovered(selectedQuestion.id)}
             >
               <CheckCircle2 size={14} />
-              {coveredQuestionIds.includes(selectedQuestion.id) ? "Covered" : "Mark as covered"}
+              {coveredQuestionIds.includes(selectedQuestion.id) ? tr("Covered", "Пройден") : tr("Mark as covered", "Отметить пройденным")}
             </Button>
 
             <Box
@@ -187,10 +212,7 @@ export function QuestionPanel({
               mb="6"
             >
               <Text fontSize="lg" fontWeight="bold" color={isLight ? "gray.900" : "gray.50"} mb="3" lineHeight="tall">
-                {selectedQuestion.text.en}
-              </Text>
-              <Text fontSize="md" color={isLight ? "gray.700" : "gray.300"} lineHeight="relaxed">
-                {selectedQuestion.text.ru}
+                {localizeQuestionText(selectedQuestion, locale)}
               </Text>
             </Box>
 
@@ -204,10 +226,10 @@ export function QuestionPanel({
                     letterSpacing="wider"
                     color={isLight ? "gray.600" : "gray.500"}
                   >
-                    Working Artifact
+                    {tr("Working Artifact", "Рабочий артефакт")}
                   </Text>
                   <Badge colorPalette="purple" size="sm">
-                    {selectedQuestion.artifact.type.replaceAll("_", " ")}
+                    {artifactTypeLabel}
                   </Badge>
                 </Flex>
                 <Text fontSize="sm" fontWeight="semibold" color={isLight ? "gray.800" : "gray.200"} mb="2">
@@ -232,7 +254,7 @@ export function QuestionPanel({
               </Box>
             )}
 
-            {selectedQuestion.prompts && selectedQuestion.prompts.length > 0 && (
+            {selectedPrompts.length > 0 && (
               <Box mb="6">
                 <Text
                   fontSize="xs"
@@ -242,10 +264,10 @@ export function QuestionPanel({
                   color={isLight ? "gray.600" : "gray.500"}
                   mb="4"
                 >
-                  Follow-up Prompts
+                  {tr("Follow-up Prompts", "Уточняющие вопросы")}
                 </Text>
                 <Box display="flex" flexDirection="column" gap="3">
-                  {selectedQuestion.prompts.map((prompt, index) => (
+                  {selectedPrompts.map((prompt, index) => (
                     <Box
                       key={index}
                       p="4"
@@ -264,7 +286,7 @@ export function QuestionPanel({
               </Box>
             )}
 
-            {selectedQuestion.expectedDirection && (
+            {selectedExpectedDirection && (
               <Box mb="6">
                 <Text
                   fontSize="xs"
@@ -274,7 +296,7 @@ export function QuestionPanel({
                   color={isLight ? "gray.600" : "gray.500"}
                   mb="4"
                 >
-                  Evaluation Signals (Not a Checklist)
+                  {tr("Evaluation Signals (Not a Checklist)", "Сигналы оценки (не чеклист)")}
                 </Text>
                 <Box
                   p="5"
@@ -284,7 +306,7 @@ export function QuestionPanel({
                   bg={isLight ? "gray.50" : "gray.900"}
                   boxShadow={isLight ? "sm" : "none"}
                 >
-                  {selectedQuestion.expectedDirection.split("\n").map((line, index) => (
+                  {selectedExpectedDirection.split("\n").map((line, index) => (
                     <Text
                       key={index}
                       fontSize="sm"
