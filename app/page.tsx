@@ -74,7 +74,7 @@ export default function HomePage() {
                   <Clock size={18} />
                 </Box>
                 <Text fontSize="sm" color="gray.400" _light={{ color: "gray.700" }}>
-                  60-min structure
+                  60–90 min structure
                 </Text>
               </Flex>
               <Flex gap="2" align="center">

@@ -8,15 +8,17 @@ import { AlertTriangle, Calendar, Clock, Download, Home } from "lucide-react"
 import { Logo } from "@/components/logo"
 import { ColorModeButton } from "@/components/ui/color-mode"
 import type { InterviewTrack } from "@/app/page"
+import type { InterviewBlock, InterviewPlan, ScoreValue } from "@/lib/interview-data"
 
 interface SummaryData {
-  track: InterviewTrack
+  track: NonNullable<InterviewTrack>
   notes: string
-  scores: Record<string, number>
+  scores: Record<string, ScoreValue>
   redFlags: Record<string, boolean>
   evidence: Record<string, string>
-  rubric: any
-  blocks: any[]
+  rubric: InterviewPlan["rubric"]
+  blocks: InterviewBlock[]
+  coveredQuestionIds: string[]
   date: string
   duration: string
 }
@@ -56,15 +58,19 @@ function SummaryContent() {
     )
   }
 
-  // Calculate total score
-  const totalScore = Object.values(data.scores).reduce((sum, score) => sum + score, 0)
-  const maxScore = data.rubric.criteria?.length * 3 || 12
+  const assessedScores = Object.values(data.scores).filter(
+    (score): score is Exclude<ScoreValue, "na"> => typeof score === "number",
+  )
+  const totalScore = assessedScores.reduce<number>((sum, score) => sum + score, 0)
+  const maxScore = assessedScores.length * 3
+  const minimumEvidence = Math.ceil((data.rubric.criteria?.length || 0) * 0.6)
   const hasRedFlags = Object.values(data.redFlags).some((flag) => flag)
 
   // Determine verdict based on score
   const getVerdict = () => {
+    if (hasRedFlags) return { text: "Review Required", color: "orange.500" }
+    if (assessedScores.length < minimumEvidence) return { text: "Insufficient Evidence", color: "gray.500" }
     const percentage = (totalScore / maxScore) * 100
-    if (hasRedFlags) return { text: "Strong Maybe", color: "orange.500" }
     if (percentage >= 85) return { text: "Strong Hire", color: "green.500" }
     if (percentage >= 70) return { text: "Hire", color: "teal.500" }
     if (percentage >= 50) return { text: "Strong Maybe", color: "orange.500" }
@@ -82,17 +88,17 @@ function SummaryContent() {
 
     markdown += `## Final Decision\n`
     markdown += `**Verdict:** ${verdict.text}\n\n`
-    markdown += `**Score:** ${totalScore}/${maxScore}\n\n`
+    markdown += `**Score:** ${maxScore > 0 ? `${totalScore}/${maxScore}` : "Not assessed"}\n\n`
     if (hasRedFlags) {
       markdown += `⚠️ **Red Flags Identified**\n\n`
     }
 
     markdown += `## Scoring Rubric Breakdown\n\n`
-    data.rubric.criteria?.forEach((criterion: any) => {
-      const score = data.scores[criterion.id] || 0
+    data.rubric.criteria?.forEach((criterion) => {
+      const score = data.scores[criterion.id]
       const evidenceText = data.evidence[criterion.id] || "No evidence provided"
       markdown += `### ${criterion.name}\n`
-      markdown += `**Score:** ${score}/3\n\n`
+      markdown += `**Score:** ${typeof score === "number" ? `${score}/3` : "N/A"}\n\n`
       markdown += `**Evidence:** ${evidenceText}\n\n`
     })
 
@@ -101,7 +107,7 @@ function SummaryContent() {
 
     markdown += `## Red Flags\n\n`
     const selectedFlags = Object.entries(data.redFlags)
-      .filter(([_, checked]) => checked)
+      .filter(([, checked]) => checked)
       .map(([flag]) => flag)
     if (selectedFlags.length > 0) {
       selectedFlags.forEach((flag) => {
@@ -109,6 +115,18 @@ function SummaryContent() {
       })
     } else {
       markdown += `No red flags identified.\n`
+    }
+
+    markdown += `\n## Questions Covered\n\n`
+    const coveredQuestions = data.blocks.flatMap((block) =>
+      block.questions.filter((question) => data.coveredQuestionIds?.includes(question.id)),
+    )
+    if (coveredQuestions.length > 0) {
+      coveredQuestions.forEach((question) => {
+        markdown += `- ${question.text.en}\n`
+      })
+    } else {
+      markdown += `No questions marked as covered.\n`
     }
 
     // Download
@@ -131,8 +149,6 @@ function SummaryContent() {
     >
       {/* Header */}
       <Box
-        bg="gray.900"
-        _light={{ bg: "white" }}
         px="6"
         py="4"
         flexShrink={0}
@@ -245,7 +261,7 @@ function SummaryContent() {
             <Text fontSize="lg" color={isLight ? "gray.600" : "gray.400"}>
               Total Score:{" "}
               <Text as="span" color={isLight ? "gray.900" : "gray.100"} fontWeight="bold" fontSize="xl">
-                {totalScore}/{maxScore}
+                {maxScore > 0 ? `${totalScore}/${maxScore}` : "Not assessed"}
               </Text>
             </Text>
           </Box>
@@ -270,8 +286,8 @@ function SummaryContent() {
               Scoring Rubric Breakdown
             </Text>
             <Box display="flex" flexDirection="column" gap="3">
-              {data.rubric.criteria?.map((criterion: any) => {
-                const score = data.scores[criterion.id] || 0
+              {data.rubric.criteria?.map((criterion) => {
+                const score = data.scores[criterion.id]
                 const evidenceText = data.evidence[criterion.id] || ""
                 return (
                   <Box
@@ -287,7 +303,7 @@ function SummaryContent() {
                         {criterion.name}
                       </Text>
                       <Text fontSize="2xl" fontWeight="bold" color={isLight ? "gray.600" : "gray.400"}>
-                        {score}/3
+                        {typeof score === "number" ? `${score}/3` : "N/A"}
                       </Text>
                     </Flex>
                     {evidenceText && (
@@ -352,20 +368,33 @@ function SummaryContent() {
               Questions Covered
             </Text>
             <Box display="flex" flexDirection="column" gap="5">
-              {data.blocks.map((block: any) => (
+              {data.blocks.map((block) => {
+                const coveredQuestions = block.questions.filter((question) =>
+                  data.coveredQuestionIds?.includes(question.id),
+                )
+
+                if (coveredQuestions.length === 0) return null
+
+                return (
                 <Box key={block.id}>
                   <Text fontSize="md" fontWeight="semibold" borderColor={isLight ? "gray.900" : "gray.100"} mb="3">
                     {block.title} <Text as="span" fontSize="sm" color={isLight ? "gray.600" : "gray.500"} fontWeight="normal">({block.timeRange})</Text>
                   </Text>
                   <Box as="ul" pl="5" display="flex" flexDirection="column" gap="2">
-                    {block.questions.map((q: any) => (
+                    {coveredQuestions.map((q) => (
                       <Box as="li" key={q.id} fontSize="sm" color={isLight ? "gray.700" : "gray.400"} lineHeight="tall">
                         {q.text.en}
                       </Box>
                     ))}
                   </Box>
                 </Box>
-              ))}
+                )
+              })}
+              {!data.coveredQuestionIds?.length && (
+                <Text fontSize="sm" color={isLight ? "gray.600" : "gray.500"}>
+                  No questions were marked as covered.
+                </Text>
+              )}
             </Box>
           </Box>
 
@@ -390,16 +419,16 @@ function SummaryContent() {
               size="xl"
               height="14"
               px="8"
-              bg="gray.800"
-              _light={{ bg: "white" }}
+              bg={isLight ? "white" : "gray.800"}
               borderWidth="2px"
-              borderColor="gray.700"
-              _light={{ borderColor: "gray.300" }}
-              color="gray.200"
-              _light={{ color: "gray.900" }}
+              borderColor={isLight ? "gray.300" : "gray.700"}
+              color={isLight ? "gray.900" : "gray.200"}
               fontWeight="semibold"
-              _hover={{ bg: "gray.700", borderColor: "gray.600", transform: "translateY(-1px)" }}
-              _light={{ _hover: { bg: "gray.50", borderColor: "gray.400" } }}
+              _hover={{
+                bg: isLight ? "gray.50" : "gray.700",
+                borderColor: isLight ? "gray.400" : "gray.600",
+                transform: "translateY(-1px)",
+              }}
               _active={{ transform: "translateY(0)" }}
               transition="all 0.2s"
             >

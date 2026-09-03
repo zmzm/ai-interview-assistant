@@ -10,6 +10,7 @@
       "questions": [
         {
           "id": "fe-warmup-1",
+          "priority": "core",
           "text": {
             "en": "Tell me briefly about your last project: scale, team size, and your role.",
             "ru": "Кратко расскажи про последний проект: масштаб, размер команды и твою роль."
@@ -28,8 +29,22 @@
       "title": "Architecture & State (CORE)",
       "timeRange": "5–15",
       "duration": "10m",
-      "goal": "Быстро определить инженерный уровень: архитектурное мышление, boundaries, подход к состоянию.",
+      "goal": "Стандартизированный сценарий: проверить уточнение требований, архитектурные границы, эволюцию решения и реакцию на новые ограничения.",
       "questions": [
+        {
+          "id": "fe-core-scenario",
+          "priority": "core",
+          "text": {
+            "en": "Design the front end for a collaborative operations dashboard used by several teams. Start with the questions you need answered before proposing an architecture.",
+            "ru": "Спроектируй фронтенд совместного операционного дашборда для нескольких команд. Начни с вопросов, ответы на которые нужны до выбора архитектуры."
+          },
+          "prompts": [
+            "В системе появляются live-обновления и конфликты редактирования — что меняется?",
+            "Через полгода над продуктом работают четыре команды с независимыми релизами — где проведёшь границы?",
+            "На слабых устройствах dashboard стал медленным — что и как будешь измерять до изменений?"
+          ],
+          "expectedDirection": "- Сначала уточняет пользователей, критические сценарии, объём и свежесть данных, SLO и ограничения команды.\n- Объясняет границы модулей и владения данными, а не называет готовую структуру.\n- Рассматривает альтернативы и стоимость миграции.\n- При новых вводных пересматривает решение и называет способы проверки гипотез."
+        },
         {
           "id": "fe-1",
           "text": {
@@ -85,15 +100,15 @@
         {
   "id": "fe-50",
   "text": {
-    "en": "Why is storing server state in Redux or Zustand usually a bad idea?",
-    "ru": "Почему хранение server state в Redux или Zustand обычно является плохой практикой?"
+    "en": "You inherit an application where server data is stored in Redux or Zustand. What would you inspect, and when would you keep it or migrate it?",
+    "ru": "Ты приходишь в приложение, где серверные данные хранятся в Redux или Zustand. Что ты проверишь и когда оставишь решение или начнёшь миграцию?"
   },
   "prompts": [
     "Как решается cache invalidation?",
     "Что с request deduplication?",
-    "Какие race conditions возникают?"
+    "В каких случаях общее хранилище здесь может быть оправдано?"
   ],
-  "expectedDirection": "- Нет встроенной инвалидации кеша.\n- Нет дедупликации запросов.\n- Возникают race conditions.\n- Происходит дублирование ответственности."
+  "expectedDirection": "- Не объявляет конкретный инструмент правильным или неправильным без контекста.\n- Проверяет freshness, invalidation, deduplication, race conditions и дублирование источников истины.\n- Учитывает стоимость миграции и допускает специализированные решения вроде RTK Query.\n- Предлагает измеримый и поэтапный план, если изменение действительно нужно."
 },
         {
   "id": "fe-usememo-usecallback-harm",
@@ -112,13 +127,14 @@
     },
     {
       "id": "perf_runtime",
-      "title": "Performance & Runtime",
+      "title": "Quality, Performance & Runtime",
       "timeRange": "15–25",
       "duration": "10m",
       "goal": "Отделить React-разработчика от Front-End инженера: измерения, профилинг, браузерный пайплайн.",
       "questions": [
         {
           "id": "fe-4",
+          "priority": "core",
           "text": {
             "en": "Can you describe a real case where React performance became a serious issue?",
             "ru": "Расскажи про реальный случай, когда производительность React стала серьёзной проблемой."
@@ -181,14 +197,40 @@
     "Как ты синхронизируешь типы и схемы?"
   ],
   "expectedDirection": "- TypeScript не существует в runtime.\n- API, env и user input небезопасны.\n- Используются zod/io-ts.\n- Типы выводятся из схем, а не дублируются."
+},
+        {
+          "id": "fe-accessibility",
+          "text": {
+            "en": "How would you make a critical multi-step form accessible, and how would you verify the result?",
+            "ru": "Как ты сделаешь критичную многошаговую форму доступной и как проверишь результат?"
+          },
+          "prompts": [
+            "Как должны работать клавиатура, фокус и сообщения об ошибках?",
+            "Что дают автоматические проверки, а что нужно проверять вручную?",
+            "Как встроить accessibility в delivery-процесс команды?"
+          ],
+          "expectedDirection": "- Рассуждает от пользовательских сценариев, семантики, клавиатуры и управления фокусом.\n- Сочетает автоматические проверки с ручной проверкой клавиатурой и screen reader.\n- Учитывает ошибки, динамический контент и визуальные ограничения.\n- Предлагает системные меры: компоненты, review и regression coverage."
+        },
+        {
+          "id": "fe-testing-strategy",
+          "text": {
+            "en": "How do you choose what to test in a front-end application when time and CI budget are limited?",
+            "ru": "Как ты выбираешь, что тестировать во фронтенде, когда время и бюджет CI ограничены?"
+          },
+          "prompts": [
+            "Какие риски покроешь unit, integration и e2e тестами?",
+            "Какие тесты удалишь или не станешь писать?",
+            "Как поймёшь, что стратегия действительно помогает релизам?"
+          ],
+          "expectedDirection": "- Приоритизирует критические пользовательские сценарии и дорогие ошибки.\n- Выбирает уровень теста по риску и стоимости обратной связи.\n- Не оптимизирует покрытие ради процента.\n- Связывает стратегию с дефектами, скоростью изменений и стабильностью CI."
 }
       ]
     },
     {
       "id": "async_network",
       "title": "Async, Network, UX under Pressure",
-      "timeRange": "25–35",
-      "duration": "10m",
+      "timeRange": "25–30",
+      "duration": "5m",
       "goal": "Проверить асинхронность, устойчивость UI при деградации сети, зрелость UX-решений.",
       "questions": [
         {
@@ -206,6 +248,7 @@
         },
         {
           "id": "fe-21",
+          "priority": "core",
           "text": {
             "en": "How should a React application behave under slow or unstable network conditions?",
             "ru": "Как, по-твоему, должно вести себя React-приложение при медленной или нестабильной сети?"
@@ -229,18 +272,100 @@
     "Что происходит при конфликте данных?"
   ],
   "expectedDirection": "- Используются только для быстрых и обратимых операций.\n- Всегда предусмотрен rollback.\n- Возможны конфликты и race conditions.\n- Сервер остаётся source of truth."
+},
+        {
+          "id": "fe-security-review",
+          "text": {
+            "en": "You are reviewing a front-end authentication flow before launch. Which threats and trust boundaries do you examine first?",
+            "ru": "Ты ревьюишь frontend authentication flow перед запуском. Какие угрозы и границы доверия проверишь в первую очередь?"
+          },
+          "prompts": [
+            "Где и как хранятся credentials или tokens?",
+            "Какие XSS/CSRF сценарии возможны?",
+            "Какие проверки принципиально должны оставаться на сервере?"
+          ],
+          "expectedDirection": "- Считает браузер и клиентские данные недоверенными.\n- Рассматривает XSS, CSRF, утечки токенов, third-party code и безопасные cookies/CSP по контексту.\n- Не переносит авторизацию на клиент.\n- Приоритизирует угрозы по вероятности и ущербу."
 }
+      ]
+    },
+    {
+      "id": "practical_work_sample",
+      "title": "Practical Work Sample — Choose One",
+      "timeRange": "30–40",
+      "duration": "10m",
+      "goal": "Получить наблюдаемый сигнал на незнакомом материале. Оценивай приоритизацию, ход рассуждения и проверку решения, а не количество найденных замечаний.",
+      "selectionMode": "choose_one",
+      "instructions": "Choose exactly one artifact. Give the candidate quiet reading time, then ask them to think aloud. Do not expect a complete rewrite.",
+      "questions": [
+        {
+          "id": "fe-work-code-review",
+          "text": { "en": "Review this component before it is merged. Prioritize the risks you would address.", "ru": "Проведи code review компонента перед merge. Приоритизируй риски, которые нужно исправить." },
+          "artifact": {
+            "type": "code_review",
+            "title": "SearchResults.tsx",
+            "language": "tsx",
+            "content": "function SearchResults({ query }) {\n  const [items, setItems] = useState([])\n\n  useEffect(() => {\n    fetch(`/api/search?q=${query}`)\n      .then((response) => response.json())\n      .then(setItems)\n  }, [query])\n\n  const visible = items.sort((a, b) => b.score - a.score).slice(0, 100)\n\n  return visible.map((item, index) => (\n    <ResultRow key={index} item={item} />\n  ))\n}"
+          },
+          "prompts": ["Какие проблемы наиболее опасны для пользователя?", "Как исправишь race condition и обработку ошибок?", "Какими тестами или измерениями подтвердишь исправление?"],
+          "expectedDirection": "- Сначала выделяет correctness и race conditions, затем mutation, keys, UX состояний и performance.\n- Объясняет последствия, а не только называет правила.\n- Предлагает минимальное безопасное изменение и способ его проверить."
+        },
+        {
+          "id": "fe-work-production-trace",
+          "text": { "en": "Investigate this production performance snapshot and propose the next three actions.", "ru": "Разбери production performance snapshot и предложи следующие три действия." },
+          "artifact": {
+            "type": "production_trace",
+            "title": "Checkout performance — mobile p75",
+            "content": "LCP: 4.8 s       INP: 410 ms       CLS: 0.04\nAPI TTFB: 190 ms  Download: 120 ms\nMain-thread long task: 680 ms (buildCheckoutRows)\nLayout: 14 × 18–35 ms after each row mount\nThird-party script: 95 ms\nAffected: Android devices with <= 4 GB RAM"
+          },
+          "prompts": ["Что здесь факт, а что пока гипотеза?", "Как локализуешь long task и повторные layout?", "Какая оптимизация может выглядеть логично, но не помочь?"],
+          "expectedDirection": "- Связывает метрики с пользовательским симптомом и сегментом.\n- Приоритизирует long task и layout evidence, проверяет профилером.\n- Формулирует измеримый эксперимент и не начинает с случайной мемоизации."
+        },
+        {
+          "id": "fe-work-architecture",
+          "text": { "en": "Find the scaling risks in this front-end architecture and evolve it without a rewrite.", "ru": "Найди риски масштабирования в этой frontend-архитектуре и развивай её без переписывания." },
+          "artifact": {
+            "type": "architecture",
+            "title": "Current dependency map",
+            "content": "Pages ───────────────┐\nFeatures A/B/C ───────┼──> Global Store ──> API clients\nShared UI ──imports──> Feature A\nFeature B ──imports──> Feature C internals\nGlobal Store owns UI flags + forms + cached API data\nAll four teams deploy the same bundle"
+          },
+          "prompts": ["Какие связи опасны уже сейчас, а какие только при росте?", "Где проведёшь первый boundary?", "Как мигрировать по частям и измерить улучшение?"],
+          "expectedDirection": "- Не предлагает rewrite или microfrontends по умолчанию.\n- Находит нарушение направления зависимостей и смешение типов состояния.\n- Связывает boundaries с ownership команд и предлагает поэтапную миграцию."
+        },
+        {
+          "id": "fe-work-migration",
+          "text": { "en": "Plan a safe migration of server data out of a hand-written global store while teams keep shipping.", "ru": "Составь безопасный план миграции серверных данных из самописного global store, пока команды продолжают выпускать фичи." },
+          "artifact": {
+            "type": "migration",
+            "title": "Migration constraints",
+            "content": "• 120 screens; 35 share cached entities\n• Four teams release daily\n• Old and new screens must coexist for two months\n• Offline mode exists for three workflows\n• Current cache has no ownership map or freshness metrics\n• A big-bang freeze is not allowed"
+          },
+          "prompts": ["Что исследуешь до выбора target solution?", "Как избежишь двух расходящихся sources of truth?", "Какие rollout, rollback и success metrics заложишь?"],
+          "expectedDirection": "- Начинает с inventory, invariants и наблюдаемости.\n- Выделяет seam и мигрирует вертикальными срезами.\n- Явно решает coexistence, ownership, rollback и offline-исключения."
+        },
+        {
+          "id": "fe-work-code-analysis",
+          "text": { "en": "Analyze the possible outcomes of rapid user interaction and make the behavior deterministic.", "ru": "Проанализируй возможные результаты при быстрых действиях пользователя и сделай поведение детерминированным." },
+          "artifact": {
+            "type": "code_analysis",
+            "title": "Optimistic quantity control",
+            "language": "tsx",
+            "content": "const increment = async () => {\n  setQuantity(quantity + 1)\n  await api.saveQuantity(productId, quantity + 1)\n  toast.success('Saved')\n}\n\n<button onClick={increment}>+</button>"
+          },
+          "prompts": ["Что произойдёт при трёх быстрых кликах?", "Что изменится при ответах сервера не по порядку?", "Какой UX и consistency contract ты выберешь?"],
+          "expectedDirection": "- Замечает stale closure, параллельные запросы и out-of-order responses.\n- Уточняет серверный контракт и желаемую семантику.\n- Предлагает coherent strategy: functional update плюс serialization/versioning/idempotency/rollback по контексту."
+        }
       ]
     },
     {
       "id": "ownership_decisions",
       "title": "Ownership & Decision Making",
-      "timeRange": "35–45",
+      "timeRange": "40–50",
       "duration": "10m",
       "goal": "Отличить Senior от strong Middle: ответственность, аргументация, компромиссы с бизнесом.",
       "questions": [
         {
           "id": "fe-13",
+          "priority": "core",
           "text": {
             "en": "Tell me about a situation where the technically correct solution did not fit the given constraints (time, team, legacy, business).",
             "ru": "Расскажи про ситуацию, когда технически правильное решение не укладывалось в ограничения (сроки, команда, легаси, бизнес)."
@@ -309,8 +434,8 @@
     {
       "id": "reflection_maturity",
       "title": "Reflection & Maturity",
-      "timeRange": "45–55",
-      "duration": "10m",
+      "timeRange": "50–55",
+      "duration": "5m",
       "goal": "Подтвердить уровень через опыт ошибок, принципы и работу с техническим долгом.",
       "questions": [
         {
@@ -341,6 +466,7 @@
         },
         {
           "id": "fe-18",
+          "priority": "core",
           "text": {
             "en": "Tell me about a technical decision you defended strongly but later regretted.",
             "ru": "Расскажи про техническое решение, которое ты активно защищал, но позже пожалел."
@@ -363,6 +489,7 @@
       "questions": [
         {
           "id": "fe-wrapup-1",
+          "priority": "core",
           "text": {
             "en": "Do you have any questions for us or about the project?",
             "ru": "Есть ли у тебя вопросы к нам или к проекту?"
@@ -372,7 +499,7 @@
             "Какие технические ограничения или процессы тебя интересуют?",
             "Что для тебя критично в роли/ожиданиях?"
           ],
-          "expectedDirection": "- Вопросы про продукт/команду/процессы.\n- Прояснение ожиданий и ограничений.\n- Адекватный уровень любопытства и зрелости."
+          "expectedDirection": "- Даёт кандидату контекст для осознанного решения о роли.\n- Содержание вопросов не используется как самостоятельная оценка seniority."
         }
       ]
     }
@@ -416,11 +543,18 @@
       }
     ],
     "redFlags": [
-      "Avoids responsibility",
-      "Blames others",
-      "Cannot name mistakes",
-      "Ignores consequences of decisions",
-      "Toxic or rigid communication"
+      "Claims ownership but cannot identify personal decisions or actions",
+      "Repeatedly assigns blame without examining system or process causes",
+      "Dismisses material risks after they are made explicit",
+      "Cannot adapt a proposal when constraints change",
+      "Uses demeaning, hostile, or exclusionary communication"
+    ],
+    "scoreAnchors": [
+      { "value": "na", "label": "Not assessed", "description": "Не было достаточной возможности проверить критерий; не учитывать в итоговом балле." },
+      { "value": 0, "label": "Negative signal", "description": "Ответ содержит существенную ошибку или создаёт неприемлемый риск даже после уточняющих вопросов." },
+      { "value": 1, "label": "Needs support", "description": "Есть базовое понимание, но решение требует подсказок и не покрывает важные риски или последствия." },
+      { "value": 2, "label": "Senior signal", "description": "Самостоятельное рабочее решение с ясными допущениями, компромиссами и проверкой результата." },
+      { "value": 3, "label": "Strong senior signal", "description": "Глубоко сравнивает альтернативы, предвидит отказы и эволюцию системы, учитывает продукт и влияние на команду." }
     ]
   }
 }

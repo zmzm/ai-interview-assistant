@@ -7,7 +7,7 @@ The app runs entirely client-side for interview data: notes, scores, evidence, a
 ## Features
 
 - Track selection for Senior Frontend, Senior Backend, and Senior Fullstack interviews.
-- 60-minute timeline with interview blocks, goals, and guided questions.
+- Track-specific timelines: 60 minutes for Frontend/Backend and 90 minutes for Fullstack.
 - Bilingual question text in the track data (`en` and `ru`).
 - Rubric scoring with evidence fields for each criterion.
 - Red-flag checklist and verdict calculation on the summary page.
@@ -101,9 +101,14 @@ The included `docker-compose.yml` expects an external Docker network named `prox
 
 Interview plans live in `lib/tracks/*.json`. Each track file contains:
 
-- `blocks`: timed interview sections with goals and questions.
+- `blocks`: timed interview sections with one standardized `core` question and optional deep-dive questions.
 - `rubric.criteria`: scoreable criteria used by the notes/scoring panel and summary.
-- `rubric.redFlags`: red flags shown during evaluation.
+- `rubric.scoreAnchors`: shared behavioral anchors for `N/A` and scores `0–3`.
+- `rubric.redFlags`: observable red flags that require a concrete evidence note.
+
+Interviewers should ask every Core question and mark questions as covered. Optional questions are a bank for role-relevant depth, not a checklist. Unassessed (`N/A`) criteria are excluded from the total score, and the summary requires evidence across at least 60% of the rubric before producing a score-based verdict.
+
+Each track also contains a `choose_one` Practical Work Sample block. The interviewer selects one of five rendered artifacts: code review, production trace, architecture diagnosis, safe migration plan, or code analysis. Marking an option as covered automatically replaces any previously selected option from that block.
 
 `lib/interview-data.ts` maps the route-level track names (`frontend`, `backend`, `fullstack`) to those JSON files.
 

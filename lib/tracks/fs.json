@@ -4,12 +4,13 @@
     {
       "id": "warmup",
       "title": "Warm-up & Context Calibration",
-      "timeRange": "0–5",
-      "duration": "5m",
-      "goal": "Понять end-to-end контекст: продукт, масштаб, команда, роль, ответственность по FE/BE и продакшен-критичность.",
+      "timeRange": "0–10",
+      "duration": "10m",
+      "goal": "Понять end-to-end контекст, подтвердить реальный вклад по обе стороны контракта и выбрать основной профиль deep-dive (FE или BE).",
       "questions": [
         {
           "id": "fs-warmup-1",
+          "priority": "core",
           "text": {
             "en": "Tell me briefly about your last product/system: scale, team, and what you owned end-to-end.",
             "ru": "Кратко расскажи про последний продукт/систему: масштаб, команда и что ты делал end-to-end."
@@ -17,7 +18,8 @@
           "prompts": [
             "Какие части ты вёл: UI, API, data, инфраструктура?",
             "Какие решения ты принимал сам, а какие — совместно?",
-            "Были ли инциденты/нагрузка/сложные релизы?"
+            "Были ли инциденты/нагрузка/сложные релизы?",
+            "В какой части — FE или BE — твоя глубина выше и чем это подтверждается?"
           ],
           "expectedDirection": "- Даёт картину по FE+BE.\n- Понимает ownership по слоям.\n- Дает контекст, где делать deep-dive дальше."
         }
@@ -26,10 +28,24 @@
     {
       "id": "system_architecture",
       "title": "System Architecture (FE+BE)",
-      "timeRange": "5–15",
-      "duration": "10m",
-      "goal": "Оценить системное мышление: границы модулей, контракты между слоями, эволюция архитектуры со временем.",
+      "timeRange": "10–25",
+      "duration": "15m",
+      "goal": "Стандартизированный end-to-end сценарий: границы системы, контракты между слоями и эволюция решения при новых ограничениях.",
       "questions": [
+        {
+          "id": "fs-core-scenario",
+          "priority": "core",
+          "text": {
+            "en": "Design an end-to-end customer support workspace with live updates, search, and auditable actions. Start with the questions you need answered.",
+            "ru": "Спроектируй end-to-end рабочее место поддержки с live-обновлениями, поиском и аудитом действий. Начни с вопросов, ответы на которые тебе нужны."
+          },
+          "prompts": [
+            "Одну заявку одновременно редактируют несколько операторов — где и как обеспечишь консистентность?",
+            "Объём данных вырос в 100 раз, а поиск и UI деградировали — как локализуешь проблему?",
+            "FE и BE теперь выпускают разные команды независимо — как будут эволюционировать контракты?"
+          ],
+          "expectedDirection": "- Уточняет пользователей, критические сценарии, объём, SLO, безопасность и требования аудита.\n- Проводит ясные границы между UI, API, доменом и хранением данных.\n- Рассматривает consistency, versioning, observability и деградацию всего пути запроса.\n- Меняет решение при новых вводных и объясняет, как проверит ключевые предположения."
+        },
         {
           "id": "fs-arch-fe-1",
           "text": {
@@ -74,10 +90,24 @@
     {
       "id": "runtime_performance",
       "title": "Runtime & Performance (FE+BE)",
-      "timeRange": "15–25",
+      "timeRange": "25–35",
       "duration": "10m",
-      "goal": "Оценить понимание runtime: React+browser performance и Node.js event loop/load. Отличить “писал код” от “дебажил систему”.",
+      "goal": "Пройти весь latency path, затем углубиться минимум в одну FE и одну BE гипотезу; дополнительную глубину дать в основном профиле кандидата.",
       "questions": [
+        {
+          "id": "fs-runtime-scenario",
+          "priority": "core",
+          "text": {
+            "en": "Users report that one critical action is sometimes slow, but dashboards look healthy. How do you investigate it across browser, network, and backend?",
+            "ru": "Пользователи сообщают, что критичное действие иногда работает медленно, хотя дашборды выглядят нормально. Как исследуешь проблему через браузер, сеть и backend?"
+          },
+          "prompts": [
+            "Какие данные нужны, чтобы воспроизвести и сегментировать проблему?",
+            "Как свяжешь browser telemetry с backend traces?",
+            "Как отличишь CPU/UI проблему от сети, очередей и медленной зависимости?"
+          ],
+          "expectedDirection": "- Начинает с пользовательского симптома, сегментации и измерений.\n- Коррелирует client timing, request/trace IDs, backend latency и зависимости.\n- Формулирует гипотезы и проверяет их, а не перечисляет случайные оптимизации.\n- Учитывает silent failures, sampling и качество текущей observability."
+        },
         {
           "id": "fs-perf-fe-19",
           "text": {
@@ -135,9 +165,9 @@
     {
       "id": "api_data_consistency",
       "title": "API, Data & Consistency",
-      "timeRange": "25–35",
-      "duration": "10m",
-      "goal": "Проверить зрелость по контрактам и данным: стабильные API, идемпотентность, транзакции и race conditions.",
+      "timeRange": "35–50",
+      "duration": "15m",
+      "goal": "Проверить зрелость по контрактам и данным: обязательная идемпотентность плюс один deep-dive по API evolution, транзакциям или frontend async consistency.",
       "questions": [
         {
           "id": "fs-api-be-5",
@@ -154,6 +184,7 @@
         },
         {
           "id": "fs-api-be-6",
+          "priority": "core",
           "text": {
             "en": "How do you make write operations safe to retry (idempotency) in real systems?",
             "ru": "Как ты делаешь операции записи безопасными для повторов (идемпотентными) в реальных системах?"
@@ -194,11 +225,79 @@
       ]
     },
     {
+      "id": "practical_work_sample",
+      "title": "Practical Work Sample — Choose One",
+      "timeRange": "50–65",
+      "duration": "15m",
+      "goal": "Получить наблюдаемый end-to-end сигнал на незнакомом материале. Оценивай границы доверия, приоритет рисков и связь между слоями.",
+      "selectionMode": "choose_one",
+      "instructions": "Choose exactly one artifact. Give the candidate quiet reading time, then ask them to think aloud across both FE and BE boundaries.",
+      "questions": [
+        {
+          "id": "fs-work-code-review",
+          "text": { "en": "Review this checkout flow across the client and API. Prioritize the risks before suggesting a rewrite.", "ru": "Проведи code review checkout flow на клиенте и API. Приоритизируй риски до предложения переписывания." },
+          "artifact": {
+            "type": "code_review",
+            "title": "Client + API checkout path",
+            "language": "tsx / ts",
+            "content": "// client\nconst submit = () => fetch('/api/orders', {\n  method: 'POST',\n  body: JSON.stringify({ cart, total, userId })\n})\n\n// server\n@Post('/orders')\ncreate(@Body() body) {\n  return db.orders.create({ data: body })\n}"
+          },
+          "prompts": ["Каким данным клиента нельзя доверять?", "Что произойдёт при двойном клике или timeout?", "Какие validation, auth, pricing и idempotency boundaries нужны?"],
+          "expectedDirection": "- Начинает с trust boundary: identity, price и authorization проверяются сервером.\n- Видит дубли, слабый контракт и отсутствие обработки состояний UI.\n- Предлагает минимальный end-to-end fix и тесты на failure paths."
+        },
+        {
+          "id": "fs-work-production-trace",
+          "text": { "en": "Trace a slow user action end to end and choose the first mitigation and investigation steps.", "ru": "Проследи медленное действие пользователя end-to-end и выбери первые шаги mitigation и расследования." },
+          "artifact": {
+            "type": "production_trace",
+            "title": "Save ticket — affected users only",
+            "content": "Browser click -> fetch start: 540 ms (main thread busy)\nNetwork RTT: 85 ms\nAPI gateway: 12 ms\nTicket service: 2.9 s\n  DB pool wait: 2.3 s\n  UPDATE: 34 ms\nWebSocket confirmation reaches browser: +1.4 s\nUI applies both HTTP response and socket event\nAffected sessions show 18% duplicate save requests"
+          },
+          "prompts": ["Какие здесь независимые проблемы?", "Как свяжешь browser session, request и trace?", "Как остановишь дубли и двойное применение результата?"],
+          "expectedDirection": "- Разделяет client blocking, backend pool wait и consistency UI.\n- Приоритизирует пользовательский ущерб и собирает correlated evidence.\n- Рассматривает idempotency, deduplication и единый reconciliation path."
+        },
+        {
+          "id": "fs-work-architecture",
+          "text": { "en": "Find the ownership and reliability problems in this end-to-end architecture and evolve it incrementally.", "ru": "Найди проблемы ownership и надёжности в end-to-end архитектуре и развивай её поэтапно." },
+          "artifact": {
+            "type": "architecture",
+            "title": "Customer workspace dependency map",
+            "content": "React app -> BFF -> Tickets service -> Customer service\n     |          |          |                 |\n     +------ direct DB reads from shared PostgreSQL --+\n\nBFF owns UI formatting + pricing rules\nTickets service emits events without schema versions\nThree teams modify shared tables and generated client types manually"
+          },
+          "prompts": ["Где нарушены ownership и trust boundaries?", "Какой coupling мешает независимым релизам?", "Какой первый migration seam даст наибольшую пользу?"],
+          "expectedDirection": "- Видит shared database coupling, размытую доменную логику и ручной contract drift.\n- Не сводит решение к добавлению нового слоя.\n- Определяет ownership, versioned contracts и поэтапное прекращение прямых чтений."
+        },
+        {
+          "id": "fs-work-migration",
+          "text": { "en": "Plan a backward-compatible product migration across browser clients, API versions, and the database.", "ru": "Спланируй backward-compatible миграцию продукта через browser clients, версии API и базу данных." },
+          "artifact": {
+            "type": "migration",
+            "title": "Replace status with a workflow object",
+            "content": "Current response: { id, status: 'open' | 'closed' }\nTarget response:  { id, workflow: { state, reason, changedAt } }\n\n• Browser tabs may stay open for days\n• Mobile web is cached by a service worker\n• Two backend versions run during rollout\n• 90M rows require backfill\n• Rollback must not lose new workflow reasons"
+          },
+          "prompts": ["Как выглядит совместимый контракт на каждом этапе?", "Где выполняется translation между моделями?", "Как проведёшь backfill, rollout, monitoring и rollback?"],
+          "expectedDirection": "- Проектирует expand/migrate/contract через все слои.\n- Учитывает старые клиенты, dual representation и сохранность новых данных при rollback.\n- Задаёт метрики использования старого поля и критерии удаления."
+        },
+        {
+          "id": "fs-work-code-analysis",
+          "text": { "en": "Analyze the race between optimistic UI, retries, and server processing, then define a deterministic contract.", "ru": "Проанализируй гонку между optimistic UI, retries и обработкой на сервере, затем задай детерминированный контракт." },
+          "artifact": {
+            "type": "code_analysis",
+            "title": "Create comment flow",
+            "language": "tsx / ts",
+            "content": "// client\nsetComments([...comments, draft])\nawait fetch('/comments', { method: 'POST', body: JSON.stringify(draft) })\n\n// server\nconst saved = await comments.insert(req.body)\nevents.publish('comment.created', saved)\nreturn saved"
+          },
+          "prompts": ["Что произойдёт при двух быстрых отправках и повторе после timeout?", "Как reconciliate temporary и server IDs?", "Что если event придёт раньше HTTP response или будет доставлен дважды?"],
+          "expectedDirection": "- Видит stale client state, duplicate creates и два канала подтверждения.\n- Определяет idempotency key, identity/reconciliation и ordering assumptions.\n- Выбирает единый детерминированный merge path и тестирует перестановки событий."
+        }
+      ]
+    },
+    {
       "id": "ownership_production",
       "title": "Ownership, Production & Incidents",
-      "timeRange": "35–45",
+      "timeRange": "65–75",
       "duration": "10m",
-      "goal": "Отличить Senior от strong Middle: ответственность за прод, решения под ограничениями, умение говорить «нет».",
+      "goal": "Разобрать один инцидент до конкретных действий и системных изменений, затем проверить решение под бизнес-ограничениями.",
       "questions": [
         {
           "id": "fs-own-fe-13",
@@ -228,6 +327,7 @@
         },
         {
           "id": "fs-prod-be-18",
+          "priority": "core",
           "text": {
             "en": "Tell me about a production incident you were responsible for.",
             "ru": "Расскажи про продакшен-инцидент, за который ты нёс ответственность."
@@ -257,12 +357,13 @@
     {
       "id": "reflection",
       "title": "Reflection & Maturity",
-      "timeRange": "45–55",
+      "timeRange": "75–85",
       "duration": "10m",
       "goal": "Подтвердить зрелость через рефлексию, ошибки и работу с техдолгом.",
       "questions": [
         {
           "id": "fs-ref-fe-18",
+          "priority": "core",
           "text": {
             "en": "Tell me about a technical decision you defended strongly but later regretted.",
             "ru": "Расскажи про техническое решение, которое ты активно защищал, но позже пожалел."
@@ -305,12 +406,13 @@
     {
       "id": "wrapup",
       "title": "Wrap-up",
-      "timeRange": "55–60",
+      "timeRange": "85–90",
       "duration": "5m",
       "goal": "Собрать вопросы кандидата и финальные сигналы (интерес к продукту/системе/процессам).",
       "questions": [
         {
           "id": "fs-wrapup-1",
+          "priority": "core",
           "text": {
             "en": "Do you have any questions for us about the product, system, or team?",
             "ru": "Есть ли у тебя вопросы к нам про продукт, систему или команду?"
@@ -320,7 +422,7 @@
             "Что важно понять про команду и процессы?",
             "Какие ожидания от роли стоит прояснить?"
           ],
-          "expectedDirection": "- Вопросы по делу: продукт, ограничения, процессы.\n- Зрелое любопытство.\n- Прояснение ожиданий."
+          "expectedDirection": "- Даёт кандидату контекст для осознанного решения о роли.\n- Содержание вопросов не используется как самостоятельная оценка seniority."
         }
       ]
     }
@@ -364,11 +466,18 @@
       }
     ],
     "redFlags": [
-      "Avoids responsibility",
-      "Blames others",
-      "Cannot name mistakes",
-      "Ignores consequences of decisions",
-      "Toxic or rigid communication"
+      "Claims ownership but cannot identify personal decisions or actions",
+      "Repeatedly assigns blame without examining system or process causes",
+      "Dismisses material risks after they are made explicit",
+      "Cannot adapt a proposal when constraints change",
+      "Uses demeaning, hostile, or exclusionary communication"
+    ],
+    "scoreAnchors": [
+      { "value": "na", "label": "Not assessed", "description": "Не было достаточной возможности проверить критерий; не учитывать в итоговом балле." },
+      { "value": 0, "label": "Negative signal", "description": "Ответ содержит существенную ошибку или создаёт неприемлемый риск даже после уточняющих вопросов." },
+      { "value": 1, "label": "Needs support", "description": "Есть базовое понимание, но решение требует подсказок и не покрывает важные риски или последствия." },
+      { "value": 2, "label": "Senior signal", "description": "Самостоятельное рабочее решение с ясными допущениями, компромиссами и проверкой результата." },
+      { "value": 3, "label": "Strong senior signal", "description": "Глубоко сравнивает альтернативы, предвидит отказы и эволюцию системы, учитывает продукт и влияние на команду." }
     ]
   }
 }

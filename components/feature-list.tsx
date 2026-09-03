@@ -4,8 +4,8 @@ import { Clock, MessageSquare, FileText, ClipboardCheck } from "lucide-react"
 const features = [
   {
     icon: Clock,
-    title: "60-Minute Interview Plan",
-    description: "Structured timeline with dedicated blocks for each interview phase",
+    title: "60–90 Minute Interview Plans",
+    description: "Track-specific timelines with dedicated blocks for each interview phase",
   },
   {
     icon: MessageSquare,

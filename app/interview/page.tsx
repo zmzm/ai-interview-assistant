@@ -10,7 +10,7 @@ import { InterviewTimeline } from "@/components/interview-timeline"
 import { QuestionPanel } from "@/components/question-panel"
 import { NotesScoring } from "@/components/notes-scoring"
 import type { InterviewTrack } from "@/app/page"
-import { getInterviewPlan } from "@/lib/interview-data"
+import { getInterviewPlan, type ScoreValue } from "@/lib/interview-data"
 
 function InterviewContent() {
   const searchParams = useSearchParams()
@@ -22,7 +22,8 @@ function InterviewContent() {
   const [currentBlockIndex, setCurrentBlockIndex] = useState(0)
   const [selectedQuestionId, setSelectedQuestionId] = useState<string | null>(null)
   const [notes, setNotes] = useState("")
-  const [scores, setScores] = useState<Record<string, number>>({})
+  const [scores, setScores] = useState<Record<string, ScoreValue>>({})
+  const [coveredQuestionIds, setCoveredQuestionIds] = useState<string[]>([])
   const [redFlags, setRedFlags] = useState<Record<string, boolean>>({})
   const [evidence, setEvidence] = useState<Record<string, string>>({})
 
@@ -48,7 +49,7 @@ function InterviewContent() {
     setSelectedQuestionId(questionId)
   }
 
-  const handleScoreChange = (newScores: Record<string, number>) => {
+  const handleScoreChange = (newScores: Record<string, ScoreValue>) => {
     setScores(newScores)
   }
 
@@ -69,8 +70,9 @@ function InterviewContent() {
       evidence,
       rubric: interviewPlan.rubric,
       blocks: interviewPlan.blocks,
+      coveredQuestionIds,
       date: new Date().toISOString(),
-      duration: "60 minutes",
+      duration: `${interviewPlan.durationMinutes} minutes`,
     }
 
     sessionStorage.setItem("interviewSummary", JSON.stringify(summaryData))
@@ -139,6 +141,19 @@ function InterviewContent() {
             onSelectQuestion={handleSelectQuestion}
             onNextBlock={handleNextBlock}
             isLastBlock={currentBlockIndex === interviewPlan.blocks.length - 1}
+            coveredQuestionIds={coveredQuestionIds}
+            onToggleCovered={(questionId) => {
+              setCoveredQuestionIds((current) => {
+                if (current.includes(questionId)) return current.filter((id) => id !== questionId)
+
+                if (currentBlock.selectionMode === "choose_one") {
+                  const blockQuestionIds = new Set(currentBlock.questions.map((question) => question.id))
+                  return [...current.filter((id) => !blockQuestionIds.has(id)), questionId]
+                }
+
+                return [...current, questionId]
+              })
+            }}
           />
         </GridItem>
 

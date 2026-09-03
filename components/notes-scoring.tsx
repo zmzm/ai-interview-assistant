@@ -3,13 +3,13 @@
 import { Box, Text, Flex, Textarea, Separator, Checkbox, RadioGroup } from "@chakra-ui/react"
 import { FileText, Star } from "lucide-react"
 import { useTheme } from "next-themes"
-import type { RubricCriterion } from "@/lib/interview-data"
+import type { RubricCriterion, ScoreAnchor, ScoreValue } from "@/lib/interview-data"
 
 interface NotesScoringProps {
   notes: string
   onNotesChange: (notes: string) => void
-  scores: Record<string, number>
-  onScoreChange: (scores: Record<string, number>) => void
+  scores: Record<string, ScoreValue>
+  onScoreChange: (scores: Record<string, ScoreValue>) => void
   redFlags: Record<string, boolean>
   onRedFlagChange: (redFlags: Record<string, boolean>) => void
   evidence: Record<string, string>
@@ -17,6 +17,7 @@ interface NotesScoringProps {
   rubric: {
     criteria: RubricCriterion[]
     redFlags: string[]
+    scoreAnchors: ScoreAnchor[]
   }
 }
 
@@ -35,7 +36,8 @@ export function NotesScoring({
   const isLight = theme === "light"
 
   const handleScoreChange = (criterionId: string, value: string) => {
-    onScoreChange({ ...scores, [criterionId]: Number(value) })
+    const score: ScoreValue = value === "na" ? "na" : (Number(value) as ScoreValue)
+    onScoreChange({ ...scores, [criterionId]: score })
   }
 
   const handleRedFlagToggle = (flag: string, checked: boolean) => {
@@ -118,22 +120,30 @@ export function NotesScoring({
 
               <RadioGroup.Root
                 value={scores[criterion.id]?.toString() || ""}
-                onValueChange={(details) => handleScoreChange(criterion.id, details.value)}
+                onValueChange={(details) => {
+                  if (details.value !== null) handleScoreChange(criterion.id, details.value)
+                }}
                 colorPalette="teal"
                 size="sm"
               >
-                <Flex gap="3" mb="3">
-                  {[0, 1, 2, 3].map((score) => (
-                    <RadioGroup.Item key={score} value={score.toString()}>
+                <Flex gap="3" mb="3" flexWrap="wrap">
+                  {rubric.scoreAnchors.map((anchor) => (
+                    <RadioGroup.Item key={anchor.value} value={anchor.value.toString()}>
                       <RadioGroup.ItemHiddenInput />
                       <RadioGroup.ItemIndicator />
                       <RadioGroup.ItemText color={isLight ? "gray.700" : "gray.400"} fontSize="xs">
-                        {score}
+                        {anchor.value === "na" ? "N/A" : anchor.value} — {anchor.label}
                       </RadioGroup.ItemText>
                     </RadioGroup.Item>
                   ))}
                 </Flex>
               </RadioGroup.Root>
+
+              {scores[criterion.id] !== undefined && (
+                <Text fontSize="xs" color={isLight ? "gray.600" : "gray.400"} mb="3" lineHeight="relaxed">
+                  {rubric.scoreAnchors.find((anchor) => anchor.value === scores[criterion.id])?.description}
+                </Text>
+              )}
 
               {/* Evidence input */}
               <Textarea
@@ -168,6 +178,9 @@ export function NotesScoring({
           mb="3"
         >
           Red Flags
+        </Text>
+        <Text fontSize="xs" color={isLight ? "gray.600" : "gray.500"} mb="3">
+          Mark only observable behavior and capture a concrete example in the notes.
         </Text>
         <Box display="flex" flexDirection="column" gap="3">
           {rubric.redFlags.map((flag) => (

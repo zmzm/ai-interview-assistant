@@ -9,17 +9,26 @@ export interface InterviewBlock {
   timeRange: string
   duration: string
   goal: string
+  selectionMode?: "core_and_optional" | "choose_one"
+  instructions?: string
   questions: Question[]
 }
 
 export interface Question {
   id: string
+  priority?: "core" | "optional"
   text: {
     en: string
     ru: string
   }
   prompts?: string[]
   expectedDirection?: string
+  artifact?: {
+    type: "code_review" | "production_trace" | "architecture" | "migration" | "code_analysis"
+    title: string
+    content: string
+    language?: string
+  }
 }
 
 export interface RubricCriterion {
@@ -28,16 +37,26 @@ export interface RubricCriterion {
   description: string
 }
 
+export type ScoreValue = 0 | 1 | 2 | 3 | "na"
+
+export interface ScoreAnchor {
+  value: ScoreValue
+  label: string
+  description: string
+}
+
 export interface InterviewPlan {
   track: InterviewTrack
+  durationMinutes: number
   blocks: InterviewBlock[]
   rubric: {
     criteria: RubricCriterion[]
     redFlags: string[]
+    scoreAnchors: ScoreAnchor[]
   }
 }
 
-export function getInterviewPlan(track: InterviewTrack): InterviewPlan {
+export function getInterviewPlan(track: NonNullable<InterviewTrack>): InterviewPlan {
   // Map track names to JSON data
   const trackDataMap = {
     frontend: frontendData,
@@ -53,10 +72,12 @@ export function getInterviewPlan(track: InterviewTrack): InterviewPlan {
 
   return {
     track,
+    durationMinutes: trackData.blocks.reduce((total, block) => total + Number.parseInt(block.duration, 10), 0),
     blocks: trackData.blocks as InterviewBlock[],
     rubric: {
       criteria: trackData.rubric.criteria as RubricCriterion[],
       redFlags: trackData.rubric.redFlags,
+      scoreAnchors: trackData.rubric.scoreAnchors as ScoreAnchor[],
     },
   }
 }

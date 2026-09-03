@@ -10,6 +10,7 @@
       "questions": [
         {
           "id": "be-warmup-1",
+          "priority": "core",
           "text": {
             "en": "Tell me briefly about your last system: scale, team size, and your role.",
             "ru": "Кратко расскажи про последнюю систему: масштаб, команда и твоя роль."
@@ -28,8 +29,22 @@
       "title": "Backend Architecture & NestJS (CORE)",
       "timeRange": "5–15",
       "duration": "10m",
-      "goal": "Понять архитектурное мышление и владение NestJS как framework’ом (модули, DI, пайплайн запроса).",
+      "goal": "Стандартизированный сценарий: проверить уточнение требований, границы системы, надёжность и реакцию на новые ограничения; NestJS — дополнительный stack-specific deep-dive.",
       "questions": [
+        {
+          "id": "be-core-scenario",
+          "priority": "core",
+          "text": {
+            "en": "Design an order-processing service that calls payments and inventory. Start with the questions you need answered before proposing an architecture.",
+            "ru": "Спроектируй сервис обработки заказов, который вызывает платежи и склад. Начни с вопросов, ответы на которые нужны до выбора архитектуры."
+          },
+          "prompts": [
+            "Клиенты повторяют запрос после таймаута, а ответ платежей может потеряться — что меняется?",
+            "Склад деградирует на 20 минут при пиковой нагрузке — как ограничишь ущерб?",
+            "Нужно изменить модель заказа без остановки старых версий сервиса — как проведёшь миграцию?"
+          ],
+          "expectedDirection": "- Сначала уточняет бизнес-инварианты, объём, SLO, допустимую консистентность и границы ответственности.\n- Рассматривает идемпотентность, таймауты, backpressure, наблюдаемость и восстановление.\n- Сравнивает синхронные и асинхронные варианты без преждевременного выбора технологии.\n- При новых вводных пересматривает решение и объясняет проверку рисков."
+        },
         {
           "id": "be-1",
           "text": {
@@ -132,6 +147,7 @@
         },
         {
           "id": "be-8",
+          "priority": "core",
           "text": {
             "en": "How does your service behave under load when downstream systems become slow?",
             "ru": "Как ведёт себя сервис под нагрузкой, если зависимые системы начинают тормозить?"
@@ -161,8 +177,8 @@
     {
       "id": "data_reliability",
       "title": "Data, Consistency & Reliability",
-      "timeRange": "25–35",
-      "duration": "10m",
+      "timeRange": "25–30",
+      "duration": "5m",
       "goal": "Проверить зрелость работы с данными и отказами: транзакции, eventual consistency, миграции, lifecycle процесса.",
       "questions": [
         {
@@ -180,6 +196,7 @@
         },
         {
           "id": "be-10",
+          "priority": "core",
           "text": {
             "en": "How do you handle workflows that span multiple services or systems?",
             "ru": "Как ты реализуешь бизнес-процессы, затрагивающие несколько сервисов или систем?"
@@ -248,7 +265,7 @@
     {
       "id": "api_security",
       "title": "API Design, Security & Contracts",
-      "timeRange": "35–45",
+      "timeRange": "30–40",
       "duration": "10m",
       "goal": "Понять, как кандидат проектирует контракты, устойчивость к ретраям и безопасность как процесс.",
       "questions": [
@@ -267,6 +284,7 @@
         },
         {
           "id": "be-6",
+          "priority": "core",
           "text": {
             "en": "How do you make write operations safe to retry (idempotency) in real systems?",
             "ru": "Как ты делаешь операции записи безопасными для повторов (идемпотентными) в реальных системах?"
@@ -307,23 +325,91 @@
         {
   "id": "be-grpc-vs-rest",
   "text": {
-    "en": "Why did you choose gRPC over REST?",
-    "ru": "Почему вы выбрали gRPC, а не REST?"
+    "en": "Choose an interaction style for two services with a strict latency target and independently deployed clients. How would you compare HTTP/JSON, gRPC, and asynchronous messaging?",
+    "ru": "Выбери способ взаимодействия двух сервисов с жёстким latency budget и независимо выпускаемыми клиентами. Как сравнишь HTTP/JSON, gRPC и асинхронные сообщения?"
   },
   "prompts": [
-    "Какие преимущества даёт бинарный протокол?",
-    "Почему важны строгие контракты?",
-    "Где gRPC не подходит?"
+    "Какие свойства контракта и совместимости важны?",
+    "Как решение повлияет на отладку и эксплуатацию?",
+    "При каких вводных ты изменишь выбор?"
   ],
-  "expectedDirection": "- Бинарный протокол.\n- Строгие контракты.\n- Low latency.\n- Используется для internal service-to-service."
+  "expectedDirection": "- Уточняет характер трафика, streaming, browser/external clients, совместимость и эксплуатационные ограничения.\n- Сравнивает варианты по контрактам, latency, tooling, retries и сложности поддержки.\n- Не считает бинарный формат автоматически быстрым или лучшим.\n- Делает условный выбор и называет данные для его проверки."
 }
+      ]
+    },
+    {
+      "id": "practical_work_sample",
+      "title": "Practical Work Sample — Choose One",
+      "timeRange": "40–50",
+      "duration": "10m",
+      "goal": "Получить наблюдаемый сигнал на незнакомом материале. Оценивай приоритизацию, reasoning и безопасность изменений, а не знание конкретного framework API.",
+      "selectionMode": "choose_one",
+      "instructions": "Choose exactly one artifact. Give the candidate quiet reading time, then ask them to think aloud. Do not expect production-ready code.",
+      "questions": [
+        {
+          "id": "be-work-code-review",
+          "text": { "en": "Review this order endpoint before it is merged. Prioritize correctness and production risks.", "ru": "Проведи code review endpoint создания заказа перед merge. Приоритизируй correctness и production-риски." },
+          "artifact": {
+            "type": "code_review",
+            "title": "orders.controller.ts",
+            "language": "ts",
+            "content": "@Post('/orders')\nasync create(@Body() dto: CreateOrderDto) {\n  const order = await this.orders.insert(dto)\n  const payment = await this.payments.charge(dto.card, dto.total)\n  await this.orders.markPaid(order.id, payment.id)\n  await this.email.sendReceipt(dto.email, order.id)\n  return order\n}"
+          },
+          "prompts": ["Что произойдёт при timeout и повторе клиента?", "Где нужны transaction, idempotency или compensation?", "Что должно быть синхронным, а что можно вынести из request path?"],
+          "expectedDirection": "- Приоритизирует дубли платежей и частичные состояния.\n- Уточняет бизнес-инварианты и контракты зависимостей.\n- Разделяет атомарность локальных данных и distributed workflow, предлагает наблюдаемое восстановление."
+        },
+        {
+          "id": "be-work-production-trace",
+          "text": { "en": "Use this trace and service snapshot to decide what to investigate and mitigate first.", "ru": "По trace и snapshot сервиса реши, что исследовать и митигировать в первую очередь." },
+          "artifact": {
+            "type": "production_trace",
+            "title": "POST /orders — p99 incident",
+            "content": "request total: 8.4 s\n  validation: 3 ms\n  DB pool wait: 4.9 s\n  INSERT orders: 42 ms\n  payment HTTP: 2.8 s (timeout configured: 10 s)\n  response serialization: 6 ms\n\nDB pool: 50/50 busy; queue: 1,840\nEvent loop delay p99: 18 ms\nError rate: 0.7%; retry rate: 22%"
+          },
+          "prompts": ["Какие симптомы связаны причинно, а какие нет?", "Как остановишь amplification от retries?", "Какие данные нужны до изменения pool size?"],
+          "expectedDirection": "- Не обвиняет event loop без evidence.\n- Связывает slow dependency, удержание DB connections, pool queue и retry amplification.\n- Сначала ограничивает ущерб, затем проверяет ownership connection и таймауты."
+        },
+        {
+          "id": "be-work-architecture",
+          "text": { "en": "Diagnose this service topology and propose an incremental reliability improvement.", "ru": "Диагностируй топологию сервисов и предложи поэтапное повышение надёжности." },
+          "artifact": {
+            "type": "architecture",
+            "title": "Checkout call graph",
+            "content": "Client -> Checkout API\nCheckout -> Orders -> Inventory -> Pricing\nCheckout -> Payments -> Orders\nCheckout -> Notifications -> Customer Profile\n\nEvery call is synchronous\nDefault timeout: 30 s; automatic retries: 3\nNo idempotency keys; each service has separate storage"
+          },
+          "prompts": ["Где возникают cycles и cascading failures?", "Какие бизнес-инварианты нельзя потерять?", "Что изменишь первым без полного redesign?"],
+          "expectedDirection": "- Выявляет циклические зависимости, multiplicative retries и длинный failure domain.\n- Отличает критический synchronous path от побочных эффектов.\n- Предлагает incremental seams, deadlines, idempotency и observability."
+        },
+        {
+          "id": "be-work-migration",
+          "text": { "en": "Plan a zero-downtime migration for this hot table during rolling deployments.", "ru": "Спланируй zero-downtime миграцию горячей таблицы при rolling deployment." },
+          "artifact": {
+            "type": "migration",
+            "title": "orders.customer_id migration",
+            "content": "Current: orders.customer_email TEXT NOT NULL\nTarget:  orders.customer_id UUID NOT NULL -> customers.id\n\n• 280M orders; 4k writes/s at peak\n• Three app versions may run simultaneously\n• Backfill will take hours\n• Deploy rollback must remain possible\n• Brief metadata locks have caused incidents"
+          },
+          "prompts": ["Как разобьёшь expand/backfill/contract?", "Кто пишет и читает старое и новое поле на каждом этапе?", "Как контролируешь нагрузку, корректность и rollback?"],
+          "expectedDirection": "- Использует additive compatible changes и явные этапы.\n- Продумывает dual-write/backfill/read switch и их failure modes.\n- Ограничивает backfill, измеряет расхождения и откладывает destructive contract."
+        },
+        {
+          "id": "be-work-code-analysis",
+          "text": { "en": "Analyze the concurrency and failure behavior of this batch handler.", "ru": "Проанализируй concurrency и поведение при ошибках этого batch handler." },
+          "artifact": {
+            "type": "code_analysis",
+            "title": "Batch consumer",
+            "language": "ts",
+            "content": "async function handleBatch(messages: Message[]) {\n  messages.forEach(async (message) => {\n    const user = await users.get(message.userId)\n    await billing.apply(message.invoiceId, user)\n  })\n\n  await queue.ack(messages)\n}"
+          },
+          "prompts": ["Когда произойдёт ack относительно работы?", "Что будет при одной ошибке и повторной доставке?", "Как выберешь concurrency limit и idempotency boundary?"],
+          "expectedDirection": "- Видит, что forEach не ожидает promises и ошибки теряются.\n- Обсуждает at-least-once delivery, partial success и безопасный ack.\n- Предлагает bounded concurrency, observability и идемпотентную обработку."
+        }
       ]
     },
     {
       "id": "production_testing",
       "title": "Production, Testing & Incidents",
-      "timeRange": "45–55",
-      "duration": "10m",
+      "timeRange": "50–55",
+      "duration": "5m",
       "goal": "Подтвердить Senior через продакшен-опыт: observability, тестирование как инструмент уверенности, инциденты и постмортемы.",
       "questions": [
         {
@@ -354,6 +440,7 @@
         },
         {
           "id": "be-18",
+          "priority": "core",
           "text": {
             "en": "Tell me about a production incident you were responsible for.",
             "ru": "Расскажи про продакшен-инцидент, за который ты нёс ответственность."
@@ -376,6 +463,7 @@
       "questions": [
         {
           "id": "be-wrapup-1",
+          "priority": "core",
           "text": {
             "en": "Do you have any questions for us or about the system?",
             "ru": "Есть ли у тебя вопросы к нам или к системе/проекту?"
@@ -385,7 +473,7 @@
             "Какие ограничения/долг/риски тебя интересуют?",
             "Какие ожидания от роли ты хочешь прояснить?"
           ],
-          "expectedDirection": "- Вопросы про продакшен, процессы и ограничения.\n- Прояснение ожиданий.\n- Зрелое любопытство без «интервью ради интервью»."
+          "expectedDirection": "- Даёт кандидату контекст для осознанного решения о роли.\n- Содержание вопросов не используется как самостоятельная оценка seniority."
         }
       ]
     }
@@ -429,11 +517,18 @@
       }
     ],
     "redFlags": [
-      "Avoids responsibility",
-      "Blames others",
-      "Cannot name mistakes",
-      "Ignores consequences of decisions",
-      "Toxic or rigid communication"
+      "Claims ownership but cannot identify personal decisions or actions",
+      "Repeatedly assigns blame without examining system or process causes",
+      "Dismisses material risks after they are made explicit",
+      "Cannot adapt a proposal when constraints change",
+      "Uses demeaning, hostile, or exclusionary communication"
+    ],
+    "scoreAnchors": [
+      { "value": "na", "label": "Not assessed", "description": "Не было достаточной возможности проверить критерий; не учитывать в итоговом балле." },
+      { "value": 0, "label": "Negative signal", "description": "Ответ содержит существенную ошибку или создаёт неприемлемый риск даже после уточняющих вопросов." },
+      { "value": 1, "label": "Needs support", "description": "Есть базовое понимание, но решение требует подсказок и не покрывает важные риски или последствия." },
+      { "value": 2, "label": "Senior signal", "description": "Самостоятельное рабочее решение с ясными допущениями, компромиссами и проверкой результата." },
+      { "value": 3, "label": "Strong senior signal", "description": "Глубоко сравнивает альтернативы, предвидит отказы и эволюцию системы, учитывает продукт и влияние на команду." }
     ]
   }
 }
