@@ -51,13 +51,13 @@ docker-compose.yml      Production app service on the external proxy network
 
 ## Requirements
 
-- Node.js 20+
-- pnpm via Corepack
+- Node.js 26
+- pnpm 10.33.0
 
-Enable pnpm if needed:
+Install pnpm if needed:
 
 ```bash
-corepack enable
+npm install --global pnpm@10.33.0
 ```
 
 ## Local Development

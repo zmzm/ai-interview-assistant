@@ -1,27 +1,27 @@
 # syntax=docker/dockerfile:1
 
 # ---- deps ----
-FROM node:20-bookworm-slim AS deps
+FROM node:26-bookworm-slim AS deps
 WORKDIR /app
 
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV PNPM_HOME=/pnpm
 ENV PATH=$PNPM_HOME:$PATH
 
-RUN corepack enable
+RUN npm install --global pnpm@10.33.0
 
 COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile
 
 # ---- build ----
-FROM node:20-bookworm-slim AS build
+FROM node:26-bookworm-slim AS build
 WORKDIR /app
 
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV PNPM_HOME=/pnpm
 ENV PATH=$PNPM_HOME:$PATH
 
-RUN corepack enable
+RUN npm install --global pnpm@10.33.0
 
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
@@ -29,7 +29,7 @@ COPY . .
 RUN pnpm build
 
 # ---- run ----
-FROM node:20-bookworm-slim AS run
+FROM node:26-bookworm-slim AS run
 WORKDIR /app
 
 ENV NODE_ENV=production
